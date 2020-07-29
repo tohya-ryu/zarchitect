@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'zarchitect'
+main = Zarchitect.new
+main.run
