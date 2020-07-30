@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
              "lib/zarchitect/page.rb",
              "lib/zarchitect/section.rb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
-  s.license = 'GPL-3.0-only'
+  s.license = 'GPL-3.0'
 end
