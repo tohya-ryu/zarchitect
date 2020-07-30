@@ -1,7 +1,17 @@
+require 'yaml'
+
 class Zarchitect
 
+  #
+
   def run
-    p "zarchitect running"
+    # Load config
+    @config = Hash.new
+    File.open('config.yaml') do |f|
+      @config = YAML.load(f)
+    end
+
+
   end
 
 end

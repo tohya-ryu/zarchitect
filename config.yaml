@@ -1,0 +1,18 @@
+--- # zarchitect config file
+:sections:
+    - first:
+        - layout: x
+        - collection: no
+        - path: content/
+        - index_flag: true
+        - index_sort: 1
+        - sort_type: none
+    - second:
+        - layout: x
+        - collection : yes
+        - path: content/second/
+        - index_flag: true
+        - index_sort: 2
+        - sort_type: date # date | alphanum
+:index:
+    - sort_type: flag # flag | alphanum
