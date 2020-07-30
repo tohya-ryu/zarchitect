@@ -1,6 +1,7 @@
 require 'yaml'
+require 'tohya_gem_interface'
 
-class Zarchitect
+class Zarchitect < TohyaGemInterface
 
   #
   COMMANDS = ['update', 'publish']
@@ -28,9 +29,9 @@ class Zarchitect
     end
   end
 
-  def quit
-    exit
-  end
+#  def quit
+#    exit
+#  end
 
 
   require 'zarchitect/index.rb'
