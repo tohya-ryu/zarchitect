@@ -20,20 +20,6 @@ class Zarchitect < TohyaGemInterface
 
   private
 
-  def check_command(list, cmd)
-    if cmd.nil? || !(list.include?(cmd))
-      puts "Missing or Invalid Command."
-      puts "Legal commands are:"
-      list.each { |i| puts "- #{i}" }
-      quit
-    end
-  end
-
-#  def quit
-#    exit
-#  end
-
-
   require 'zarchitect/index.rb'
   require 'zarchitect/section.rb'
   require 'zarchitect/page.rb'
