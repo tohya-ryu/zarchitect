@@ -6,7 +6,7 @@ class Zarchitect < TohyaGemInterface
   #
   COMMANDS = ['update', 'publish']
 
-  def run
+  def main
     # Load config
     @@config = Hash.new
     begin
@@ -15,7 +15,25 @@ class Zarchitect < TohyaGemInterface
       puts "Could not load config.yaml"
       quit
     end
-      check_command(COMMANDS, ARGV[0])
+    check_command(COMMANDS, ARGV[0])
+    case ARGV[0]
+    when 'update'
+      if ARGV.length > 1
+        # Update single section
+        list = Array.new
+        @@config[:sections].each_key do |k|
+          list.push(k)
+        end
+        check_command(list, ARGV[1])
+      else
+        # Update all sections
+        @@config[:sections].each_key do |k|
+          sec = Section.new(k)
+        end
+      end
+      # Update Index
+    when 'publish'
+    end
   end
 
   private
