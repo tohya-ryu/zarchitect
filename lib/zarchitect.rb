@@ -25,6 +25,11 @@ class Zarchitect < TohyaGemInterface
           list.push(k)
         end
         check_command(list, ARGV[1])
+        if ARGV.length > 2
+          # Update single post
+        else
+          # Update all new posts
+        end
       else
         # Update all sections
         @@config[:sections].each_key do |k|

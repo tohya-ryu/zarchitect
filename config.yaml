@@ -1,14 +1,21 @@
 --- # zarchitect config file
+:domain: www.test.com
+:email: test@test.com
 :sections:
     first:
-      - layout: x
+      - layout: layouts/default.html.erb
       - collection: no
-      - path: content/
+      - path: content/profile.md # location of .md files belonging to section
       - index_flag: true
       - index_sort: 1
-      - sort_type: none
+    links:
+        - layout: layouts/default.html.rb
+        - collection: no
+        - path: content/links.md
+        - index_flag: true
+          index_sort: 3
     second:
-      - layout: x
+      - layout: layouts/default.html.erb
       - collection : yes
       - path: content/second/
       - index_flag: true
