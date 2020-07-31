@@ -3,8 +3,9 @@ class Section < Zarchitect
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
   # Instance Variables
-  # @name  | str
-  # @files | arr
+  # @name       | str
+  # @files      | arr
+  # @categories | arr
   def initialize(name)
     # Set instance variables
     @name = name
@@ -13,6 +14,8 @@ class Section < Zarchitect
     # Open content files
     if self.config[:collection]
       if Dir.exist?(self.config[:path])
+        @categories = Dir.get_dir(self.config[:path])
+        @categories.map { |s| s.capitalize! }
         Dir.foreach(self.config[:path]) do |fn|
           fopen(File.join(self.config[:path],fn))
         end
