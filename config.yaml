@@ -4,7 +4,6 @@
 :sections:
     :first:
       :layout: layouts/default.html.erb
-      :collection: no
       :path: content/profile.md # location of .md files belonging to section
       :index_flag: true
       :index_sort: 1
