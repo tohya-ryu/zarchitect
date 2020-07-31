@@ -22,7 +22,7 @@
       :index_flag: true
       :index_sort: 2
       :sort_type: date # date | alphanum
-    :works:
+    :work:
       :layout: layouts/default.html.rb
       :collection: yes
       :categorize: yes
