@@ -12,13 +12,23 @@
       :collection: no
       :path: content/links.md
       :index_flag: true
-      :index_sort: 3
+      :index_sort: 4
     :second:
       :layout: layouts/default.html.erb
       :collection : yes
+      :categorize: yes
+      :tags: yes
       :path: content/blog/
       :index_flag: true
       :index_sort: 2
       :sort_type: date # date | alphanum
+    :works:
+      :layout: layouts/default.html.rb
+      :categorize: yes
+      :tags: no
+      :path: content/works/
+      :index_flag: true
+      :index_sort: 3
+      :sort_type: alphanum
 :index:
   :sort_type: flag # flag | alphanum

@@ -35,7 +35,11 @@ class Zarchitect < TohyaGemInterface
         # Update all sections
         @@config[:sections].each_key do |k|
           sec = Section.new(k)
-          sec.collection?
+          if sec.collection?
+            # Consider section index
+          else
+            # No section index
+          end
         end
       end
       # Update Index
