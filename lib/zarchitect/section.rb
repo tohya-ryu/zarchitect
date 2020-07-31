@@ -6,7 +6,6 @@ class Section < Zarchitect
   # @name | Name of section
   def initialize(name)
     @name = name
-    p self.config
   end
 
   def collection?
