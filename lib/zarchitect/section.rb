@@ -6,6 +6,7 @@ class Section < Zarchitect
   def initialize(name)
     @name = name
     p @@config[:sections][:"#{name}"]
+    p @@config[:sections][:"#{name}"][:layout]
   end
 
 end
