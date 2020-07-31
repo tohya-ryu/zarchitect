@@ -24,6 +24,7 @@
       :sort_type: date # date | alphanum
     :works:
       :layout: layouts/default.html.rb
+      :collection: yes
       :categorize: yes
       :tags: no
       :path: content/works/
