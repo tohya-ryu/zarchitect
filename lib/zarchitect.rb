@@ -26,6 +26,7 @@ class Zarchitect < TohyaGemInterface
         end
         check_command(list, ARGV[1])
         if ARGV.length > 2
+          # Check if ARGV[2] is valid ID
           # Update single post
         else
           # Update all new posts
