@@ -1,0 +1,47 @@
+--- # zarchitect config file
+:domain: https://www.example.com
+:email: 
+:sections:
+    :profile:
+      :layout: _layouts/default.html.erb
+      :path: profile.md # location of .md files belonging to section
+      :index_flag: true
+      :index_sort: 1
+    :links:
+      :layout: layouts/default.html.erb
+      :collection: no
+      :path: links.md
+      :index_flag: true
+      :index_sort: 4
+    :blog:
+      :layout: layouts/default.html.erb
+      :collection : yes
+      :categorize: yes
+      :tags: yes
+      :path: blog/
+      :index_flag: true
+      :index_sort: 2
+      :sort_type: date # date | alphanum
+    :projects:
+      :layout: layouts/default.html.erb
+      :paginate: no
+      :collection: yes
+      :categorize: yes
+      :tags: no
+      :path: projects/
+      :index_flag: true
+      :index_sort: 3
+      :sort_type: alphanum
+    :posts:
+      :api: mastodon
+      :paginate: yes
+      :items: no # only index files are required
+      :layout: _layouts/default.html.erb
+      :collection: yes
+      :categorize: no
+      :tags: no
+      :path: posts/
+      :index_flag: true
+      :sort_type: date
+:index:
+  :sort_type: flag # flag | alphanum
