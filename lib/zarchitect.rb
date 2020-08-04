@@ -4,46 +4,63 @@ require 'tohya_gem_interface'
 class Zarchitect < TohyaGemInterface
 
   #
-  COMMANDS = ['update', 'publish']
+
+  def initialize
+    app_name("zarchitect")
+    super
+    use_command("update", 0..2, "r") # command name and possible parameters
+    #app_command(0..2, "r") # appname = command.name
+    use_command("sync", 1, "") # paramter=section to sync
+    process_args
+  end
 
   def main
     # Load config
     @@config = Hash.new
+    #@@options = Hash.new { rebuild: nil }
     begin
-      File.open('config.yaml') { |f| @@config = YAML.load(f) }
+      File.open('_config.yaml') { |f| @@config = YAML.load(f) }
     rescue StandardError
       puts "Could not load config.yaml"
       quit
     end
-    check_command(COMMANDS, ARGV[0])
-    case ARGV[0]
+    case command
     when 'update'
-      if ARGV.length > 1
-        # Update single section
+      if parameters.length >= 1
+        # update single section
         list = Array.new
         @@config[:sections].each_key do |k|
           list.push(k)
         end
-        check_command(list, ARGV[1])
-        if ARGV.length > 2
-          # Check if ARGV[2] is valid ID
-          # Update single post
+        # check paramter for validity
+        unless list.include?(parameters[0])
+          puts "Invalid parameter to command #{command}"
+          puts "Valid parameters:"
+          list.each do |i|
+            puts "- #{i}"
+          end
+          quit
+        end
+        if parameters.length == 2
+          # check if ARGV[2] is valid ID
+          # update single post
         else
-          # Update all new posts
+          # update all new posts
         end
       else
         # Update all sections
         @@config[:sections].each_key do |k|
           sec = Section.new(k)
           if sec.collection?
-            # Consider section index
+            # consider section index
           else
-            # No section index
+            # no section index
           end
         end
       end
-      # Update Index
-    when 'publish'
+      # update Index
+    when 'sync'
+      # draw data from mastodon / twitter api
     end
   end
 
