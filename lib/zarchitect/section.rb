@@ -21,7 +21,7 @@ class Section < Zarchitect
         end
       else
         puts "Error: #{self.config[:path]} is not a directory"
-        quit
+        GPI::CLU.quit
       end
     else
       fopen(self.config[:path])

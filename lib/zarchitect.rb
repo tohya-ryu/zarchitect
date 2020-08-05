@@ -1,17 +1,18 @@
 require 'yaml'
-require 'tohya_gem_interface'
+require 'gpi'
 
-class Zarchitect < TohyaGemInterface
+class Zarchitect
 
   #
 
   def initialize
-    app_name("zarchitect")
-    super
-    use_command("update", 0..2, "r") # command name and possible parameters
+    GPI.app_name = "zarchitect"
+    GPI::CLU.init
+    # Command name | range of parameter num | options
+    GPI::CLU.use_command("update", 0..2, "r")
     #app_command(0..2, "r") # appname = command.name
-    use_command("sync", 1, "") # paramter=section to sync
-    process_args
+    GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
+    GPI::CLU.process_args
   end
 
   def main
@@ -24,24 +25,24 @@ class Zarchitect < TohyaGemInterface
       puts "Could not load config.yaml"
       quit
     end
-    case command
+    case GPI::CLU.command
     when 'update'
-      if parameters.length >= 1
+      if GPI::CLU.parameters.length >= 1
         # update single section
         list = Array.new
         @@config[:sections].each_key do |k|
           list.push(k)
         end
         # check paramter for validity
-        unless list.include?(parameters[0])
-          puts "Invalid parameter to command #{command}"
+        unless list.include?(GPI::CLU.parameters[0])
+          puts "Invalid parameter to command #{GPI::CLU.command}"
           puts "Valid parameters:"
           list.each do |i|
             puts "- #{i}"
           end
           quit
         end
-        if parameters.length == 2
+        if GPI::CLU.parameters.length == 2
           # check if ARGV[2] is valid ID
           # update single post
         else
@@ -66,8 +67,8 @@ class Zarchitect < TohyaGemInterface
 
   private
 
-  require 'zarchitect/index.rb'
-  require 'zarchitect/section.rb'
-  require 'zarchitect/page.rb'
-
 end
+
+require 'zarchitect/index.rb'
+require 'zarchitect/section.rb'
+require 'zarchitect/page.rb'
