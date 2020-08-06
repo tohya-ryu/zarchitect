@@ -9,7 +9,7 @@ class Zarchitect
     GPI.app_name = "zarchitect"
     GPI::CLU.init
     # Command name | range of parameter num | options
-    GPI::CLU.use_command("update", 0..2, "r")
+    GPI::CLU.use_command("update", 0..2, "rv")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
@@ -22,8 +22,8 @@ class Zarchitect
     begin
       File.open('_config.yaml') { |f| @@config = YAML.load(f) }
     rescue StandardError
-      puts "Could not load config.yaml"
-      quit
+      GPI.print "Could not load config.yaml"
+      GPI.quit
     end
     case GPI::CLU.command
     when 'update'
@@ -31,22 +31,23 @@ class Zarchitect
         # update single section
         list = Array.new
         @@config[:sections].each_key do |k|
-          list.push(k)
+          list.push(k.to_s)
         end
         # check paramter for validity
         unless list.include?(GPI::CLU.parameters[0])
-          puts "Invalid parameter to command #{GPI::CLU.command}"
-          puts "Valid parameters:"
+          GPI.print "Invalid parameter to command #{GPI::CLU.command}"
+          GPI.print "Valid parameters:"
           list.each do |i|
-            puts "- #{i}"
+            GPI.print "- #{i}"
           end
-          quit
+          GPI.quit
         end
         if GPI::CLU.parameters.length == 2
           # check if ARGV[2] is valid ID
           # update single post
         else
           # update all new posts
+          sec = Section.new(GPI::CLU.parameters[0]) 
         end
       else
         # Update all sections

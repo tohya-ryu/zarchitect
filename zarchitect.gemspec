@@ -10,7 +10,8 @@ Gem::Specification.new do |s|
   s.files = ["lib/zarchitect.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
-             "lib/zarchitect/section.rb"]
+             "lib/zarchitect/section.rb",
+             "lib/zarchitect/css.rb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
   s.license = 'GPL-3.0'
 end

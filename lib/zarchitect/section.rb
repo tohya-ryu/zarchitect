@@ -20,8 +20,8 @@ class Section < Zarchitect
           fopen(File.join(self.config[:path],fn))
         end
       else
-        puts "Error: #{self.config[:path]} is not a directory"
-        GPI::CLU.quit
+        GPI.print "Error: #{self.config[:path]} is not a directory"
+        GPI.quit
       end
     else
       fopen(self.config[:path])
