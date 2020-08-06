@@ -16,6 +16,11 @@ class Zarchitect
   end
 
   def main
+    if GPI::CLU.check_option('v')
+      GPI.print "Verbose Mode"
+    else
+      GPI.print "Non-verbose Mode"
+    end
     # Load config
     @@config = Hash.new
     #@@options = Hash.new { rebuild: nil }
@@ -25,6 +30,7 @@ class Zarchitect
       GPI.print "Could not load config.yaml"
       GPI.quit
     end
+    prepwork
     case GPI::CLU.command
     when 'update'
       if GPI::CLU.parameters.length >= 1
@@ -47,6 +53,7 @@ class Zarchitect
           # update single post
         else
           # update all new posts
+          CSS.update
           sec = Section.new(GPI::CLU.parameters[0]) 
         end
       else
@@ -68,8 +75,22 @@ class Zarchitect
 
   private
 
+  def prepwork # create necessary directories etc.
+    unless Dir.exist?("_html/assets")
+      if GPI::CLU.check_option('v')
+        GPI.print "Missing directory _html/assets"
+        GPI.print "Creating directory _html/assets"
+      end
+      Dir.mkdir(File.join(Dir.getwd, "_html", "assets"))
+      if GPI::CLU.check_option('v')
+        GPI.print "Created directory _html/assets"
+      end
+    end
+  end
+
 end
 
 require 'zarchitect/index.rb'
 require 'zarchitect/section.rb'
 require 'zarchitect/page.rb'
+require 'zarchitect/css.rb'
