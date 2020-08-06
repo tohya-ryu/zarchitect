@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
              "lib/zarchitect/section.rb",
-             "lib/zarchitect/css.rb"]
+             "lib/zarchitect/assets.rb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
   s.license = 'GPL-3.0'
 end

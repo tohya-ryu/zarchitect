@@ -53,7 +53,7 @@ class Zarchitect
           # update single post
         else
           # update all new posts
-          CSS.update
+          Assets.update
           sec = Section.new(GPI::CLU.parameters[0]) 
         end
       else
