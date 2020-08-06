@@ -6,6 +6,7 @@ module CSS
     files = GPI::Dir.files("_assets/")
     files.each do |f|
       path = File.join("_assets", f)
+=begin
       if File.fnmatch("*.scss", path)
         path2 = File.join("_html/assets", f.gsub(/.scss/, ".css"))
         if File.exists?(path2)
@@ -16,6 +17,7 @@ module CSS
           %x`sass #{path} #{path2}`
         end
       end
+=end
       if File.fnmatch("*.css", path)
         path2 = File.join("_html/assets", f)
         if File.exist?(path2)
