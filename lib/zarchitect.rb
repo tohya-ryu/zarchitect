@@ -93,4 +93,4 @@ end
 require 'zarchitect/index.rb'
 require 'zarchitect/section.rb'
 require 'zarchitect/page.rb'
-require 'zarchitect/css.rb'
+require 'zarchitect/assets.rb'
