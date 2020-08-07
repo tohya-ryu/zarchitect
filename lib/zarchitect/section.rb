@@ -14,7 +14,7 @@ class Section < Zarchitect
     # Open content files
     if self.config[:collection]
       if Dir.exist?(self.config[:path])
-        @categories = Dir.get_dir(self.config[:path])
+        @categories = Dir.directories(self.config[:path])
         @categories.map { |s| s.capitalize! }
         Dir.foreach(self.config[:path]) do |fn|
           fopen(File.join(self.config[:path],fn))

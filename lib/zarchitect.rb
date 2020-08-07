@@ -7,6 +7,8 @@ class Zarchitect
 
   def initialize
     GPI.app_name = "zarchitect"
+    GPI.extend(:dir)
+    GPI.extend(:file)
     GPI::CLU.init
     # Command name | range of parameter num | options
     GPI::CLU.use_command("update", 0..2, "rv")

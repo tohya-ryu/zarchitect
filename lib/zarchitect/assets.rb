@@ -3,7 +3,7 @@ require 'gpi'
 module Assets
 
   def self.update
-    files = GPI::Dir.files("_assets/")
+    files = Dir.files("_assets/")
     files.each do |f|
       path = File.join("_assets", f)
 =begin
@@ -22,10 +22,10 @@ module Assets
       path2 = File.join("_html/assets", f)
       if File.exist?(path2)
         if File.stat(path).mtime > File.stat(path2).mtime
-          GPI::File.copy(path, path2)
+          File.copy(path, path2)
         end
       else
-        GPI::File.copy(path, path2)
+        File.copy(path, path2)
       end
       #end
     end
