@@ -9,6 +9,8 @@ class Zarchitect
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
     GPI.extend(:file)
+    GPI.extend(:hash)
+    GPI.extend(:string)
     GPI::CLU.init
     # Command name | range of parameter num | options
     GPI::CLU.use_command("update", 0..2, "rv")
@@ -24,21 +26,22 @@ class Zarchitect
       GPI.print "Non-verbose Mode"
     end
     # Load config
-    @@config = Hash.new
+    conf = Hash.new
     #@@options = Hash.new { rebuild: nil }
     begin
-      File.open('_config.yaml') { |f| @@config = YAML.load(f) }
+      File.open('_config.yaml') { |f| conf = YAML.load(f) }
     rescue StandardError
       GPI.print "Could not load config.yaml"
       GPI.quit
     end
     prepwork
+    conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
       if GPI::CLU.parameters.length >= 1
         # update single section
         list = Array.new
-        @@config[:sections].each_key do |k|
+        Config.sections.each_key do |k|
           list.push(k.to_s)
         end
         # check paramter for validity
@@ -60,7 +63,7 @@ class Zarchitect
         end
       else
         # Update all sections
-        @@config[:sections].each_key do |k|
+        Config.section.each_key do |k|
           sec = Section.new(k)
           if sec.collection?
             # consider section index

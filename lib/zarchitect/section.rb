@@ -44,7 +44,8 @@ class Section < Zarchitect
   end
 
   def config
-    @@config[:sections][:"#{@name}"]
+    #@@config[:sections][:"#{@name}"]
+    Config.sections[:"#{@name}"]
   end
 
   private 
