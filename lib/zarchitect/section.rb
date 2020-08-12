@@ -11,33 +11,50 @@ class Section < Zarchitect
     @name = name
     @files = Array.new
 
+    # create directory if necessary
+    unless Dir.exist?("_html/#{@name}")
+      Dir.mkdir(File.join(Dir.getwd, "_html", @name))
+      GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
+    end
     # Open content files
-    if self.config[:collection]
-      if Dir.exist?(self.config[:path])
-        @categories = Dir.directories(self.config[:path])
+    if collection?
+      if Dir.exist?(config[:path])
+        @categories = Dir.directories(config[:path])
+        @categories.each do |c|
+          p c
+        end
         @categories.map { |s| s.capitalize! }
-        Dir.foreach(self.config[:path]) do |fn|
-          fopen(File.join(self.config[:path],fn))
+        Dir.foreach(config[:path]) do |fn|
+          fopen(File.join(config[:path],fn))
         end
       else
-        GPI.print "Error: #{self.config[:path]} is not a directory"
+        GPI.print "Error: #{config[:path]} is not a directory"
         GPI.quit
       end
     else
-      fopen(self.config[:path])
+      fopen(config[:path])
     end
 
     @files.each { |f| p f }
 
     # Read categories
-    if self.config.has_key?(:categorize) && self.config[:categorize]
+    if config.has_key?(:categorize) && config[:categorize]
     end
   end
 
   def collection?
-    if self.config.has_key?(:collection)
-      key = self.config[:collection]
+    if config.has_key?(:collection)
+      key = config[:collection]
     else 
+      key = false
+    end
+    key
+  end
+
+  def categorized?
+    if config.has_key?(:categorize)
+      key = config[:categorize]
+    else
       key = false
     end
     key

@@ -82,14 +82,10 @@ class Zarchitect
 
   def prepwork # create necessary directories etc.
     unless Dir.exist?("_html/assets")
-      if GPI::CLU.check_option('v')
-        GPI.print "Missing directory _html/assets"
-        GPI.print "Creating directory _html/assets"
-      end
+      GPI.print "Missing directory _html/assets", GPI::CLU.check_option('v')
+      GPI.print "Creating directory _html/assets", GPI::CLU.check_option('v')
       Dir.mkdir(File.join(Dir.getwd, "_html", "assets"))
-      if GPI::CLU.check_option('v')
-        GPI.print "Created directory _html/assets"
-      end
+      GPI.print "Created directory _html/assets", GPI::CLU.check_option('v')
     end
   end
 
