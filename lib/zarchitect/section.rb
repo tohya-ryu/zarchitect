@@ -11,11 +11,25 @@ class Section < Zarchitect
     @name = name
     @files = Array.new
 
-    # create directory if necessary
+    # create section directory if necessary
     unless Dir.exist?("_html/#{@name}")
       Dir.mkdir(File.join(Dir.getwd, "_html", @name))
       GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
     end
+
+    if collection?
+      # create category directories if necessary
+      @categories = Dir.directories(config[:path])
+      @categories.each do |c|
+        unless Dir.exist?("_html/#{@name}/#{c}")
+          d =  File.join(Dir.getwd, "_html", @name, c)
+          Dir.mkdir(d)
+          GPI.print "Created directory #{d}", GPI::CLU.check_option('v')
+        end
+      end
+      # create page directories if necessary
+    end
+
     # Open content files
     if collection?
       if Dir.exist?(config[:path])
