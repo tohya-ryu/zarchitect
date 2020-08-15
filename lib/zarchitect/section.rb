@@ -1,4 +1,5 @@
 class Section < Zarchitect
+    attr_reader :name
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
@@ -29,16 +30,7 @@ class Section < Zarchitect
       end
       # create page directories if necessary
     else
-      md = File.join(Dir.getwd, config[:path])
-      html = File.join(Dir.getwd, "_html", @name, "index.html")
-      if File.exist?(html)
-        GPI.print "File #{html} already exists", GPI::CLU.check_option('v')
-        if File.stat(md).mtime > File.stat(html).mtime
-          # update html
-        end
-      else
-        # create html
-      end
+      p = Page.new(self, File.join(Dir.getwd, config[:path]))
     end
 
     # Open content files
