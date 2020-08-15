@@ -31,6 +31,9 @@ class Section < Zarchitect
       # create page directories if necessary
     else
       p = Page.new(self, File.join(Dir.getwd, config[:path]))
+      if p.require_update?
+      else
+      end
     end
 
     # Open content files
