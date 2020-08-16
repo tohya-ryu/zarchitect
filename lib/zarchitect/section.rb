@@ -40,9 +40,6 @@ class Section < Zarchitect
     if collection?
       if Dir.exist?(config[:path])
         @categories = Dir.directories(config[:path])
-        @categories.each do |c|
-          p c
-        end
         @categories.map { |s| s.capitalize! }
         Dir.foreach(config[:path]) do |fn|
           fopen(File.join(config[:path],fn))
