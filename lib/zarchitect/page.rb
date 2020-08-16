@@ -1,9 +1,13 @@
 class Page < Zarchitect
+  attr_reader :source_path, :html_path
 
   def initialize(section, source_path)
     @section     = section
     @source_path = source_path
     @html_path   = File.join(Dir.getwd, "_html", @section.name, "index.html")
+  end
+
+  def update
   end
 
   def require_update?
