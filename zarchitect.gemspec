@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["tohya ryu"]
   s.email = 'ryu@tohya.net'
   s.files = ["lib/zarchitect.rb",
+             "lib/zarchitect/zerb.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
              "lib/zarchitect/section.rb",

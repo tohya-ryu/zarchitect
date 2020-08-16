@@ -30,6 +30,7 @@ class Section < Zarchitect
       end
       # create page directories if necessary
     else
+      # create / update a single page
       p = Page.new(self, File.join(Dir.getwd, config[:path]))
       if p.require_update?
         GPI.print "Updating #{p.source_path}", GPI::CLU.check_option('v')

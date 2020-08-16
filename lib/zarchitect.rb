@@ -1,4 +1,5 @@
 require 'yaml'
+require 'erb'
 require 'gpi'
 
 class Zarchitect
@@ -95,3 +96,4 @@ require 'zarchitect/index.rb'
 require 'zarchitect/section.rb'
 require 'zarchitect/page.rb'
 require 'zarchitect/assets.rb'
+require 'zarchitect/zerb.rb'

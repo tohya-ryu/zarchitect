@@ -8,6 +8,10 @@ class Page < Zarchitect
   end
 
   def update
+    # TODO
+    a = ZERB.new(path to template)
+    a.render
+    html = a.output
   end
 
   def require_update?
