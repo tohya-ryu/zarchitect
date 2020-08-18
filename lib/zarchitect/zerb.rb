@@ -1,7 +1,16 @@
 class ZERB < Zarchitect
-  attr_reader :output
+
+  #++++++++++++++++++++++++++++++
+  # @@template_stack
+  # @template
+  # @path
+  # @renderer
+  # @output
+
+  @@template_stack = Array.new
 
   def initialize(template)
+    @@template_stack.push(template)
     @template = template
     @path     = template.clone
     i = @path.length - 1
@@ -18,7 +27,12 @@ class ZERB < Zarchitect
 
 
   def render
-    @output = @renderer.result(binding())
+    @out = @renderer.result(binding())
+  end
+
+  def output
+    @@template_stack.pop
+    @out
   end
 
   private # functions to be used in templates
@@ -28,7 +42,12 @@ class ZERB < Zarchitect
   end
 
   def include(file)
-    b = ZERB.new(File.join(@path, file))
+    path = File.join(@path, file)
+    if @@template_stack.include?(path)
+      GPI.print "Error: Recursive call to include"
+      GPI.quit
+    end
+    b = ZERB.new(path)
     b.prepare
     b.render
     b.output
