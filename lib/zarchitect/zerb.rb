@@ -16,24 +16,23 @@ class ZERB < Zarchitect
     @renderer = ERB.new(File.open(@template) { |f| f.read})
   end
 
-  def include(file)
-    b = ZERB.new(File.join(@path, file))
-    b.get_meta_data
-    b.prepare
-    b.render
-    b.output
-    #File.open(File.join(@path, file)) { |f| f.read }
-  end
 
   def render
     @output = @renderer.result(binding())
   end
 
-  def get_meta_data
-    @meta = Config.meta.clone
-    if @meta.has_key?(:keywords)
-      @meta[:keywords] = @meta[:keywords].join(",")
-    end
+  private # functions to be used in templates
+
+  def meta(k)
+    Config.meta[k] 
+  end
+
+  def include(file)
+    b = ZERB.new(File.join(@path, file))
+    b.prepare
+    b.render
+    b.output
+    #File.open(File.join(@path, file)) { |f| f.read }
   end
 
 end

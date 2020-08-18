@@ -10,7 +10,6 @@ class Page < Zarchitect
   def update
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     a = ZERB.new(@section.config[:layout])
-    a.get_meta_data
     a.prepare
     a.render
     html = a.output
