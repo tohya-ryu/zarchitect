@@ -9,7 +9,9 @@ class Page < Zarchitect
 
   def update
     # TODO
-    a = ZERB.new(path to template)
+    a = ZERB.new(@section.config[:layout])
+    a.get_meta_data
+    a.prepare
     a.render
     html = a.output
   end

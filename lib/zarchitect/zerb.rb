@@ -2,7 +2,11 @@ class ZERB < Zarchitect
   attr_reader :output
 
   def initialize(template)
-    @renderer = ERB.new(File.open(template) { |f| f.read})
+    @template = template
+  end
+
+  def prepare
+    @renderer = ERB.new(File.open(@template) { |f| f.read})
   end
 
   def include(file)
@@ -11,6 +15,13 @@ class ZERB < Zarchitect
 
   def render
     @output = @renderer.result(binding())
+  end
+
+  def get_meta_data
+    @meta = Config.meta
+    if @meta.has_key?(:keywords)
+      @meta[:keywords] = @meta[:keywords].join(",")
+    end
   end
 
 end
