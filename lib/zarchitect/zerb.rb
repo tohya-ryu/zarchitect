@@ -17,7 +17,12 @@ class ZERB < Zarchitect
   end
 
   def include(file)
-    File.open(File.join(@path, file)) { |f| f.read }
+    b = ZERB.new(File.join(@path, file))
+    b.get_meta_data
+    b.prepare
+    b.render
+    b.output
+    #File.open(File.join(@path, file)) { |f| f.read }
   end
 
   def render
@@ -25,7 +30,7 @@ class ZERB < Zarchitect
   end
 
   def get_meta_data
-    @meta = Config.meta
+    @meta = Config.meta.clone
     if @meta.has_key?(:keywords)
       @meta[:keywords] = @meta[:keywords].join(",")
     end
