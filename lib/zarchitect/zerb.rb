@@ -36,6 +36,9 @@ class ZERB < Zarchitect
 
   def include(path)
     path.prepend("_layouts/")
+    GPI.print "Including #{path} into " \
+      "#{@@template_stack[@@template_stack.size-1]}",
+      GPI::CLU.check_option('v')
     if @@template_stack.include?(path)
       GPI.print "Error: Recursive call to include"
       GPI.quit
