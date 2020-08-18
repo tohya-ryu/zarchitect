@@ -12,13 +12,6 @@ class ZERB < Zarchitect
   def initialize(template)
     @@template_stack.push(template)
     @template = template
-    @path     = template.clone
-    i = @path.length - 1
-    while i >= 0 do
-      break if @template[i] == '/'
-      @path.chop!
-      i -= 1
-    end
   end
 
   def prepare
@@ -41,8 +34,8 @@ class ZERB < Zarchitect
     Config.meta[k] 
   end
 
-  def include(file)
-    path = File.join(@path, file)
+  def include(path)
+    path.prepend("_layouts/")
     if @@template_stack.include?(path)
       GPI.print "Error: Recursive call to include"
       GPI.quit
