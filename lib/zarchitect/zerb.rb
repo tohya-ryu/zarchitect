@@ -3,6 +3,13 @@ class ZERB < Zarchitect
 
   def initialize(template)
     @template = template
+    @path     = template.clone
+    i = @path.length - 1
+    while i >= 0 do
+      break if @template[i] == '/'
+      @path.chop!
+      i -= 1
+    end
   end
 
   def prepare
@@ -10,7 +17,7 @@ class ZERB < Zarchitect
   end
 
   def include(file)
-    File.open(file) { |f| f.read }
+    File.open(File.join(@path, file)) { |f| f.read }
   end
 
   def render
