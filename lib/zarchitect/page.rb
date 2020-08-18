@@ -19,6 +19,7 @@ class Page < Zarchitect
   end
 
   def require_update?
+    return true if GPI::CLU.check_option('r')
     if File.exist?(@html_path)
       GPI.print "File #{@html_path} already exists", GPI::CLU.check_option('v')
       return (File.stat(@source_path).mtime > File.stat(@html_path).mtime)
