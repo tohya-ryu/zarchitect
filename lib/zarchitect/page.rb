@@ -8,12 +8,14 @@ class Page < Zarchitect
   end
 
   def update
-    # TODO
+    GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     a = ZERB.new(@section.config[:layout])
     a.get_meta_data
     a.prepare
     a.render
     html = a.output
+    File.open(@html_path, "w") { |f| f.write(html) }
+    GPI.print "Wrote #{@html_path}", GPI::CLU.check_option('v')
   end
 
   def require_update?

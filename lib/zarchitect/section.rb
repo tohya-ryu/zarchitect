@@ -33,9 +33,7 @@ class Section < Zarchitect
       # create / update a single page
       p = Page.new(self, File.join(Dir.getwd, config[:path]))
       if p.require_update?
-        GPI.print "Updating #{p.source_path}", GPI::CLU.check_option('v')
         p.update
-        GPI.print "Wrote #{p.html_path}", GPI::CLU.check_option('v')
       else
         GPI.print "Ignoring #{p.source_path} (no update necessary)",
           GPI::CLU.check_option('v')
