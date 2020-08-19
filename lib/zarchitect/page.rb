@@ -14,8 +14,6 @@ class Page < Zarchitect
   def update
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     a = ZERB.new(@section.config[:layout])
-    # prepare content
-    # TODO
     # prepare meta information
     if @section.collection?
     else
@@ -39,6 +37,7 @@ class Page < Zarchitect
       desc[-1] = "…"
       a.set_meta(:description, desc)
     end
+    # prepare content
     a.prepare
     a.render
     html = a.output

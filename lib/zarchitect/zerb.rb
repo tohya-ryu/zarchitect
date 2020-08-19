@@ -44,6 +44,10 @@ class ZERB < Zarchitect
     @meta[k] 
   end
 
+  def root_url
+    Config.url
+  end
+
   def include(path)
     path.prepend("_layouts/")
     GPI.print "Including #{path} into " \
