@@ -70,6 +70,12 @@ class ZERB < Zarchitect
     tag << %{>}
   end
 
+  def email(f)
+    Config.email if f
+    #TODO secure email
+    Config.email
+  end
+
   def root_url
     Config.url
   end
