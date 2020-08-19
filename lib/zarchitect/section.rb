@@ -10,7 +10,6 @@ class Section < Zarchitect
   def initialize(name)
     # Set instance variables
     @name = name
-    @files = Array.new
 
     # create section directory if necessary
     unless Dir.exist?("_html/#{@name}")
@@ -42,27 +41,12 @@ class Section < Zarchitect
       end
     end
 
-    # Open content files
-    if collection?
-      if Dir.exist?(config[:path])
-        @categories = Dir.directories(config[:path])
-        @categories.map { |s| s.capitalize! }
-        Dir.foreach(config[:path]) do |fn|
-          fopen(File.join(config[:path],fn))
-        end
-      else
-        GPI.print "Error: #{config[:path]} is not a directory"
-        GPI.quit
-      end
-    else
-      fopen(config[:path])
-    end
-
-    @files.each { |f| p f }
-
     # Read categories
     if config.has_key?(:categorize) && config[:categorize]
     end
+  end
+
+  def update(page)
   end
 
   def collection?
@@ -89,10 +73,5 @@ class Section < Zarchitect
   end
 
   private 
-
-  def fopen(fn)
-    return if File.directory?(fn)
-    @files.push(File.open(fn, "r"))
-  end
 
 end
