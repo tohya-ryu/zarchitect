@@ -1,20 +1,25 @@
 --- # zarchitect config file
-:domain: https://www.example.com
-:email: 
+:url: https://www.example.com
+:email: test@example.com
+:site_name: My Blog
+:site_slogan: slogan
+:site_author: mar
+:title_sep: " / "
+:site_keywords: blog, mar
 :sections:
     :profile:
-      :layout: _layouts/default.html.erb
+      :layout: _layouts/ellis.html.erb
       :path: profile.md # location of .md files belonging to section
       :index_flag: true
       :index_sort: 1
     :links:
-      :layout: layouts/default.html.erb
+      :layout: _layouts/default.html.erb
       :collection: no
       :path: links.md
       :index_flag: true
       :index_sort: 4
     :blog:
-      :layout: layouts/default.html.erb
+      :layout: _layouts/default.html.erb
       :collection : yes
       :categorize: yes
       :tags: yes
@@ -22,8 +27,9 @@
       :index_flag: true
       :index_sort: 2
       :sort_type: date # date | alphanum
+      :get_categories: true # create array of categories in advance
     :projects:
-      :layout: layouts/default.html.erb
+      :layout: _layouts/default.html.erb
       :paginate: no
       :collection: yes
       :categorize: yes
@@ -32,6 +38,8 @@
       :index_flag: true
       :index_sort: 3
       :sort_type: alphanum
+      :get_categories: true # create array of categories in advance
+      :get_files: true      # create array of files in advance
     :posts:
       :api: mastodon
       :paginate: yes
@@ -45,3 +53,5 @@
       :sort_type: date
 :index:
   :sort_type: flag # flag | alphanum
+:exclude_assets:
+  - .scss
