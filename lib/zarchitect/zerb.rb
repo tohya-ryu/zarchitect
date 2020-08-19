@@ -62,6 +62,14 @@ class ZERB < Zarchitect
     #File.open(File.join(@path, file)) { |f| f.read }
   end
 
+  def img(path, options = {})
+    tag = %{<img src="#{path}"}
+    options.each do |k,v|
+      tag << %{ #{k.to_s}="#{v}"}
+    end
+    tag << %{>}
+  end
+
   def root_url
     Config.url
   end
