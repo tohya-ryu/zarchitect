@@ -48,6 +48,10 @@ class ZERB < Zarchitect
     Config.url
   end
 
+  def site_name
+    Config.site_name
+  end
+
   def include(path)
     unless path[0] == '/'
       path.prepend("_layouts/")
