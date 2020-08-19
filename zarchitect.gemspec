@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/zerb.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
+             "lib/zarchitect/rouge_html.rb",
              "lib/zarchitect/section.rb",
              "lib/zarchitect/assets.rb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
