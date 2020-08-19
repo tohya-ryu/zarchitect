@@ -37,6 +37,10 @@ class ZERB < Zarchitect
   private # functions to be used in templates
 
   def meta(k)
+    unless @meta.has_key?(k)
+      GPI.print "Error: missing meta key #{k}"
+      GPI.quit
+    end
     @meta[k] 
   end
 
