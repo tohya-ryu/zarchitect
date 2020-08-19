@@ -14,6 +14,9 @@ class Page < Zarchitect
   def update
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     a = ZERB.new(@section.config[:layout])
+    # prepare content
+    # TODO
+    # prepare meta information
     if @section.collection?
     else
       title = Config.site_name.clone
@@ -28,6 +31,14 @@ class Page < Zarchitect
     keywords << ', ' << @config['keywords']
     a.set_meta(:keywords, keywords)
     a.set_meta(:author, @config['author'])
+    if @config.has_key?('description')
+      a.set_meta(:description, @config['description'])
+    else
+      desc = @content.clone
+      desc = desc[0..160]
+      desc[-1] = "…"
+      a.set_meta(:description, desc)
+    end
     a.prepare
     a.render
     html = a.output
