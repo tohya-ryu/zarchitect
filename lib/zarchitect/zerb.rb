@@ -6,12 +6,14 @@ class ZERB < Zarchitect
   # @path
   # @renderer
   # @output
+  # @meta
 
   @@template_stack = Array.new
 
   def initialize(template)
     @@template_stack.push(template)
     @template = template
+    @meta     = Hash.new
   end
 
   def prepare
@@ -28,10 +30,14 @@ class ZERB < Zarchitect
     @out
   end
 
+  def set_meta(key, value)
+    @meta[key] = value
+  end
+
   private # functions to be used in templates
 
   def meta(k)
-    Config.meta[k] 
+    @meta[k] 
   end
 
   def include(path)

@@ -1,20 +1,46 @@
 class Page < Zarchitect
   attr_reader :source_path, :html_path
 
+  #+++++++++++++++++++++++++++++++++++
+  # @content
+
   def initialize(section, source_path)
     @section     = section
     @source_path = source_path
     @html_path   = File.join(Dir.getwd, "_html", @section.name, "index.html")
+    @config      = Hash.new
   end
 
   def update
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     a = ZERB.new(@section.config[:layout])
+    if @section.collection?
+    else
+      title = "#{Config.site_name}"
+      title << Config.title_sep
+      title << 
+      a.set_meta(:title, title)
+    end
     a.prepare
     a.render
     html = a.output
     File.open(@html_path, "w") { |f| f.write(html) }
     GPI.print "Wrote #{@html_path}", GPI::CLU.check_option('v')
+  end
+
+  def read_config
+    YAML.load_stream(File.open(@source_path) { |f| f.read }) do |doc|
+      @config = doc
+      break
+    end
+  end
+
+  def read_content
+    i = 0
+    YAML.load_stream(File.open(@source_path) { |f| f.read }) do |doc|
+      @content = doc if i == 1
+      i += 1
+    end
   end
 
   def require_update?

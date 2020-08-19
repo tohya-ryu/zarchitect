@@ -33,6 +33,8 @@ class Section < Zarchitect
       # create / update a single page
       p = Page.new(self, File.join(Dir.getwd, config[:path]))
       if p.require_update?
+        p.read_config
+        p.read_content
         p.update
       else
         GPI.print "Ignoring #{p.source_path} (no update necessary)",
