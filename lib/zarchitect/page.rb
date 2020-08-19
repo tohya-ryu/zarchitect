@@ -16,11 +16,18 @@ class Page < Zarchitect
     a = ZERB.new(@section.config[:layout])
     if @section.collection?
     else
-      title = "#{Config.site_name}"
+      title = Config.site_name.clone
       title << Config.title_sep
-      title << 
+      title << @config['title']
       a.set_meta(:title, title)
     end
+    keywords = Config.site_keywords.clone
+    if @section.config.has_key?(:keywords)
+      keywords << ', ' << @section.config[:keywords]
+    end
+    keywords << ', ' << @config['keywords']
+    a.set_meta(:keywords, keywords)
+    a.set_meta(:author, @config['author'])
     a.prepare
     a.render
     html = a.output
