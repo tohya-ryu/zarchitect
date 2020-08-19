@@ -44,14 +44,6 @@ class ZERB < Zarchitect
     @meta[k] 
   end
 
-  def root_url
-    Config.url
-  end
-
-  def site_name
-    Config.site_name
-  end
-
   def include(path)
     unless path[0] == '/'
       path.prepend("_layouts/")
@@ -68,6 +60,18 @@ class ZERB < Zarchitect
     b.render
     b.output
     #File.open(File.join(@path, file)) { |f| f.read }
+  end
+
+  def root_url
+    Config.url
+  end
+
+  def site_name
+    Config.site_name
+  end
+
+  def site_slogan
+    Config.site_slogan
   end
 
 end
