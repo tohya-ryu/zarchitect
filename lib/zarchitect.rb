@@ -39,6 +39,10 @@ class Zarchitect
     conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
+      # prepare data for use in templates
+      Config.sections.each_key do |k|
+        Section.new(k.to_s)
+      end
       if GPI::CLU.parameters.length >= 1
         # update single section
         list = Array.new
@@ -60,13 +64,14 @@ class Zarchitect
         else
           # update all new posts
           Assets.update
-          sec = Section.new(GPI::CLU.parameters[0]) 
+          section = Section.find(GPI::CLU.parameters[0])
+          section.update(1)
         end
       else
         # Update all sections
-        Config.section.each_key do |k|
-          sec = Section.new(k)
-          if sec.collection?
+        ObjectSpace.each_object(Section) do |s|
+          s.update(1)
+          if s.collection?
             # consider section index
           else
             # no section index

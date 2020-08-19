@@ -28,6 +28,15 @@ class Section < Zarchitect
         end
       end
       # create page directories if necessary
+    end
+
+    # Read categories
+    if config.has_key?(:categorize) && config[:categorize]
+    end
+  end
+
+  def update(page)
+    if collection?
     else
       # create / update a single page
       p = Page.new(self, File.join(Dir.getwd, config[:path]))
@@ -40,13 +49,6 @@ class Section < Zarchitect
           GPI::CLU.check_option('v')
       end
     end
-
-    # Read categories
-    if config.has_key?(:categorize) && config[:categorize]
-    end
-  end
-
-  def update(page)
   end
 
   def collection?
@@ -73,5 +75,12 @@ class Section < Zarchitect
   end
 
   private 
+
+  def self.find(str)
+    ObjectSpace.each_object(Section) do |o|
+      return o if o.name == str
+    end
+    nil
+  end
 
 end
