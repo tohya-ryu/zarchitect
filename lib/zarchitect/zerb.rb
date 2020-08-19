@@ -45,9 +45,7 @@ class ZERB < Zarchitect
   end
 
   def include(path)
-    unless path[0] == '/'
-      path.prepend("_layouts/")
-    end
+    path.prepend("_layouts/")
     GPI.print "Including #{path} into " \
       "#{@@template_stack[@@template_stack.size-1]}",
       GPI::CLU.check_option('v')
