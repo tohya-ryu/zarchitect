@@ -21,18 +21,21 @@ class Section < Zarchitect
       GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
     end
 
-    if collection? && categorized?
-      # create category directories if necessary
-      dirs = Dir.directories(config[:path])
-      dirs.each do |d|
-        @categories.push Category.new(self, d)
-        unless Dir.exist?("_html/#{@name}/#{d}")
-          dir =  File.join(Dir.getwd, "_html", @name, d)
-          Dir.mkdir(dir)
-          GPI.print "Created directory #{dir}", GPI::CLU.check_option('v')
+    if collection?
+      if categorized?
+        # create category directories if necessary
+        dirs = Dir.directories(config[:path])
+        dirs.each do |d|
+          @categories.push Category.new(self, d)
+          unless Dir.exist?("_html/#{@name}/#{d}")
+            dir =  File.join(Dir.getwd, "_html", @name, d)
+            Dir.mkdir(dir)
+            GPI.print "Created directory #{dir}", GPI::CLU.check_option('v')
+          end
         end
+        # create page directories if necessary
+      else
       end
-      # create page directories if necessary
     else
       @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
       @id_count += 1
