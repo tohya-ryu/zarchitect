@@ -69,9 +69,18 @@ class Section < Zarchitect
     key
   end
 
-  def config
+  def config(k = nil)
     #@@config[:sections][:"#{@name}"]
-    Config.sections[:"#{@name}"]
+    if k
+      if Config.sections[:"#{@name}"].has_key?(k)
+        return Config.sections[:"#{@name}"][k]
+      else
+        GPI.print "Error: Invalid key >> Config.sections[:#{@name}][#{k}]"
+        GPI.quit
+      end
+    else
+      return Config.sections[:"#{@name}"]
+    end
   end
 
   private 
