@@ -41,8 +41,20 @@ class Zarchitect
     when 'update'
       # prepare data for use in templates
       Config.sections.each_key do |k|
-        Section.new(k.to_s)
+        s = Section.new(k.to_s)
         #TODO collect data for use in templates
+        #FIXME category, section, page objects instead with 
+        # methods to access data
+        data = Hash.new
+        data[:"#{s.name}"] = Hash.new
+        if s.categorized?
+          data[:"#{s.name}"][:categories] = Array.new
+          s.categories.each do |c|
+            data[:"#{s.name}"][:categories].push c
+          end
+        end
+        data[:"#{s.name}"][:categories] = Array.new
+        ZERB.set_gdata(:links, data)
       end
       if GPI::CLU.parameters.length >= 1
         # update single section
