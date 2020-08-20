@@ -7,6 +7,15 @@
               <li>
                 <a href="/media/index.html" class="dropdown-link">media</a>
               </li>
+              <% if data(:sections).has_key?(:projects) %>
+                <% data(:sections)[:projects].pages.each do |prj| %>
+                  <% next if prj.category.name.downcase != "misc" %>
+                  <li>
+                    <%= link_to prj.name, prj.url,
+                      class: 'dropdown-link'%>
+                  </li>
+                <% end %>
+              <% end %>
             </ul>
             <div class="dropdown-title">Layout</div>
           </div>
@@ -17,7 +26,7 @@
           <div class="top-menu-dropdown">
             <% if data(:sections).has_key?(:projects) %>
               <% data(:sections)[:projects].pages.each do |prj| %>
-                <% next if prj[:name].downcase == "misc" %>
+                <% next if prj.name.downcase == "misc" %>
                 <div class="dropdown-title"><%= prj[:name] %></div>
                 <ul class="dropdown-links">
                   <% prj[:collection].each do |col| %>

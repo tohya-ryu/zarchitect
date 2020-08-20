@@ -106,6 +106,14 @@ class ZERB < Zarchitect
     tag << %{>}
   end
 
+  def link(str, path, options = {})
+    tag = %{<a href="#{path}"}
+    options.each do |k,v|
+      tag << %{ #{k.to_s}="#{v}"}
+    end
+    tag << %{>#{str}</a>}
+  end
+
   def email(f)
     Config.email if f
     #TODO secure email
