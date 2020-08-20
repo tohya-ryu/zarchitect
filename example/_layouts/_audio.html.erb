@@ -1,0 +1,14 @@
+<% if @audio && @audio.item.present? %>
+  <div class="media">
+    <audio controls>
+      <source src="<%= @audio.item_url %>"
+        type="<%= @audio.item.content_type %>">
+    Your browser does not support the audio element.
+    </audio>
+    <% unless @caption.empty? %> 
+      <div class="post-image-hint">
+        <%= @caption %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

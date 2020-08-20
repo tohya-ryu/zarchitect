@@ -1,0 +1,46 @@
+<% captions = @caption.split('|', -1) %>
+<%if @images.count > 1 %>
+  <% width_limit = IceBlog::config(:thumb_width) %>
+  <% height_limit = IceBlog::config(:thumb_height) %>
+  <% style = 'display: inline-block;' %>
+<% else %>
+  <% width_limit = IceBlog::config(:large_thumb_width) %>
+  <% height_limit = IceBlog::config(:large_thumb_height) %>
+  <% style = '' %>
+<% end %>
+
+<% i = 0 %>
+<% @images.each do |image| %>
+  <% if image.image_dimensions[0][0] <= width_limit &&
+      image.image_dimensions[0][1] <= height_limit %>
+
+    <% thumb = false %>
+    <% url = image.item_url %>
+  <% else %>
+    <% thumb = true %>
+    <% if @images.count > 1 %>
+      <% url = image.item.url(:thumb) %>
+    <% else %>
+      <% url = image.item.url(:large_thumb) %>
+    <% end %>
+  <% end %>
+  <!-- show thumbnail and link to modal -->
+  <figure id="post-image-figure-<%= image.id %>"
+          class="post-image-figure"
+          style="max-width: <%= @max_width %>; <%= style %>">
+    <%= image_tag url, class: "post-image img-no-border",
+      id: "post-image-#{image.id}",
+      style: "cursor: pointer; max-width: 100%;",
+      onclick: "IceBlog.openPostIMG(#{image.id})",
+      'data-url': image.item_url,
+      'data-width': image.image_dimensions[0][0],
+      'data-height': image.image_dimensions[0][1],
+      'data-id':  image.id %>
+    <% if captions[i] && !captions[i].empty? %>
+      <figcaption class="post-image-hint">
+        <%= captions[i] %> 
+      </figcaption>
+    <% end %>
+  </figure>
+  <% i += 1 %>
+<% end %>

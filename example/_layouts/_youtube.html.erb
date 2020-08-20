@@ -1,0 +1,12 @@
+<div class="media">
+  <iframe class="youtube"
+          src="https://www.youtube-nocookie.com/embed/<%= @yt_id %>"
+          frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+  </iframe>
+  <% unless @caption.empty? %> 
+    <div class="post-image-hint">
+      <%= @caption %>
+    </div>
+  <% end %>
+</div>
+

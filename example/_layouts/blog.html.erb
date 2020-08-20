@@ -1,0 +1,27 @@
+<%= render "main/#{@theme}/stickies", important_only: true %>
+
+<div class="content-element content-menu">
+  <span class="post-title">Blog</span> categories:
+  <% i = 1 %>
+  <% @categories.each do |cat| %>
+    <%= link_to cat.name, category_path(cat), class: 'internal-link' %>
+    <% if i < @categories.count %>|<% end %>
+    <% i += 1 %>
+  <% end %>
+</div><br>
+
+<% if pages = will_paginate(@microposts) %>
+  <div class="content-element">
+    <%= pages %>
+  </div>
+<% end %>
+
+<% @microposts.each do |item| %>
+  <%= render "main/#{@theme}/micropost", micropost: item %>
+<% end %>
+
+<% if pages %>
+  <div class="content-element">
+    <%= pages %>
+  </div>
+<% end %>

@@ -1,0 +1,13 @@
+  <footer id="site-footer">
+    <div class="links">
+      <a class="internal-link footer-link" href="#">go to top</a> | 
+      <a class="internal-link footer-link" href="<%= root_url %>">home</a> | 
+      <a class="internal-link footer-link" href="<%= legal_path %>">legal</a>
+    </div>
+    <div class="copyright">
+      Copyright © <%= "#{IceBlog::config(:deploy_year)}-#{Time.now.year}"+
+        " #{@data[:site_name]}[#{@data[:admin_name]}]" %>
+    </div>
+  </footer>
+  <div id="visit-counter"><%= "#{@data[:requests_c]}:#{@data[:visits_c]}" %>
+  </div>

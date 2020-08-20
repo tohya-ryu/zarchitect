@@ -1,0 +1,14 @@
+<% if @video && @video.item.present? %>
+  <div class="media">
+    <video class="internal-video" controls>
+      <source src="<%= @video.item_url %>"
+        type="<%= @video.item.content_type %>">
+    Your browser does not support the video element.
+    </video>
+    <% unless @caption.empty? %> 
+      <div class="post-image-hint">
+        <%= @caption %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+More:
+<%= link_to "media", media_path, class: 'internal-link' %>
+<% if @nav_projects %>
+  <% @nav_projects.each do |prj| %>
+    <% next if prj[:name].downcase != "misc" %>
+    <% prj[:collection].each do |col| %>
+      <%= link_to col.name, page_path(col),
+          class: 'internal-link'%>
+    <% end %>
+  <% end %>
+<% end %>
+<br>
+Layout:
+<% themes = IceBlog.config(:themes) %>
+<% themes.each do |theme| %>
+  <%= theme %>
+  <% skins = IceBlog.config(:skins) %>
+  <% skins[:"#{theme}"].each do |skin| %>
+    <% if theme == @theme && skin == @skin %>
+      <span class="disabled-link"><%= skin %></span>
+    <% else %>
+      <%= link_to skin,
+          layout_switch_path(theme: theme, skin: skin),
+          class: 'internal-link' %>
+    <% end %>
+  <% end %>
+<% end %>

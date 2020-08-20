@@ -1,0 +1,32 @@
+<%= render "main/#{@theme}/stickies", important_only: true %>
+
+<% if @profile_of.avatar.present? %>
+  <div class="content-element micropost">
+    <%= image_tag @profile_of.avatar_url %>
+  </div>
+<% end %>
+
+<div class="content-element micropost">
+  <h1><%= @profile_of.name %>'s profile</h1><br>
+  <%= @profile_of.about %><br><br>
+  <ul class="profile-links">
+    <% unless request.bot? %>
+      <li class="profile-links-item">
+        <%= link_to @profile_of.email, "mailto:#{@profile_of.email}",
+          class: 'internal-link' %>
+      </li>
+    <% end %>
+    <% @profile_of.social_media_links.each do |sml| %>
+      <li class="menu-list-item">
+        <%= link_to sml.text, sml.url, class: 'internal-link'%>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
+<% if @profile_of.bio_draft.present? %>
+  <br>
+  <div class="content-element post">
+    <%= raw @profile_of.bio %>
+  </div>
+<% end %>

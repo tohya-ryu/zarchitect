@@ -1,0 +1,25 @@
+<%= render "main/#{@theme}/stickies", important_only: false %>
+
+<% if pages = will_paginate(@feed) %>
+  <div class="content-element">
+    <%= pages %>
+  </div>
+<% end %>
+
+<% @feed.each do |item |%>
+  <% if item.source_model == "micropost" %>
+    <% micropost = Micropost.find(item.source_id) %>
+    <%= render "main/#{@theme}/micropost", micropost: micropost %>
+  <% end %>
+  <% if item.source_model == "blog_post" %>
+    <% blog_post = BlogPost.find(item.source_id) %>
+    <%= render "main/#{@theme}/micropost", micropost: blog_post %>
+  <% end %>
+
+<% end %>
+
+<% if pages %>
+  <div class="content-element">
+    <%= pages %>
+  </div>
+<% end %>

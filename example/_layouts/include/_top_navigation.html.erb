@@ -1,0 +1,112 @@
+      <nav id="top-menu">
+        <div class="top-menu-button">
+          <a href="<%= root_url %>" class="top-menu-textlink">Home</a>
+          <div class="top-menu-dropdown">
+            <div class="dropdown-title">Miscellaneous</div>
+            <ul class="dropdown-links">
+              <li>
+                <a href="/media/index.html" class="dropdown-link">media</a>
+              </li>
+              <% if @nav_projects %>
+                <% @nav_projects.each do |prj| %>
+                  <% next if prj[:name].downcase != "misc" %>
+                  <% prj[:collection].each do |col| %>
+                    <li>
+                    <%= link_to col.name, page_path(col),
+                      class: 'dropdown-link'%>
+                  </li>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </ul>
+            <div class="dropdown-title">Layout</div>
+            <% themes = IceBlog.config(:themes) %>
+            <% themes.each do |theme| %>
+              <div class="dropdown-title"><%= theme %></div>
+              <ul class="dropdown-links">
+                <% skins = IceBlog.config(:skins) %>
+                <% skins[:"#{theme}"].each do |skin| %>
+                  <li>
+                    <% if theme == @theme && skin == @skin %>
+                      <span class="disabled-link"><%= skin %></span>
+                    <% else %>
+                      <%= link_to skin,
+                        layout_switch_path(theme: theme, skin: skin),
+                        class: 'dropdown-link' %>
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+        <!-- PROJECTS -->
+        <div class="top-menu-button">
+          <%= link_to 'Projects', pages_path, class: 'top-menu-textlink' %>
+          <div class="top-menu-dropdown">
+            <% if @nav_projects %>
+              <% @nav_projects.each do |prj| %>
+                <% next if prj[:name].downcase == "misc" %>
+                <div class="dropdown-title"><%= prj[:name] %></div>
+                <ul class="dropdown-links">
+                  <% prj[:collection].each do |col| %>
+                    <li>
+                      <%= link_to col.name, page_path(col),
+                        class: 'dropdown-link'%>
+                    </li>
+                  <% end %>
+                </ul>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+        <!-- BLOG CATEGORIES -->
+        <div class="top-menu-button">
+          <%= link_to 'Blog', blog_view_path, class: 'top-menu-textlink' %>
+          <div class="top-menu-dropdown">
+            <% if @nav_cats %>
+              <div class="dropdown-title">Categories</div>
+              <ul class="dropdown-links">
+                <% @nav_cats.each do |cat| %>
+                  <li>
+                    <%= link_to cat.name, category_path(cat),
+                      class: 'dropdown-link'%>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
+        </div>
+        <% if @data[:forum_url] && !@data[:forum_url].empty? %>
+          <div class="top-menu-button">
+            <%= link_to 'Forum', @data[:forum_url],
+              class: 'top-menu-textlink' %>
+          </div>
+        <% end %>
+        <% if @current_user && @current_user.admin? %>
+          <div class="top-menu-button">
+            <%= link_to 'config', admin_path, class: 'top-menu-textlink' %>
+            <div class="top-menu-dropdown">
+              <div class="dropdown-title">Qickjumps</div>
+              <ul class="dropdown-links">
+                <li>
+                  <%= link_to "Settings", edit_user_path(@current_user),
+                    class: 'dropdown-link' %>
+                </li>
+                <li>
+                  <%= link_to "New Micropost", new_micropost_path,
+                    class: 'dropdown-link' %>
+                </li>
+                <li>
+                  <%= link_to "BlogPost Draft Upload",
+                    upload_form_blog_post_path, class: 'dropdown-link' %>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="top-menu-button">
+            <%= link_to 'logout', logout_path, method: :delete,
+              class: 'top-menu-textlink' %>
+          </div>
+        <% end %>
+      </nav>

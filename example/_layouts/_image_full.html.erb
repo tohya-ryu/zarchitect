@@ -1,0 +1,11 @@
+<% if @image && @image.item.present? %>
+  <figure class="post-image-figure">
+    <%= image_tag @image.item_url,
+      class: "post-image img-no-border img_full" %>
+    <% unless @caption.empty? %>
+      <figcaption class="post-image-hint">
+        <%= @caption %> 
+      </figcaption>
+    <% end %>
+  </figure>
+<% end %>
