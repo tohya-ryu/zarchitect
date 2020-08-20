@@ -8,12 +8,13 @@ Gem::Specification.new do |s|
   s.authors = ["tohya ryu"]
   s.email = 'ryu@tohya.net'
   s.files = ["lib/zarchitect.rb",
-             "lib/zarchitect/zerb.rb",
+             "lib/zarchitect/assets.rb",
+             "lib/zarchitect/category.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
              "lib/zarchitect/rouge_html.rb",
              "lib/zarchitect/section.rb",
-             "lib/zarchitect/assets.rb"]
+             "lib/zarchitect/zerb.rb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
   s.license = 'GPL-3.0'
 end

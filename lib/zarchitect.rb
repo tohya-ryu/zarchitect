@@ -113,9 +113,10 @@ class Zarchitect
 
 end
 
-require 'zarchitect/index.rb'
-require 'zarchitect/section.rb'
-require 'zarchitect/page.rb'
 require 'zarchitect/assets.rb'
+require 'zarchitect/category.rb'
+require 'zarchitect/index.rb'
+require 'zarchitect/page.rb'
 require 'zarchitect/rouge_html.rb'
+require 'zarchitect/section.rb'
 require 'zarchitect/zerb.rb'
