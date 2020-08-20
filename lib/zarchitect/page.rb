@@ -1,5 +1,5 @@
 class Page < Zarchitect
-  attr_reader :source_path, :html_path
+  attr_reader :source_path, :html_path, :name
 
   #+++++++++++++++++++++++++++++++++++
   # @content
@@ -21,6 +21,9 @@ class Page < Zarchitect
     else
       @url   = "/#{@section.name}/index.html"
     end
+
+    read_config
+    @name = @config['title']
 
   end
 

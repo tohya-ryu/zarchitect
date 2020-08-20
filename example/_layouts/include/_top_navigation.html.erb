@@ -7,45 +7,16 @@
               <li>
                 <a href="/media/index.html" class="dropdown-link">media</a>
               </li>
-              <% if @nav_projects %>
-                <% @nav_projects.each do |prj| %>
-                  <% next if prj[:name].downcase != "misc" %>
-                  <% prj[:collection].each do |col| %>
-                    <li>
-                    <%= link_to col.name, page_path(col),
-                      class: 'dropdown-link'%>
-                  </li>
-                  <% end %>
-                <% end %>
-              <% end %>
             </ul>
             <div class="dropdown-title">Layout</div>
-            <% themes = IceBlog.config(:themes) %>
-            <% themes.each do |theme| %>
-              <div class="dropdown-title"><%= theme %></div>
-              <ul class="dropdown-links">
-                <% skins = IceBlog.config(:skins) %>
-                <% skins[:"#{theme}"].each do |skin| %>
-                  <li>
-                    <% if theme == @theme && skin == @skin %>
-                      <span class="disabled-link"><%= skin %></span>
-                    <% else %>
-                      <%= link_to skin,
-                        layout_switch_path(theme: theme, skin: skin),
-                        class: 'dropdown-link' %>
-                    <% end %>
-                  </li>
-                <% end %>
-              </ul>
-            <% end %>
           </div>
         </div>
         <!-- PROJECTS -->
         <div class="top-menu-button">
           <%= link_to 'Projects', pages_path, class: 'top-menu-textlink' %>
           <div class="top-menu-dropdown">
-            <% if @nav_projects %>
-              <% @nav_projects.each do |prj| %>
+            <% if data(:sections).has_key?(:projects) %>
+              <% data(:sections)[:projects].pages.each do |prj| %>
                 <% next if prj[:name].downcase == "misc" %>
                 <div class="dropdown-title"><%= prj[:name] %></div>
                 <ul class="dropdown-links">
