@@ -12,6 +12,7 @@ class Section < Zarchitect
     # Set instance variables
     @name = name
     @pages = Array.new
+    @categories = Array.new
     @id_count = 0
 
     # create section directory if necessary
@@ -20,14 +21,15 @@ class Section < Zarchitect
       GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
     end
 
-    if collection?
+    if collection? && categorized?
       # create category directories if necessary
-      @categories = Dir.directories(config[:path])
-      @categories.each do |c|
-        unless Dir.exist?("_html/#{@name}/#{c}")
-          d =  File.join(Dir.getwd, "_html", @name, c)
-          Dir.mkdir(d)
-          GPI.print "Created directory #{d}", GPI::CLU.check_option('v')
+      dirs = Dir.directories(config[:path])
+      dirs.each do |d|
+        @categories.push Category.new(self, d)
+        unless Dir.exist?("_html/#{@name}/#{d}")
+          dir =  File.join(Dir.getwd, "_html", @name, d)
+          Dir.mkdir(dir)
+          GPI.print "Created directory #{dir}", GPI::CLU.check_option('v')
         end
       end
       # create page directories if necessary

@@ -45,6 +45,7 @@ class Zarchitect
         #TODO collect data for use in templates
         #FIXME category, section, page objects instead with 
         # methods to access data
+=begin
         data = Hash.new
         data[:"#{s.name}"] = Hash.new
         if s.categorized?
@@ -55,6 +56,7 @@ class Zarchitect
         end
         data[:"#{s.name}"][:categories] = Array.new
         ZERB.set_gdata(:links, data)
+=end
       end
       if GPI::CLU.parameters.length >= 1
         # update single section
