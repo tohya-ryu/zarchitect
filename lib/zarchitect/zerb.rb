@@ -74,7 +74,7 @@ class ZERB < Zarchitect
   end
 
   def data(k)
-    unless @data.has_key?(k) && @@gdata.has_key?(k)
+    unless @data.has_key?(k) || @@gdata.has_key?(k)
       GPI.print "Error: missing data key #{k}"
       GPI.quit
     end

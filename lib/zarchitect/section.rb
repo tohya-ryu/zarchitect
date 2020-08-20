@@ -1,5 +1,5 @@
 class Section < Zarchitect
-    attr_reader :name, :categories, :id_count
+    attr_reader :name, :pages, :categories, :id_count
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
