@@ -36,6 +36,7 @@ class Section < Zarchitect
       @id_count += 1
     end
 
+
     # prepare data for use in templates
     if config(:get_categories)
     end

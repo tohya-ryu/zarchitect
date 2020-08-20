@@ -2,14 +2,17 @@ class ZERB < Zarchitect
 
   #++++++++++++++++++++++++++++++
   # @@template_stack
+  # @@gdata
   # @template
   # @path
   # @renderer
   # @output
   # @meta
   # @data
+  # 
 
   @@template_stack = Array.new
+  @@gdata          = Hash.new
 
   def initialize(template)
     @@template_stack.push(template)
@@ -45,7 +48,19 @@ class ZERB < Zarchitect
       GPI.print "key #{key} already exists in ZERB.data"
       GPI.quit
     end
+    if @@gdata.has_key?(key)
+      GPI.print "key #{key} already exists in ZERB.gdata"
+      GPI.quit
+    end
     @data[key] = value
+  end
+
+  def self.set_gdata(key,value)
+    if @@gdata.has_key?(key)
+      GPI.print "key #{key} already exists in ZERB.gdata"
+      GPI.quit
+    end
+    @@gdata[key] = value
   end
 
   private # functions to be used in templates
@@ -59,10 +74,11 @@ class ZERB < Zarchitect
   end
 
   def data(k)
-    unless @data.has_key?(k)
+    unless @data.has_key?(k) && @@gdata.has_key?(k)
       GPI.print "Error: missing data key #{k}"
       GPI.quit
     end
+    return @@gdata[k] if @@gdata.has_key?(k)
     @data[k] 
   end
 

@@ -27,7 +27,6 @@
       :index_flag: true
       :index_sort: 2
       :sort_type: date # date | alphanum
-      :get_categories: true # create array of categories in advance
     :projects:
       :layout: _layouts/default.html.erb
       :paginate: no
@@ -38,8 +37,6 @@
       :index_flag: true
       :index_sort: 3
       :sort_type: alphanum
-      :get_categories: true # create array of categories in advance
-      :get_files: true      # create array of files in advance
     :posts:
       :api: mastodon
       :paginate: yes

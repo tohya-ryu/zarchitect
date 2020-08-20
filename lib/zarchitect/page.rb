@@ -38,6 +38,14 @@ class Page < Zarchitect
       desc[-1] = "…"
       a.set_meta(:description, desc)
     end
+    # set page data
+    data = Hash.new
+    ObjectSpace.each_object(Section) do |s|    
+      data[:"#{@section.name}"] = Hash.new
+      if @section.get_categories
+      end
+      a.set_data(:links, data)
+    end
     # prepare content
     a.prepare
     a.render
