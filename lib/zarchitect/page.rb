@@ -4,12 +4,24 @@ class Page < Zarchitect
   #+++++++++++++++++++++++++++++++++++
   # @content
 
-  def initialize(section, source_path)
+  def initialize(section, source_path, category = nil)
     @section     = section
+    @id          = section.id_count.clone
     @source_path = source_path
     @html_path   = File.join(Dir.getwd, "_html", @section.name, "index.html")
     @config      = Hash.new
-    @id          = section.id_count.clone
+    @category    = category
+
+    if @section.collection?
+      if @section.categorized?
+        @url = "/#{@section.name}/#{@category.name}/#{@id}/index.html"
+      else
+        @url = "/#{@section.name}/#{@id}/index.html"
+      end
+    else
+      @url   = "/#{@section.name}/index.html"
+    end
+
   end
 
   def update
@@ -70,10 +82,6 @@ class Page < Zarchitect
     else
       return true
     end
-  end
-
-  def set_category(cat)
-    @category = cat
   end
 
 end
