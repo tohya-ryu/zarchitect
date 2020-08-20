@@ -42,6 +42,7 @@ class Zarchitect
       # prepare data for use in templates
       Config.sections.each_key do |k|
         Section.new(k.to_s)
+        #TODO collect data for use in templates
       end
       if GPI::CLU.parameters.length >= 1
         # update single section
@@ -61,16 +62,19 @@ class Zarchitect
         if GPI::CLU.parameters.length == 2
           # check if ARGV[2] is valid ID
           # update single post
+          Assets.update
+          section = Section.find(GPI::CLU.parameters[0])
+          section.update(GPI::CLU.parameters[1])
         else
           # update all new posts
           Assets.update
           section = Section.find(GPI::CLU.parameters[0])
-          section.update(1)
+          section.update()
         end
       else
         # Update all sections
         ObjectSpace.each_object(Section) do |s|
-          s.update(1)
+          s.update()
           if s.collection?
             # consider section index
           else

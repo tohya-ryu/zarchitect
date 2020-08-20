@@ -1,5 +1,5 @@
 class Section < Zarchitect
-    attr_reader :name
+    attr_reader :name, :categories, :id_count
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
@@ -7,9 +7,12 @@ class Section < Zarchitect
   # @name       | str
   # @files      | arr
   # @categories | arr
+  # @pages      | arr
   def initialize(name)
     # Set instance variables
     @name = name
+    @pages = Array.new
+    @id_count = 0
 
     # create section directory if necessary
     unless Dir.exist?("_html/#{@name}")
@@ -28,6 +31,13 @@ class Section < Zarchitect
         end
       end
       # create page directories if necessary
+    else
+      @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
+      @id_count += 1
+    end
+
+    # prepare data for use in templates
+    if config(:get_categories)
     end
 
     # Read categories
@@ -35,17 +45,16 @@ class Section < Zarchitect
     end
   end
 
-  def update(page)
+  def update(page = nil)
     if collection?
     else
       # create / update a single page
-      p = Page.new(self, File.join(Dir.getwd, config[:path]))
-      if p.require_update?
-        p.read_config
-        p.read_content
-        p.update
+      if @pages[0].require_update?
+        @pages[0].read_config
+        @pages[0].read_content
+        @pages[0].update
       else
-        GPI.print "Ignoring #{p.source_path} (no update necessary)",
+        GPI.print "Ignoring #{@pages[0].source_path} (no update necessary)",
           GPI::CLU.check_option('v')
       end
     end

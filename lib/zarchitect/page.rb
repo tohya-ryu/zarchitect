@@ -9,6 +9,7 @@ class Page < Zarchitect
     @source_path = source_path
     @html_path   = File.join(Dir.getwd, "_html", @section.name, "index.html")
     @config      = Hash.new
+    @id          = section.id_count.clone
   end
 
   def update
@@ -70,5 +71,8 @@ class Page < Zarchitect
     end
   end
 
+  def set_category(cat)
+    @category = cat
+  end
 
 end
