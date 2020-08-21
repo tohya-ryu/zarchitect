@@ -59,8 +59,8 @@ class Section < Zarchitect
     else
       # create / update a single page
       if @pages[0].require_update?
-        @pages[0].read_config
-        @pages[0].read_content
+        #@pages[0].read_config
+        #@pages[0].read_content
         @pages[0].update
       else
         GPI.print "Ignoring #{@pages[0].source_path} (no update necessary)",

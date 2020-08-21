@@ -28,8 +28,10 @@ class Page < Zarchitect
   end
 
   def update
+    read_content
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     a = ZERB.new(@section.config[:layout])
+    a.set_data(:content, @content)
     # prepare meta information
     if @section.collection?
     else

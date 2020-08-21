@@ -1,12 +1,10 @@
 More:
-<%= link_to "media", media_path, class: 'internal-link' %>
-<% if @nav_projects %>
-  <% @nav_projects.each do |prj| %>
-    <% next if prj[:name].downcase != "misc" %>
-    <% prj[:collection].each do |col| %>
-      <%= link_to col.name, page_path(col),
-          class: 'internal-link'%>
-    <% end %>
+<%= link "media", "/media/index.html", class: 'internal-link' %>
+<% data(:section)[:projects].categories.each do |cat| %>
+  <% next if cat.name != "misc" %>
+  <% data(:section)[:projects].pages.each do |prj| %>
+    <%= link prj.name, prj.url,
+        class: 'internal-link'%>
   <% end %>
 <% end %>
 <br>

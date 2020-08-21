@@ -26,13 +26,14 @@
             class: 'top-menu-textlink' %>
           <div class="top-menu-dropdown">
             <% if data(:sections).has_key?(:projects) %>
-              <% data(:sections)[:projects].pages.each do |prj| %>
-                <% next if prj.name.downcase == "misc" %>
-                <div class="dropdown-title"><%= prj[:name] %></div>
+              <% data(:sections)[:projects].categories.each do |cat| %>
+                <% next if cat.name == "misc" %>
+                <div class="dropdown-title"><%= cat.name %></div>
                 <ul class="dropdown-links">
-                  <% prj[:collection].each do |col| %>
+                  <% data(:sections)[:projects].pages.each do |prj| %>
+                    <% next if cat.name != prj.category.name %>
                     <li>
-                      <%= link_to col.name, page_path(col),
+                      <%= link prj.name, prj.url,
                         class: 'dropdown-link'%>
                     </li>
                   <% end %>
@@ -43,51 +44,24 @@
         </div>
         <!-- BLOG CATEGORIES -->
         <div class="top-menu-button">
-          <%= link_to 'Blog', blog_view_path, class: 'top-menu-textlink' %>
+          <%= link 'Blog', data(:sections)[:blog].url,
+            class: 'top-menu-textlink' %>
           <div class="top-menu-dropdown">
-            <% if @nav_cats %>
-              <div class="dropdown-title">Categories</div>
-              <ul class="dropdown-links">
-                <% @nav_cats.each do |cat| %>
-                  <li>
-                    <%= link_to cat.name, category_path(cat),
-                      class: 'dropdown-link'%>
-                  </li>
-                <% end %>
-              </ul>
-            <% end %>
+            <div class="dropdown-title">Categories</div>
+            <ul class="dropdown-links">
+              <% data(:sections)[:blog].categories.each do |cat| %>
+                <li>
+                  <%= link cat.name, cat.url,
+                    class: 'dropdown-link'%>
+                </li>
+              <% end %>
+            </ul>
           </div>
         </div>
-        <% if @data[:forum_url] && !@data[:forum_url].empty? %>
+        <!-- optional forum url...
           <div class="top-menu-button">
-            <%= link_to 'Forum', @data[:forum_url],
+            <%# link 'Forum', data(:forum_url),
               class: 'top-menu-textlink' %>
           </div>
-        <% end %>
-        <% if @current_user && @current_user.admin? %>
-          <div class="top-menu-button">
-            <%= link_to 'config', admin_path, class: 'top-menu-textlink' %>
-            <div class="top-menu-dropdown">
-              <div class="dropdown-title">Qickjumps</div>
-              <ul class="dropdown-links">
-                <li>
-                  <%= link_to "Settings", edit_user_path(@current_user),
-                    class: 'dropdown-link' %>
-                </li>
-                <li>
-                  <%= link_to "New Micropost", new_micropost_path,
-                    class: 'dropdown-link' %>
-                </li>
-                <li>
-                  <%= link_to "BlogPost Draft Upload",
-                    upload_form_blog_post_path, class: 'dropdown-link' %>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="top-menu-button">
-            <%= link_to 'logout', logout_path, method: :delete,
-              class: 'top-menu-textlink' %>
-          </div>
-        <% end %>
+        -->
       </nav>
