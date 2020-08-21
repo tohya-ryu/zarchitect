@@ -128,6 +128,10 @@ class ZERB < Zarchitect
     Config.site_name
   end
 
+  def admin
+    Config.admin
+  end
+
   def site_slogan
     Config.site_slogan
   end
