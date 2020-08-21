@@ -128,6 +128,10 @@ class ZERB < Zarchitect
     Config.site_name
   end
 
+  def origin_year
+    Config.origin_year
+  end
+
   def admin
     Config.admin
   end
