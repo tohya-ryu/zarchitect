@@ -1,10 +1,11 @@
 class Section < Zarchitect
-    attr_reader :name, :pages, :categories, :id_count
+    attr_reader :name, :url, :pages, :categories, :id_count
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
   # Instance Variables
   # @name       | str
+  # @url        | str
   # @files      | arr
   # @categories | arr
   # @pages      | arr
@@ -14,6 +15,8 @@ class Section < Zarchitect
     @pages = Array.new
     @categories = Array.new
     @id_count = 0
+
+    @url = "/#{@name}/index.html"
 
     # create section directory if necessary
     unless Dir.exist?("_html/#{@name}")

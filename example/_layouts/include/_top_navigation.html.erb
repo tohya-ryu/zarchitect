@@ -22,7 +22,8 @@
         </div>
         <!-- PROJECTS -->
         <div class="top-menu-button">
-          <%= link_to 'Projects', pages_path, class: 'top-menu-textlink' %>
+          <%= link 'Projects', data(:sections)[:projects].url,
+            class: 'top-menu-textlink' %>
           <div class="top-menu-dropdown">
             <% if data(:sections).has_key?(:projects) %>
               <% data(:sections)[:projects].pages.each do |prj| %>
