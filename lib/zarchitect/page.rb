@@ -30,36 +30,41 @@ class Page < Zarchitect
   def update
     read_content
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
-    a = ZERB.new(@section.config[:layout])
-    a.set_data(:content, @content)
+    layout_tmpl = ZERB.new(@section.config[:layout])
+    view_tmpl   = ZERB.new(@section.config[:view])
+    view_tmpl.set_data(:content, @content)
     # prepare meta information
     if @section.collection?
     else
       title = Config.site_name.clone
       title << Config.title_sep
       title << @config['title']
-      a.set_meta(:title, title)
+      layout_tmpl.set_meta(:title, title)
     end
     keywords = Config.site_keywords.clone
     if @section.config.has_key?(:keywords)
       keywords << ', ' << @section.config[:keywords]
     end
     keywords << ', ' << @config['keywords']
-    a.set_meta(:keywords, keywords)
-    a.set_meta(:author, @config['author'])
+    layout_tmpl.set_meta(:keywords, keywords)
+    layout_tmpl.set_meta(:author, @config['author'])
     if @config.has_key?('description')
-      a.set_meta(:description, @config['description'])
+      layout_tmpl.set_meta(:description, @config['description'])
     else
       desc = @content.clone
       desc = desc[0..160]
       desc[-1] = "…"
-      a.set_meta(:description, desc)
+      layout_tmpl.set_meta(:description, desc)
     end
     # set page data
     # prepare content
-    a.prepare
-    a.render
-    html = a.output
+    view_tmpl.prepare
+    view_tmpl.render
+    view_html = view_tmpl.output
+    layout_tmpl.set_data(:view, view_html)
+    layout_tmpl.prepare
+    layout_tmpl.render
+    html = layout_tmpl.output
     File.open(@html_path, "w") { |f| f.write(html) }
     GPI.print "Wrote #{@html_path}", GPI::CLU.check_option('v')
   end

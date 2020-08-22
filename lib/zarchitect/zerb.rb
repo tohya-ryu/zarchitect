@@ -114,6 +114,14 @@ class ZERB < Zarchitect
     tag << %{>#{str}</a>}
   end
 
+  def include_view
+    data(:view)
+  end
+
+  def include_content
+    data(:content)
+  end
+
   def email(f)
     Config.email if f
     #TODO secure email

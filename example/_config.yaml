@@ -10,6 +10,7 @@
 :sections:
     :profile:
       :layout: _layouts/ellis.html.erb
+      :view: _layouts/view/default.html.erb
       :path: profile.md # location of .md files belonging to section
       :index_flag: true
       :index_sort: 1
