@@ -58,6 +58,7 @@ class Page < Zarchitect
     end
     # set page data
     # prepare content
+    view_tmpl.set_data(:title, @name)
     view_tmpl.prepare
     view_tmpl.render
     view_html = view_tmpl.output
