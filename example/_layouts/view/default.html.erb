@@ -6,7 +6,7 @@
           class: "profile-link" %>
   </span>
   <span class="post-date" title="<%#= @project.created_at %>">
-    <%=# time_ago_in_words(@project.created_at) %> ago
+    <%#= time_ago_in_words(@project.created_at) %> ago
   </span>
   <%# unless @project.published %>
     <!-- <span class="mark-unpublished">(unpublished)</span> -->
@@ -15,12 +15,7 @@
     <!-- <span class="mark-pending-update">(update pending)</span> -->
   <%# end %>
   <div class="large-post-content">
-    <h1><%= @project.name %></h1>
-    <% if @project.content_update && 
-        (@current_user && @current_user.admin?)  %>
-      <%= raw @project.content_update %>
-    <% else %>
-      <%= raw @project.content %>
-    <% end %>
+    <h1><%= data(:title) %></h1>
+    <%= include_content %>
   </div>
 </div>
