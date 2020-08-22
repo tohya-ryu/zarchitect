@@ -54,3 +54,4 @@
   :sort_type: flag # flag | alphanum
 :exclude_assets:
   - .scss
+  - .css.map

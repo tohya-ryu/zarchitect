@@ -1,0 +1,43 @@
+/* mixins, variables, etc. */
+/* misc */
+ul {
+  padding-bottom: 12px; }
+
+.form-control {
+  display: block;
+  margin-bottom: 4px;
+  border: 1px solid black;
+  padding: 4px; }
+
+.alert-notice {
+  color: green; }
+
+.alert-danger {
+  color: red; }
+
+#error_explanation {
+  border: 1px solid red;
+  color: red; }
+  #error_explanation ul {
+    color: red;
+    margin-left: 30px; }
+
+.field_with_errors .form-control {
+  border: 1px solid red; }
+
+.form-btn {
+  display: block;
+  background: black;
+  color: white; }
+
+.debug_dump {
+  border-top: 1px solid black;
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+/*# sourceMappingURL=default.css.map */

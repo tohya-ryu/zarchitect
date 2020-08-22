@@ -9,7 +9,7 @@ module Assets
       if Config.singleton_methods.include?(:exclude_assets)
         Config.exclude_assets.each do |s|
           check = true if f.ends_with?(s)
-          GPI.print "Ignoring asset #{f} because of its filetype"
+          GPI.print "Ignoring asset #{f} because of its filetype" if check
         end
       end
       next if check
