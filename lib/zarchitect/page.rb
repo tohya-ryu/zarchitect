@@ -28,11 +28,12 @@ class Page < Zarchitect
   end
 
   def update
-    read_content
+    @content = Content.new(@source_path)
+    @content.markup
     GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     layout_tmpl = ZERB.new(@section.config[:layout])
     view_tmpl   = ZERB.new(@section.config[:view])
-    view_tmpl.set_data(:content, @content)
+    view_tmpl.set_data(:content, @content.html)
     # prepare meta information
     if @section.collection?
     else
@@ -51,7 +52,7 @@ class Page < Zarchitect
     if @config.has_key?('description')
       layout_tmpl.set_meta(:description, @config['description'])
     else
-      desc = @content.clone
+      desc = @content.html.clone
       desc = desc[0..160]
       desc[-1] = "…"
       layout_tmpl.set_meta(:description, desc)
@@ -74,14 +75,6 @@ class Page < Zarchitect
     YAML.load_stream(File.open(@source_path) { |f| f.read }) do |doc|
       @config = doc
       break
-    end
-  end
-
-  def read_content
-    i = 0
-    YAML.load_stream(File.open(@source_path) { |f| f.read }) do |doc|
-      @content = doc if i == 1
-      i += 1
     end
   end
 

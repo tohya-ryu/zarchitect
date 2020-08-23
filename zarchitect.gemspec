@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.files = ["lib/zarchitect.rb",
              "lib/zarchitect/assets.rb",
              "lib/zarchitect/category.rb",
+             "lib/zarchitect/content.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
              "lib/zarchitect/rouge_html.rb",
