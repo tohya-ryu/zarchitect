@@ -106,6 +106,8 @@ end
 require 'zarchitect/assets.rb'
 require 'zarchitect/category.rb'
 require 'zarchitect/content.rb'
+require 'zarchitect/file.rb'
+require 'zarchitect/image.rb'
 require 'zarchitect/index.rb'
 require 'zarchitect/page.rb'
 require 'zarchitect/rouge_html.rb'
