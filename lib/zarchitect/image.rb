@@ -5,7 +5,7 @@ class ImageSet
 
 end
 
-class Image < File
+class Image
 
   #+++++++++++++++++++++++++++++
   # @path
