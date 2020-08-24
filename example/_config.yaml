@@ -7,6 +7,8 @@
 :origin_year: 2015
 :title_sep: " / "
 :site_keywords: blog, mar
+:thumbl: [640,480]
+:thumbs: [320, 240]
 :sections:
     :profile:
       :layout: _layouts/ellis.html.erb

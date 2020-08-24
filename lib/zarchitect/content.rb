@@ -11,6 +11,7 @@ class Content < Zarchitect
 
   def markup
     @html = @raw
+    return nil
     if string.is_a?(String)
       new_string = ""
       regexp = /
