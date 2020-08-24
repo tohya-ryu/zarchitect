@@ -101,6 +101,7 @@ class Zarchitect
 end
 
 require 'zarchitect/assets.rb'
+require 'zarchitect/audio.rb'
 require 'zarchitect/category.rb'
 require 'zarchitect/content.rb'
 require 'zarchitect/file_manager.rb'
@@ -110,4 +111,5 @@ require 'zarchitect/page.rb'
 require 'zarchitect/rouge_html.rb'
 require 'zarchitect/section.rb'
 require 'zarchitect/util.rb'
+require 'zarchitect/video.rb'
 require 'zarchitect/zerb.rb'
