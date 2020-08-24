@@ -39,6 +39,7 @@ class Zarchitect
     conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
+      Filemanager.run()
       # prepare data for use in templates
       data = Hash.new
       Config.sections.each_key do |k|
@@ -98,6 +99,12 @@ class Zarchitect
       GPI.print "Creating directory _html/assets", GPI::CLU.check_option('v')
       Dir.mkdir(File.join(Dir.getwd, "_html", "assets"))
       GPI.print "Created directory _html/assets", GPI::CLU.check_option('v')
+    end
+    unless Dir.exist?("_html/files")
+      GPI.print "Missing directory _html/files", GPI::CLU.check_option('v')
+      GPI.print "Creating directory _html/files", GPI::CLU.check_option('v')
+      Dir.mkdir(File.join(Dir.getwd, "_html", "files"))
+      GPI.print "Created directory _html/files", GPI::CLU.check_option('v')
     end
   end
 
