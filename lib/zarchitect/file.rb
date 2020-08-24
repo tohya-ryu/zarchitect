@@ -1,2 +1,2 @@
-class File
+class Zfile
 end
