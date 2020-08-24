@@ -94,18 +94,8 @@ class Zarchitect
   private
 
   def prepwork # create necessary directories etc.
-    unless Dir.exist?("_html/assets")
-      GPI.print "Missing directory _html/assets", GPI::CLU.check_option('v')
-      GPI.print "Creating directory _html/assets", GPI::CLU.check_option('v')
-      Dir.mkdir(File.join(Dir.getwd, "_html", "assets"))
-      GPI.print "Created directory _html/assets", GPI::CLU.check_option('v')
-    end
-    unless Dir.exist?("_html/files")
-      GPI.print "Missing directory _html/files", GPI::CLU.check_option('v')
-      GPI.print "Creating directory _html/files", GPI::CLU.check_option('v')
-      Dir.mkdir(File.join(Dir.getwd, "_html", "files"))
-      GPI.print "Created directory _html/files", GPI::CLU.check_option('v')
-    end
+    Util.mkdir("_html/assets")
+    Util.mkdir("_html/files")
   end
 
 end
@@ -119,4 +109,5 @@ require 'zarchitect/index.rb'
 require 'zarchitect/page.rb'
 require 'zarchitect/rouge_html.rb'
 require 'zarchitect/section.rb'
+require 'zarchitect/util.rb'
 require 'zarchitect/zerb.rb'

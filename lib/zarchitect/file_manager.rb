@@ -5,7 +5,11 @@ class FileManager
 
   def self.run
     # iterate FROM 
-    Dir[ File.join(FROM, '**', '*') ].reject { |p| p }
+    Dir[ File.join(FROM, '**', '*') ].reject do |f|
+      if File.directory?(f)
+      else
+      end
+    end
     # create dir copies in TO
     # create symlinks in TO pointing to FROM | rsync can copy files behind link
   end
