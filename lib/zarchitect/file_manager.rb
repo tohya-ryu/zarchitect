@@ -15,7 +15,10 @@ module FileManager
       # file handling
       # create symlink in _html/files to physical files _files
       unless File.symlink?(realpath)
-        symlink(File.join(Dir.getwd, fullpath), realpath)
+        rrealpath = File.join(Dir.getwd, fullpath)
+        GPI.print "creating symlink #{realpath} ~> #{rrealpath}"
+        symlink(rrealpath, realpath)
+        GPI.print "created symlink #{realpath} ~> #{rrealpath}"
       end
       # handle file types embedded in posts
       if Image.is_valid?(fullpath)
