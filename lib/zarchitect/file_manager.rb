@@ -3,7 +3,7 @@ class FileManager
   FROM = "_files" # dir where raw files reside
   TO   = "_html/files"
 
-  def run
+  def self.run
     # iterate FROM 
     Dir[ File.join(FROM, '**', '*') ].reject { |p| p }
     # create dir copies in TO
