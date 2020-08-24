@@ -39,7 +39,7 @@ class Zarchitect
     conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
-      Filemanager.run()
+      FileManager.run()
       # prepare data for use in templates
       data = Hash.new
       Config.sections.each_key do |k|
