@@ -1,6 +1,7 @@
 class ImageSet
 
   def initialize(path)
+    @orig = Image.new(path)
   end
 
 end
@@ -19,6 +20,10 @@ class Image
   # @thumbs_dimensions
 
   def initialize(path)
+  end
+
+  def self.is_valid?(filename)
+    [".png",".gif",".jpg",".jpeg",".bmp"].include?(File.extname(filename))
   end
   
 end
