@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
              "lib/zarchitect/assets.rb",
              "lib/zarchitect/category.rb",
              "lib/zarchitect/content.rb",
-             "lib/zarchitect/file.rb",
              "lib/zarchitect/image.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
