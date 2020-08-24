@@ -39,7 +39,7 @@ class Zarchitect
     conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
-      FileManager.run()
+      FileManager.run
       # prepare data for use in templates
       data = Hash.new
       Config.sections.each_key do |k|
@@ -113,7 +113,7 @@ end
 require 'zarchitect/assets.rb'
 require 'zarchitect/category.rb'
 require 'zarchitect/content.rb'
-require 'zarchitect/filemanager.rb'
+require 'zarchitect/file_manager.rb'
 require 'zarchitect/image.rb'
 require 'zarchitect/index.rb'
 require 'zarchitect/page.rb'
