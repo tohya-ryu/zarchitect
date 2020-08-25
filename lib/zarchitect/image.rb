@@ -16,22 +16,28 @@ class ImageSet
     #=============================== [7] = ?
     #=============================== [8] = ?
     dim = arr[2].split("x")
-    @orig.dimensions.x = dim[0]
-    @orig.dimensions.y = dim[1]
+    @orig.set_data(dim[0], dim[1], arr[6])
   end
 
 end
 
 class Image
-  attr_accessor :dimensions
+  attr_reader :dimensions, :size
 
   #+++++++++++++++++++++++++++++
   # @path
   # @url
   # @dimensions
+  # @size
 
   def initialize(path)
     @dimensions = Point.new(0,0)
+  end
+
+  def set_data(x, y, s)
+    @dimensions.x = x
+    @dimensions.y = y
+    @size         = s
   end
 
   def self.is_valid?(filename)
