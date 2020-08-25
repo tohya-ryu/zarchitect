@@ -16,11 +16,7 @@ module FileManager
       # create symlink in _html/files to physical files _files
       unless File.symlink?(realpath)
         rrealpath = File.join(Dir.getwd, fullpath)
-        GPI.print "creating symlink #{realpath} ~> #{rrealpath}", 
-          GPI::CLU.check_option('v')
         symlink(rrealpath, realpath)
-        GPI.print "created symlink #{realpath} ~> #{rrealpath}",
-          GPI::CLU.check_option('v')
       end
       # handle file types embedded in posts
       if Image.is_valid?(fullpath)
@@ -42,7 +38,11 @@ module FileManager
   end
 
   def self.symlink(from, to)
+    GPI.print "creating symlink #{to} ~> #{from}", 
+      GPI::CLU.check_option('v')
     File.symlink(from, to)
+    GPI.print "created symlink #{to} ~> #{from}",
+      GPI::CLU.check_option('v')
   end
 
   def self.clean
