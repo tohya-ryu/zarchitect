@@ -1,5 +1,5 @@
 class Image
-  attr_reader :dimensions, :size, :type
+  attr_reader :dimensions, :size, :type, :url
   attr_writer :thumbs_f, :thumbl_f
 
   ROOT = "_html"
@@ -53,10 +53,6 @@ class Image
         @dimensions.y > Config.thumbl[1].to_i
   end
 
-  def self.is_valid?(filename)
-    [".png",".gif",".jpg",".jpeg",".bmp"].include?(File.extname(filename))
-  end
-
   def create_thumbnail(path, thumb_x, thumb_y)
     GPI.print "attempting to create thumbnail #{path}",
       GPI::CLU.check_option('v')
@@ -92,6 +88,18 @@ class Image
       o = %x{#{command}}
       GPI.print o, GPI::CLU.check_option('v')
       return true
+    end
+  end
+
+  def self.is_valid?(filename)
+    [".png",".gif",".jpg",".jpeg",".bmp"].include?(File.extname(filename))
+  end
+
+  def self.find(k, v)
+    # o = Image.find("url", "/files/projects/tre/screen1.png") // usage
+    ObjectSpace.each_object(ImageSet) do |set|
+      str = set.orig.send(k)
+      return set if str == v
     end
   end
   
