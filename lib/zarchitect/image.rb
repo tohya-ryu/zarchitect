@@ -1,6 +1,6 @@
 class ImageSet
   attr_reader :orig, :thumbs, :thumbl
-  #TODO abort on invalid filesize, don't create thumbnails for files in shared
+  #TODO abort on invalid filesize
 
   def initialize(path, fullpath, realpath)
     @thumbl = nil

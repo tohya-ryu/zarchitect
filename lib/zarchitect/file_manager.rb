@@ -9,7 +9,7 @@ module FileManager
       path = fullpath[(FROM.length)..-1]
       realpath = File.join(TO, path) # path of new dir/symlink
       
-      # dir handling
+      # dir handling / create copies in TO
       Util.mkdir(realpath) if File.directory?(fullpath)
       next if File.directory?(fullpath)
       # file handling
@@ -39,7 +39,6 @@ module FileManager
       end
 
     end
-    # create dir copies in TO
   end
 
   def self.symlink(from, to)
