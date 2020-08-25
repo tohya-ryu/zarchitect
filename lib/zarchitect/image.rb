@@ -1,10 +1,16 @@
 class ImageSet
+  attr_reader :orig, :thumbs, :thumbl
 
   def initialize(path, fullpath, realpath)
+    @thumbl = nil
+    @thumbs = nil
     # path = /section/title/img.png
     # fullpath = _files/section/title/img.png
     # realpath = _html/files/section/title/img.png
-    @orig = Image.new(path)
+    filename  = File.basename(path, ".*")
+    extension = File.extname(path)
+    realdir   = File.dirname(realpath)
+    @orig = Image.new()
     arr = %x{identify #{realpath}}.split(" ")
     #=============================== [0] = realpath
     # [1] = type
@@ -16,21 +22,39 @@ class ImageSet
     #=============================== [7] = ?
     #=============================== [8] = ?
     dim = arr[2].split("x")
-    @orig.set_data(dim[0], dim[1], arr[6])
+    @orig.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i)
+
+    # check if thumbnails exist
+    thumbs_path = File.join(realdir, "#{filename}-thumbs", extension)
+    thumbl_path = File.join(realdir, "#{filename}-thumbl", extension)
+    @orig.thumbs_f = File.exist?(thumbs_path)
+    @orig.thumbl_f = File.exist?(thumbl_path)
+    unless @orig.thumb_small?
+      if @orig.larger_than_thumb_small?
+      end
+    end
+    unless @orig.thumb_large?
+      if @orig.larger_than_thumb_small?
+      end
+    end
+
   end
 
 end
 
 class Image
   attr_reader :dimensions, :size
+  attr_writer :thumbs_f, :thumbl_f
 
   #+++++++++++++++++++++++++++++
   # @path
   # @url
   # @dimensions
   # @size
+  # @thumbs_f | flags
+  # @thumbl_f
 
-  def initialize(path)
+  def initialize()
     @dimensions = Point.new(0,0)
   end
 
@@ -38,6 +62,24 @@ class Image
     @dimensions.x = x
     @dimensions.y = y
     @size         = s
+  end
+
+  def thumb_small?
+    @thumbs_f
+  end
+
+  def thumb_large?
+    @thumbl_f
+  end
+
+  def larger_than_thumb_small?
+      dimensions.x > Config.thumbs[0].to_i ||
+        dimensions.y > Config.thumbs[1].to_i
+  end
+
+  def larger_than_thumb_large?
+      dimensions.x > Config.thumbl[0].to_i ||
+        dimensions.y > Config.thumbl[1].to_i
   end
 
   def self.is_valid?(filename)
