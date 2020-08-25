@@ -10,7 +10,7 @@ class ImageSet
     filename  = File.basename(path, ".*")
     extension = File.extname(path)
     realdir   = File.dirname(realpath)
-    @orig = Image.new()
+    @orig = Image.new(realpath)
     arr = %x{identify #{realpath}}.split(" ")
     #=============================== [0] = realpath
     # [1] = type
@@ -22,7 +22,7 @@ class ImageSet
     #=============================== [7] = ?
     #=============================== [8] = ?
     dim = arr[2].split("x")
-    @orig.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i)
+    @orig.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
 
     # check if thumbnails exist
     thumbs_path = File.join(realdir, "#{filename}-thumbs", extension)
@@ -31,10 +31,14 @@ class ImageSet
     @orig.thumbl_f = File.exist?(thumbl_path)
     unless @orig.thumb_small?
       if @orig.larger_than_thumb_small?
+        @orig.create_thumbnail(thumbs_path, Config.thumbs[0].to_i,
+                               Config.thumbs[1].to_i)
       end
     end
     unless @orig.thumb_large?
       if @orig.larger_than_thumb_small?
+        @orig.create_thumbnail(thumbl_path, Config.thumbl[0].to_i,
+                               Config.thumbl[1].to_i)
       end
     end
 
@@ -43,7 +47,7 @@ class ImageSet
 end
 
 class Image
-  attr_reader :dimensions, :size
+  attr_reader :dimensions, :size, :type
   attr_writer :thumbs_f, :thumbl_f
 
   #+++++++++++++++++++++++++++++
@@ -53,15 +57,18 @@ class Image
   # @size
   # @thumbs_f | flags
   # @thumbl_f
+  # @type | PNG, JPEG, BMP, GIF
 
-  def initialize()
+  def initialize(path)
+    @path = path
     @dimensions = Point.new(0,0)
   end
 
-  def set_data(x, y, s)
+  def set_data(x, y, s, t)
     @dimensions.x = x
     @dimensions.y = y
     @size         = s
+    @type         = t
   end
 
   def thumb_small?
@@ -84,6 +91,9 @@ class Image
 
   def self.is_valid?(filename)
     [".png",".gif",".jpg",".jpeg",".bmp"].include?(File.extname(filename))
+  end
+
+  def create_thumbnail(path, x, y)
   end
   
 end
