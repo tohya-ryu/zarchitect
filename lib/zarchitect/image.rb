@@ -10,7 +10,7 @@ class ImageSet
     filename  = File.basename(path, ".*")
     extension = File.extname(path)
     realdir   = File.dirname(realpath)
-    @orig = Image.new(realpath)
+    @orig = Image.new(realpath, false)
     arr = %x{identify #{realpath}}.split(" ")
     #=============================== [0] = realpath
     # [1] = type
@@ -25,21 +25,37 @@ class ImageSet
     @orig.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
 
     # check if thumbnails exist
+    # attempt to create them if not
     thumbs_path = "#{File.join(realdir, filename)}-thumbs#{extension}"
     thumbl_path = "#{File.join(realdir, filename)}-thumbl#{extension}"
     @orig.thumbs_f = File.exist?(thumbs_path)
     @orig.thumbl_f = File.exist?(thumbl_path)
     unless @orig.thumb_small?
       if @orig.larger_than_thumb_small?
-        @orig.create_thumbnail(thumbs_path, Config.thumbs[0].to_i,
-                               Config.thumbs[1].to_i)
+        r = @orig.create_thumbnail(thumbs_path, Config.thumbs[0].to_i,
+                                   Config.thumbs[1].to_i)
+        @orig.thumbs_f = r
       end
     end
     unless @orig.thumb_large?
       if @orig.larger_than_thumb_small?
-        @orig.create_thumbnail(thumbl_path, Config.thumbl[0].to_i,
-                               Config.thumbl[1].to_i)
+        r = @orig.create_thumbnail(thumbl_path, Config.thumbl[0].to_i,
+                                   Config.thumbl[1].to_i)
+        @orig.thumbl_f = r
       end
+    end
+    # set thumbnails if created
+    if @orig.thumb_small?
+      @thumbs = Image.new(thumbs_path, true)
+      arr = %x{identify #{thumbs_path}}.split(" ")
+      dim = arr[2].split("x")
+      @thumbs.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
+    end
+    if @orig.thumb_large?
+      @thumbl = Image.new(thumbl_path, true)
+      arr = %x{identify #{thumbs_path}}.split(" ")
+      dim = arr[2].split("x")
+      @thumbs.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
     end
 
   end
@@ -59,9 +75,10 @@ class Image
   # @thumbl_f
   # @type | PNG, JPEG, BMP, GIF
 
-  def initialize(path)
+  def initialize(path, f)
     @path = path
     @dimensions = Point.new(0,0)
+    @thumbf = f
   end
 
   def set_data(x, y, s, t)
