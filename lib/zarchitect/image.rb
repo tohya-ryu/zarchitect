@@ -94,9 +94,15 @@ class Image
   end
 
   def create_thumbnail(path, thumb_x, thumb_y)
+    GPI.print "attempting to create thumbnail #{path}",
+      GPI::CLU.check_option('v')
     x = @dimensions.x
     y = @dimensions.y
-    return nil if x <= thumb_x && y <= thumb_y # no need to create thumbnail
+    if x <= thumb_x && y <= thumb_y # no need to create thumbnail
+      GPI.print "abort thumbnail creation. No thumbnail #{thumb_x}x"\
+        "#{thumb_y} necessary", GPI::CLU.check_option('v')
+      return nil
+    end
     if ["PNG", "GIF"].include?(@type)
       # scale
       while true do
@@ -107,9 +113,14 @@ class Image
       return nil if x < 1 || y < 1 
       command = "convert #{@path} -scale #{x}x#{y} #{path}"
       GPI.print "#{command}", GPI::CLU.check_option('v')
-      %x{#{command}}
+      o = %x{#{command}}
+      GPI.print o, GPI::CLU.check_option('v')
     else
       # resize
+      command = "convert #{@path} -resize #{thumb_x}x#{thumb_y} #{path}"
+      GPI.print "#{command}", GPI::CLU.check_option('v')
+      o = %x{#{command}}
+      GPI.print o, GPI::CLU.check_option('v')
     end
   end
   
