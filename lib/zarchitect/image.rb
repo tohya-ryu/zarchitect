@@ -31,6 +31,7 @@ class Image
   # @dimensions
 
   def initialize(path)
+    @dimensions = Point.new(0,0)
   end
 
   def self.is_valid?(filename)
