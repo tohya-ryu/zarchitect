@@ -101,7 +101,7 @@ class Image
     if x <= thumb_x && y <= thumb_y # no need to create thumbnail
       GPI.print "abort thumbnail creation. No thumbnail #{thumb_x}x"\
         "#{thumb_y} necessary", GPI::CLU.check_option('v')
-      return nil
+      return false
     end
     if ["PNG", "GIF"].include?(@type)
       # scale
@@ -110,17 +110,23 @@ class Image
         y = y/2
         break if x <= thumb_x && y <= thumb_y
       end
-      return nil if x < 1 || y < 1 
+      if x < 1 || y < 1 
+        GPI.print "failed to create #{path}: invalid downsizing",
+          GPI::CLU.check_option('v')
+        return false
+      end
       command = "convert #{@path} -scale #{x}x#{y} #{path}"
       GPI.print "#{command}", GPI::CLU.check_option('v')
       o = %x{#{command}}
       GPI.print o, GPI::CLU.check_option('v')
+      return true
     else
       # resize
       command = "convert #{@path} -resize #{thumb_x}x#{thumb_y} #{path}"
       GPI.print "#{command}", GPI::CLU.check_option('v')
       o = %x{#{command}}
       GPI.print o, GPI::CLU.check_option('v')
+      return true
     end
   end
   
