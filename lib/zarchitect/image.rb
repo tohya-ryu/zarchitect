@@ -11,18 +11,7 @@ class ImageSet
     extension = File.extname(path)
     realdir   = File.dirname(realpath)
     @orig = Image.new(realpath, false)
-    arr = %x{identify #{realpath}}.split(" ")
-    #=============================== [0] = realpath
-    # [1] = type
-    # [2] = Dimensions
-    #=============================== [3] = Dimensions+?+?
-    #=============================== [4] = Color depth
-    #=============================== [5] = Color space
-    # [6] = Bytes
-    #=============================== [7] = ?
-    #=============================== [8] = ?
-    dim = arr[2].split("x")
-    @orig.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
+    @orig.set_data
 
     # check if thumbnails exist
     # attempt to create them if not
@@ -47,15 +36,11 @@ class ImageSet
     # set thumbnails if created
     if @orig.thumb_small?
       @thumbs = Image.new(thumbs_path, true)
-      arr = %x{identify #{thumbs_path}}.split(" ")
-      dim = arr[2].split("x")
-      @thumbs.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
+      @thumbs.set_data
     end
     if @orig.thumb_large?
       @thumbl = Image.new(thumbl_path, true)
-      arr = %x{identify #{thumbs_path}}.split(" ")
-      dim = arr[2].split("x")
-      @thumbs.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
+      @thumbs.set_data
     end
 
   end
@@ -81,11 +66,22 @@ class Image
     @thumbf = f
   end
 
-  def set_data(x, y, s, t)
-    @dimensions.x = x
-    @dimensions.y = y
-    @size         = s
-    @type         = t
+  def set_data
+    #=============================== [0] = realpath
+    # [1] = type
+    # [2] = Dimensions
+    #=============================== [3] = Dimensions+?+?
+    #=============================== [4] = Color depth
+    #=============================== [5] = Color space
+    # [6] = Bytes
+    #=============================== [7] = ?
+    #=============================== [8] = ?
+    arr = %x{identify #{@path}}.split(" ")
+    dim = arr[2].split("x")
+    @dimensions.x = dim[0].to_i
+    @dimensions.y = dim[1].to_i
+    @size         = arr[6].to_i
+    @type         = arr[1]
   end
 
   def thumb_small?
