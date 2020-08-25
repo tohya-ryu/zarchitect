@@ -11,7 +11,6 @@ class ImageSet
     extension = File.extname(path)
     realdir   = File.dirname(realpath)
     @orig = Image.new(realpath, false)
-    @orig.set_data
 
     # check if thumbnails exist
     # attempt to create them if not
@@ -36,11 +35,9 @@ class ImageSet
     # set thumbnails if created
     if @orig.thumb_small?
       @thumbs = Image.new(thumbs_path, true)
-      @thumbs.set_data
     end
     if @orig.thumb_large?
       @thumbl = Image.new(thumbl_path, true)
-      @thumbs.set_data
     end
 
   end
@@ -64,9 +61,6 @@ class Image
     @path = path
     @dimensions = Point.new(0,0)
     @thumbf = f
-  end
-
-  def set_data
     #=============================== [0] = realpath
     # [1] = type
     # [2] = Dimensions
