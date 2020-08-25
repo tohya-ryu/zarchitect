@@ -9,9 +9,9 @@
 :site_keywords: blog, mar
 :thumbl: [640,480]
 :thumbs: [320, 240]
-:image_limit: 5 # MB
-:audio_limit: 10
-:video_limit: 20
+:image_limit: 5.0 # MB
+:audio_limit: 10.0
+:video_limit: 20.0
 :sections:
     :profile:
       :layout: _layouts/ellis.html.erb

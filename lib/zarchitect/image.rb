@@ -24,15 +24,23 @@ class Image
     #=============================== [3] = Dimensions+?+?
     #=============================== [4] = Color depth
     #=============================== [5] = Color space
-    # [6] = Bytes
+    #=============================== [6] = Bytes // not accurate for ani-gif
     #=============================== [7] = ?
     #=============================== [8] = ?
     arr = %x{identify #{@path}}.split(" ")
     dim = arr[2].split("x")
     @dimensions.x = dim[0].to_i
     @dimensions.y = dim[1].to_i
-    @size         = arr[6].to_i
+    #@size         = arr[6].to_i
+    @size         = File.size(path)
     @type         = arr[1]
+    # validate file size
+    if @size > Config.image_limit.to_f.mib_to_bytes
+      GPI.print "File #{path} too large "\
+        "(#{@size.bytes_to_mib.to_f.round(2)}MiB)."\
+        " Allowed size: #{Config.image_limit.to_f.mb_to_mib.round(2)}"
+      GPI.quit
+    end
   end
 
   def thumb_small?

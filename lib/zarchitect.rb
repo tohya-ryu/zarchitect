@@ -11,6 +11,7 @@ class Zarchitect
     GPI.extend(:dir)
     GPI.extend(:file)
     GPI.extend(:hash)
+    GPI.extend(:numeric)
     GPI.extend(:string)
     GPI::CLU.init
     # Command name | range of parameter num | options
