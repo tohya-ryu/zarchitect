@@ -15,11 +15,15 @@ class ImageSet
     # [6] = Bytes
     #=============================== [7] = ?
     #=============================== [8] = ?
+    dim = arr[2].split("x")
+    @orig.dimensions.x = dim[0]
+    @orig.dimensions.y = dim[1]
   end
 
 end
 
 class Image
+  attr_accessor :dimensions
 
   #+++++++++++++++++++++++++++++
   # @path
