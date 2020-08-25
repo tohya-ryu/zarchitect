@@ -25,8 +25,8 @@ class ImageSet
     @orig.set_data(dim[0].to_i, dim[1].to_i, arr[6].to_i, arr[1])
 
     # check if thumbnails exist
-    thumbs_path = File.join(realdir, "#{filename}-thumbs", extension)
-    thumbl_path = File.join(realdir, "#{filename}-thumbl", extension)
+    thumbs_path = "#{File.join(realdir, filename)}-thumbs#{extension}"
+    thumbl_path = "#{File.join(realdir, filename)}-thumbl#{extension}"
     @orig.thumbs_f = File.exist?(thumbs_path)
     @orig.thumbl_f = File.exist?(thumbl_path)
     unless @orig.thumb_small?
@@ -80,20 +80,37 @@ class Image
   end
 
   def larger_than_thumb_small?
-      dimensions.x > Config.thumbs[0].to_i ||
-        dimensions.y > Config.thumbs[1].to_i
+      @dimensions.x > Config.thumbs[0].to_i ||
+        @dimensions.y > Config.thumbs[1].to_i
   end
 
   def larger_than_thumb_large?
-      dimensions.x > Config.thumbl[0].to_i ||
-        dimensions.y > Config.thumbl[1].to_i
+      @dimensions.x > Config.thumbl[0].to_i ||
+        @dimensions.y > Config.thumbl[1].to_i
   end
 
   def self.is_valid?(filename)
     [".png",".gif",".jpg",".jpeg",".bmp"].include?(File.extname(filename))
   end
 
-  def create_thumbnail(path, x, y)
+  def create_thumbnail(path, thumb_x, thumb_y)
+    x = @dimensions.x
+    y = @dimensions.y
+    return nil if x <= thumb_x && y <= thumb_y # no need to create thumbnail
+    if ["PNG", "GIF"].include?(@type)
+      # scale
+      while true do
+        x = x/2
+        y = y/2
+        break if x <= thumb_x && y <= thumb_y
+      end
+      return nil if x < 1 || y < 1 
+      command = "convert #{@path} -scale #{x}x#{y} #{path}"
+      GPI.print "#{command}", GPI::CLU.check_option('v')
+      %x{#{command}}
+    else
+      # resize
+    end
   end
   
 end
