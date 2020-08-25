@@ -50,6 +50,3 @@ module FileManager
   end
 
 end
-
-class FileObject
-end

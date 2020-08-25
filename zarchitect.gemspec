@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/category.rb",
              "lib/zarchitect/content.rb",
              "lib/zarchitect/file_manager.rb",
+             "lib/zarchitect/image_set.rb",
              "lib/zarchitect/image.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/page.rb",
