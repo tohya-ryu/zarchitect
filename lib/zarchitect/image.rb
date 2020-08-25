@@ -1,5 +1,6 @@
 class ImageSet
   attr_reader :orig, :thumbs, :thumbl
+  #TODO abort on invalid filesize
 
   def initialize(path, fullpath, realpath)
     @thumbl = nil
@@ -48,6 +49,8 @@ class Image
   attr_reader :dimensions, :size, :type
   attr_writer :thumbs_f, :thumbl_f
 
+  ROOT = "_html"
+
   #+++++++++++++++++++++++++++++
   # @path
   # @url
@@ -59,6 +62,7 @@ class Image
 
   def initialize(path, f)
     @path = path
+    @url  = path[(ROOT.length)..-1]
     @dimensions = Point.new(0,0)
     @thumbf = f
     #=============================== [0] = realpath
