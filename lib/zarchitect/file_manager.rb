@@ -45,6 +45,10 @@ module FileManager
     File.symlink(from, to)
   end
 
+  def self.clean
+    # remove all files in _html/files
+  end
+
 end
 
 class FileObject
