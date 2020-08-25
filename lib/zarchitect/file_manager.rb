@@ -26,6 +26,7 @@ module FileManager
       if Image.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as image file",
           GPI::CLU.check_option('v')
+        ImageSet.new(path, fullpath, realpath)
       elsif Audio.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as audio file",
           GPI::CLU.check_option('v')

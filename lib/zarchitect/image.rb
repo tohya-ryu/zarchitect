@@ -1,7 +1,20 @@
 class ImageSet
 
-  def initialize(path)
+  def initialize(path, fullpath, realpath)
+    # path = /section/title/img.png
+    # fullpath = _files/section/title/img.png
+    # realpath = _html/files/section/title/img.png
     @orig = Image.new(path)
+    arr = %x{identify #{realpath}}.split(" ")
+    #=============================== [0] = realpath
+    # [1] = type
+    # [2] = Dimensions
+    #=============================== [3] = Dimensions+?+?
+    #=============================== [4] = Color depth
+    #=============================== [5] = Color space
+    # [6] = Bytes
+    #=============================== [7] = ?
+    #=============================== [8] = ?
   end
 
 end
@@ -10,14 +23,8 @@ class Image
 
   #+++++++++++++++++++++++++++++
   # @path
-  # @thumbl_path
-  # @thumbs_path
   # @url
-  # @thumbl_url
-  # @thumbs_url
   # @dimensions
-  # @thumbl_dimensions
-  # @thumbs_dimensions
 
   def initialize(path)
   end
