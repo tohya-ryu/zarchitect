@@ -1,6 +1,6 @@
 class ImageSet
   attr_reader :orig, :thumbs, :thumbl
-  #TODO abort on invalid filesize
+  #TODO abort on invalid filesize, don't create thumbnails for files in shared
 
   def initialize(path, fullpath, realpath)
     @thumbl = nil
@@ -107,6 +107,7 @@ class Image
   def create_thumbnail(path, thumb_x, thumb_y)
     GPI.print "attempting to create thumbnail #{path}",
       GPI::CLU.check_option('v')
+    return false if path.include?("/ext/") # no thumbs for external files
     x = @dimensions.x
     y = @dimensions.y
     if x <= thumb_x && y <= thumb_y # no need to create thumbnail
