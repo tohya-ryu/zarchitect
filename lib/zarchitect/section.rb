@@ -43,15 +43,6 @@ class Section < Zarchitect
       @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
       @id_count += 1
     end
-
-
-    # prepare data for use in templates
-    if config(:get_categories)
-    end
-
-    # Read categories
-    if config.has_key?(:categorize) && config[:categorize]
-    end
   end
 
   def update(page = nil)

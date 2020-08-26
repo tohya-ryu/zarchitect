@@ -20,13 +20,13 @@
       :index_flag: true
       :index_sort: 1
     :links:
-      :layout: _layouts/default.html.erb
+      :layout: _layouts/ellis.html.erb
       :collection: no
       :path: links.md
       :index_flag: true
       :index_sort: 4
     :blog:
-      :layout: _layouts/default.html.erb
+      :layout: _layouts/ellis.html.erb
       :collection : yes
       :categorize: yes
       :tags: yes
@@ -35,7 +35,7 @@
       :index_sort: 2
       :sort_type: date # date | alphanum
     :projects:
-      :layout: _layouts/default.html.erb
+      :layout: _layouts/ellis.html.erb
       :paginate: no
       :collection: yes
       :categorize: yes
