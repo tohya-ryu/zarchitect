@@ -11,6 +11,8 @@ class Content < Zarchitect
 
   def markup
     @html = @raw
+    @img_id = 0
+    @img_id_inc = 1
     return nil
     if string.is_a?(String)
       new_string = ""
@@ -29,8 +31,14 @@ class Content < Zarchitect
           new_html = ""
           case m[:filetype]
           when 'img'
+            @img_id += @img_id_inc
+            @imgset = Array.new
             if m[:id].count('|') == @caption.count('|')
-              @images = ImageFile.find(m[:id].split('|'))
+              m[:id].split('|').each do |url|
+                @imgset.push Image.find("url", id).split('|'))
+              end
+              @img_id_inc = @imgset.size
+              #@images = ImageFile.find(m[:id].split('|'))
               unless m[:width].empty?
                 @max_width = m[:width]
               else
