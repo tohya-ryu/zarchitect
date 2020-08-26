@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/image_set.rb",
              "lib/zarchitect/image.rb",
              "lib/zarchitect/index.rb",
+             "lib/zarchitect/misc_file.rb",
              "lib/zarchitect/page.rb",
              "lib/zarchitect/rouge_html.rb",
              "lib/zarchitect/section.rb",

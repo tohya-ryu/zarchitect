@@ -21,12 +21,15 @@ module FileManager
       elsif Audio.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as audio file",
           GPI::CLU.check_option('v')
+        Audio.new(fullpath)
       elsif Video.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as video file",
           GPI::CLU.check_option('v')
+        Video.new(fullpath)
       else
         GPI.print "processing #{fullpath} as any file",
           GPI::CLU.check_option('v')
+        MiscFile.new(fullpath)
       end
       # create symlink in _html/files to physical files _files (if process did
       # not abort)
