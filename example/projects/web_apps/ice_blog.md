@@ -1,4 +1,5 @@
 ---
+title: IceBlog
 category: web_apps
 mediapath: files/projects/
 ---

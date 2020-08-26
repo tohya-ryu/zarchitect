@@ -1,4 +1,5 @@
 ---
+title: akane
 category: other
 mediapath: files/projects/akane_sound/
 ---

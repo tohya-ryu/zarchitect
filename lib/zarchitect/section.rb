@@ -29,19 +29,30 @@ class Section < Zarchitect
         # create category directories if necessary
         dirs = Dir.directories(config[:path])
         dirs.each do |d|
-          @categories.push Category.new(self, d)
+          cat = Category.new(self, d)
+          @categories.push cat
           unless Dir.exist?("_html/#{@name}/#{d}")
             dir =  File.join(Dir.getwd, "_html", @name, d)
             Dir.mkdir(dir)
             GPI.print "Created directory #{dir}", GPI::CLU.check_option('v')
           end
+          # create pages
+          files = Dir.files(File.join(Dir.getwd, config[:path], d))
+          #TODO sort files
+          files.each do |f|
+            next if f[0] == "."
+            path = File.join(Dir.getwd, config[:path], d, f)
+            @pages.push Page.new(self, path, cat)
+            @id_count += 1
+          end
         end
         # create page directories if necessary
       else
-        # 
+        # create pages
         files = Dir.files(config[:path])
         #TODO sort files
         files.each do |f|
+          next if f[0] == "."
           @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))
           @id_count += 1
         end
