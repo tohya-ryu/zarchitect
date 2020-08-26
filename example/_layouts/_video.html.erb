@@ -1,13 +1,13 @@
-<% if @video && @video.item.present? %>
+<% if data(:video) %>
   <div class="media">
     <video class="internal-video" controls>
-      <source src="<%= @video.item_url %>"
-        type="<%= @video.item.content_type %>">
+      <source src="<%= data(:video).url %>"
+        type="<%= data(:video).type %>">
     Your browser does not support the video element.
     </video>
-    <% unless @caption.empty? %> 
+    <% unless data(:caption).empty? %> 
       <div class="post-image-hint">
-        <%= @caption %>
+        <%= data(:caption) %>
       </div>
     <% end %>
   </div>

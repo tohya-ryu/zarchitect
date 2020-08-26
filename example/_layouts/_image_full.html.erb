@@ -1,10 +1,10 @@
-<% if @image && @image.item.present? %>
+<% if data(:image) %>
   <figure class="post-image-figure">
-    <%= image_tag @image.item_url,
+    <%= img data(:image).orig.url,
       class: "post-image img-no-border img_full" %>
-    <% unless @caption.empty? %>
+    <% unless data(:caption).empty? %>
       <figcaption class="post-image-hint">
-        <%= @caption %> 
+        <%= data(:caption) %> 
       </figcaption>
     <% end %>
   </figure>

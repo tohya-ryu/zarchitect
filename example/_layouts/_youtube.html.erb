@@ -1,11 +1,11 @@
 <div class="media">
   <iframe class="youtube"
-          src="https://www.youtube-nocookie.com/embed/<%= @yt_id %>"
+          src="https://www.youtube-nocookie.com/embed/<%= data(:yt_id) %>"
           frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
   </iframe>
-  <% unless @caption.empty? %> 
+  <% unless data(:caption).empty? %> 
     <div class="post-image-hint">
-      <%= @caption %>
+      <%= data(:caption) %>
     </div>
   <% end %>
 </div>
