@@ -36,7 +36,7 @@ class Image
     @type         = arr[1]
     # validate file size
     if @size > Config.image_limit.to_f.mib_to_bytes
-      GPI.print "File #{path} too large "\
+      GPI.print "Error: File #{path} too large "\
         "(#{@size.bytes_to_mib.to_f.round(2)}MiB)."\
         " Allowed size: #{Config.image_limit.to_f.mb_to_mib.round(2)}"
       GPI.quit

@@ -13,11 +13,6 @@ module FileManager
       Util.mkdir(realpath) if File.directory?(fullpath)
       next if File.directory?(fullpath)
       # file handling
-      # create symlink in _html/files to physical files _files
-      unless File.symlink?(realpath)
-        rrealpath = File.join(Dir.getwd, fullpath)
-        symlink(rrealpath, realpath)
-      end
       # handle file types embedded in posts
       if Image.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as image file",
@@ -32,6 +27,12 @@ module FileManager
       else
         GPI.print "processing #{fullpath} as any file",
           GPI::CLU.check_option('v')
+      end
+      # create symlink in _html/files to physical files _files (if process did
+      # not abort)
+      unless File.symlink?(realpath)
+        rrealpath = File.join(Dir.getwd, fullpath)
+        symlink(rrealpath, realpath)
       end
 
     end
