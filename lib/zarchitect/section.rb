@@ -29,8 +29,7 @@ class Section < Zarchitect
         # create category directories if necessary
         dirs = Dir.directories(config[:path])
         dirs.each do |d|
-          cat = Category.new(self, d)
-          @categories.push cat
+          @categories.push Category.new(self, d)
           unless Dir.exist?("_html/#{@name}/#{d}")
             dir =  File.join(Dir.getwd, "_html", @name, d)
             Dir.mkdir(dir)
@@ -42,7 +41,7 @@ class Section < Zarchitect
           files.each do |f|
             next if f[0] == "."
             path = File.join(Dir.getwd, config[:path], d, f)
-            @pages.push Page.new(self, path, cat)
+            @pages.push Page.new(self, path, @categories[@categories.size-1])
             @id_count += 1
           end
         end
