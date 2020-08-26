@@ -10,6 +10,7 @@ class Section < Zarchitect
   # @categories | arr
   # @pages      | arr
   def initialize(name)
+    GPI.print "Initializing section #{name}", GPI::CLU.check_option('v')
     # Set instance variables
     @name = name
     @pages = Array.new
@@ -25,7 +26,9 @@ class Section < Zarchitect
     end
 
     if collection?
+      GPI.print "Processing collection...", GPI::CLU.check_option('v')
       if categorized?
+        GPI.print "Processing categories...", GPI::CLU.check_option('v')
         # create category directories if necessary
         dirs = Dir.directories(config[:path])
         dirs.each do |d|
@@ -59,6 +62,7 @@ class Section < Zarchitect
         end
       end
     else
+      GPI.print "Processing single page...", GPI::CLU.check_option('v')
       @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
       @id_count += 1
     end
