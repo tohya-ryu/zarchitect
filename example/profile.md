@@ -11,4 +11,5 @@ About me..........
 
 
 MEDIA:img:/files/example.png:"png"
-MEDIA:img:/files/example.jpg:"png"
+
+MEDIA:img:/files/example.jpg:"jpg"

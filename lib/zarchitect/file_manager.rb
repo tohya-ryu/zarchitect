@@ -51,6 +51,7 @@ module FileManager
 
   def self.clean
     # remove all files in _html/files
+    %x{rm -r _html/files/*} 
   end
 
 end

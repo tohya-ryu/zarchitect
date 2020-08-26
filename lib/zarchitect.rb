@@ -78,6 +78,7 @@ class Zarchitect
         end
       else
         # Update all sections
+        Assets.update
         ObjectSpace.each_object(Section) do |s|
           s.update()
           if s.collection?
