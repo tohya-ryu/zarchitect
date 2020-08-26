@@ -17,7 +17,7 @@ class Content < Zarchitect
     regexp = /
       \A
       MEDIA:(?<filetype>img|img_full|video|yt|audio):
-      (?<id>[a-zA-Z0-9|./_]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
+      (?<id>[a-zA-Z0-9|]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
       /x
     @html.each_line do |str|
       m = regexp.match(str)
@@ -32,8 +32,8 @@ class Content < Zarchitect
           @img_id += @img_id_inc
           @imgset = Array.new
           if m[:id].count('|') == @caption.count('|')
-            m[:id].split('|').each do |url|
-              @imgset.push Image.find("url", m[:id]).split('|'))
+            m[:id].split('|').each do |id|
+              @imgset.push Image.find("url", id)
             end
             @img_id_inc = @imgset.size
             #@images = ImageFile.find(m[:id].split('|'))

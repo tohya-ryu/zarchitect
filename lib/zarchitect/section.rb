@@ -38,6 +38,13 @@ class Section < Zarchitect
         end
         # create page directories if necessary
       else
+        # 
+        files = Dir.files(config[:path])
+        #TODO sort files
+        files.each do |f|
+          @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))
+          @id_count += 1
+        end
       end
     else
       @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
