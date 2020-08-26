@@ -2,7 +2,7 @@ class Image
   attr_reader :dimensions, :size, :type, :url
   attr_writer :thumbs_f, :thumbl_f
 
-  ROOT = "_html"
+  THUMB_ROOT = "_html"
 
   #+++++++++++++++++++++++++++++
   # @path
@@ -14,10 +14,16 @@ class Image
   # @type | PNG, JPEG, BMP, GIF
 
   def initialize(path, f)
-    @path = path
-    @url  = path[(ROOT.length)..-1]
-    @dimensions = Point.new(0,0)
     @thumbf = f
+    @path = path
+    unless @thumbf
+      @url  = path.clone
+      @url[0] = "/" # replace _ with /
+    else
+      # thumbnail
+      @url  = path[(THUMB_ROOT.length)..-1]
+    end
+    @dimensions = Point.new(0,0)
     #=============================== [0] = realpath
     # [1] = type
     # [2] = Dimensions

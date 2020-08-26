@@ -11,7 +11,7 @@ class ImageSet
     filename  = File.basename(path, ".*")
     extension = File.extname(path)
     realdir   = File.dirname(realpath)
-    @orig = Image.new(realpath, false)
+    @orig = Image.new(fullpath, false)
 
     # check if thumbnails exist
     # attempt to create them if not
