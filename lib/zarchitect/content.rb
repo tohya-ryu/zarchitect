@@ -17,7 +17,7 @@ class Content < Zarchitect
       regexp = /
         \A
         MEDIA:(?<filetype>img|img_full|video|yt|audio):
-        (?<id>[a-zA-Z0-9|]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
+        (?<id>[a-zA-Z0-9|./_]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
         /x
       string.each_line do |str|
         m = regexp.match(str)

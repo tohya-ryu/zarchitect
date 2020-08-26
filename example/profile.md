@@ -3,8 +3,12 @@
 title: Profile
 author: mar
 keywords: profile, about
-mediapath: files/profile
 
 # Markdown
 ---
 About me..........
+
+
+
+MEDIA:img:/files/example.png:"png"
+MEDIA:img:/files/example.jpg:"png"
