@@ -38,6 +38,7 @@ class Section < Zarchitect
           # create pages
           files = Dir.files(File.join(Dir.getwd, config[:path], d))
           #TODO sort files
+          files.sort!
           files.each do |f|
             next if f[0] == "."
             path = File.join(Dir.getwd, config[:path], d, f)
@@ -49,6 +50,7 @@ class Section < Zarchitect
       else
         # create pages
         files = Dir.files(config[:path])
+        files.sort!
         #TODO sort files
         files.each do |f|
           next if f[0] == "."
