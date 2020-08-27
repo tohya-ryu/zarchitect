@@ -5,14 +5,13 @@ class Page < Zarchitect
   # @content
 
   def initialize(section, source_path, category = nil)
+    GPI.print "Initializing page from #{source_path} ...",
+      GPI::CLU.check_option('v')
     @section     = section
     @id          = section.id_count.clone
     @source_path = source_path
-    @html_path   = File.join(Dir.getwd, "_html", @section.name, "index.html")
     @config      = Hash.new
     @category    = category
-    GPI.print "Initializing page from #{@source_path} to #{@html_path}",
-      GPI::CLU.check_option('v')
 
     if @section.collection?
       if @section.categorized?
@@ -23,6 +22,12 @@ class Page < Zarchitect
     else
       @url   = "/#{@section.name}/index.html"
     end
+    @html_path = @url.clone
+    @html_path = File.join(Dir.getwd, "_html", @url)
+
+    GPI.print "... to #{@html_path},",
+      GPI::CLU.check_option('v')
+    GPI.print "with URL #{@url}", GPI::CLU.check_option('v')
 
     read_config
     @name = @config['title']
