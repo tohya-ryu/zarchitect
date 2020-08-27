@@ -18,6 +18,7 @@ class Content < Zarchitect
   end
 
   def markup
+    GPI.print "Processing markdown", GPI::CLU.check_option('v')
     @html = @raw
     @img_id = 0
     @img_id_inc = 1
@@ -37,6 +38,7 @@ class Content < Zarchitect
         new_html = ""
         case m[:filetype]
         when 'img'
+          GPI.print "Processing media: img", GPI::CLU.check_option('v')
           @img_id += @img_id_inc
           @imgset = Array.new
           if m[:id].count('|') == @caption.count('|')
@@ -62,6 +64,7 @@ class Content < Zarchitect
             html = "failed to render media"
           end
         when 'img_full'
+          GPI.print "Processing media: img_full", GPI::CLU.check_option('v')
           @image = Image.find(url, m[:id])
           a = ZERB.new("_layouts/_image_full.html.rb")
           a.set_data(:image, @image)
@@ -70,6 +73,7 @@ class Content < Zarchitect
           a.render
           html = a.output
         when 'video'
+          GPI.print "Processing media: video", GPI::CLU.check_option('v')
           @video = VideoFile.find(m[:id])
           a = ZERB.new("_layouts/_video.html.rb")
           a.set_data(:video, @video)
@@ -78,6 +82,7 @@ class Content < Zarchitect
           a.render
           html = a.output
         when 'audio'
+          GPI.print "Processing media: audio", GPI::CLU.check_option('v')
           @audio = AudioFile.find(m[:id])
           a = ZERB.new("_layouts/_audio.html.rb")
           a.set_data(:audio, @audio)
@@ -87,6 +92,7 @@ class Content < Zarchitect
           html = a.output
         when 'yt'
           @yt_id = m[:id]
+          GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
           a = ZERB.new("_layouts/_youtube.html.rb")
           a.set_data(:yt_id, @yt_id)
           a.set_data(:caption, @caption)

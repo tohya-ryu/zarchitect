@@ -53,7 +53,7 @@ class Page < Zarchitect
     if @section.config.has_key?(:keywords)
       keywords << ', ' << @section.config[:keywords]
     end
-    keywords << ', ' << @config['keywords']
+    keywords << ', ' << @config['keywords'] if @config.has_key?('keywords')
     layout_tmpl.set_meta(:keywords, keywords)
     layout_tmpl.set_meta(:author, @config['author'])
     if @config.has_key?('description')
