@@ -15,7 +15,7 @@ class Zarchitect
     GPI.extend(:string)
     GPI::CLU.init
     # Command name | range of parameter num | options
-    GPI::CLU.use_command("update", 0..2, "rv")
+    GPI::CLU.use_command("update", 0..2, "rvq")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
@@ -54,7 +54,11 @@ class Zarchitect
       end
       prepwork
       conf.to_module("Config")
-      FileManager.run
+      if GPI::CLU.check_option('q')
+        GPI.print "skipping file updates", GPI::CLU.check_option('v')
+      else
+        FileManager.run
+      end
       # prepare data for use in templates
       data = Hash.new
       Config.sections.each_key do |k|
