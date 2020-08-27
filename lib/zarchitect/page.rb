@@ -11,6 +11,8 @@ class Page < Zarchitect
     @html_path   = File.join(Dir.getwd, "_html", @section.name, "index.html")
     @config      = Hash.new
     @category    = category
+    GPI.print "Initializing page from #{@source_path} to #{@html_path}",
+      GPI::CLU.check_option('v')
 
     if @section.collection?
       if @section.categorized?

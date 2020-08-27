@@ -1,11 +1,12 @@
 module Util
 
   def self.mkdir(path)
-    unless Dir.exist?(path)
-      GPI.print "Missing directory #{path}", GPI::CLU.check_option('v')
-      GPI.print "Creating directory #{path}", GPI::CLU.check_option('v')
-      Dir.mkdir(File.join(Dir.getwd, path))
-      GPI.print "Created directory #{path}", GPI::CLU.check_option('v')
+    npath = File.join(Dir.getwd, path)
+    unless Dir.exist?(npath)
+      GPI.print "Missing directory #{npath}", GPI::CLU.check_option('v')
+      GPI.print "Creating directory #{npath}", GPI::CLU.check_option('v')
+      Dir.mkdir(npath)
+      GPI.print "Created directory #{npath}", GPI::CLU.check_option('v')
     end
   end
 

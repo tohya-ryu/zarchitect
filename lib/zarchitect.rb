@@ -36,12 +36,24 @@ class Zarchitect
       GPI.print "Could not load config.yaml"
       GPI.quit
     end
-    prepwork
-    conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
       #FileManager.clean if GPI::CLU.check_option('r')
-      %x{rm -r _html/*} if GPI::CLU.check_option('r') # rebuild
+      if GPI::CLU.check_option('r') # rebuild
+        Dir[ File.join("_html", "**", "*") ].reverse.reject do |fullpath|
+          if File.directory?(fullpath)
+            GPI.print "deleting dir #{fullpath}"
+            Dir.delete(fullpath)
+            GPI.print "deleted dir #{fullpath}"
+          else
+            GPI.print "deleting file #{fullpath}"
+            File.delete(fullpath)
+            GPI.print "deleted file #{fullpath}"
+          end
+        end
+      end
+      prepwork
+      conf.to_module("Config")
       FileManager.run
       # prepare data for use in templates
       data = Hash.new
