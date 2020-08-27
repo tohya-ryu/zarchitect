@@ -43,6 +43,10 @@ class Page < Zarchitect
     view_tmpl.set_data(:content, @content.html)
     # prepare meta information
     if @section.collection?
+      title = Config.site_name.clone
+      title << Config.title_sep
+      title << @config['title']
+      layout_tmpl.set_meta(:title, title)
     else
       title = Config.site_name.clone
       title << Config.title_sep
