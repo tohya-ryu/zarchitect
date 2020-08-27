@@ -40,7 +40,8 @@ class Zarchitect
     conf.to_module("Config")
     case GPI::CLU.command
     when 'update'
-      FileManager.clean if GPI::CLU.check_option('r')
+      #FileManager.clean if GPI::CLU.check_option('r')
+      %x{rm -r _html/*} if GPI::CLU.check_option('r') # rebuild
       FileManager.run
       # prepare data for use in templates
       data = Hash.new
