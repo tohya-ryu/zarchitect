@@ -2,11 +2,19 @@ class Content < Zarchitect
   attr_reader :html
 
   def initialize(path)
+    @raw = File.open(path) { |f| f.read }
+    @raw = @raw.lines
     i = 0
-    YAML.load_stream(File.open(path) { |f| f.read }) do |doc|
-      @raw = doc if i == 1
+    z = 0
+    @raw.each do |l|
+      if l.start_with?("---")
+        z += 1
+      end
+      break if z == 2
       i += 1
     end
+    @raw = @raw.drop(i+1)
+    @raw = @raw.join
   end
 
   def markup

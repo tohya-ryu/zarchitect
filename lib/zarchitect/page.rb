@@ -35,9 +35,9 @@ class Page < Zarchitect
   end
 
   def update
+    GPI.print "Updating HTML for #{@source_path}", GPI::CLU.check_option('v')
     @content = Content.new(@source_path)
     @content.markup
-    GPI.print "Updating #{@source_path}", GPI::CLU.check_option('v')
     layout_tmpl = ZERB.new(@section.config[:layout])
     view_tmpl   = ZERB.new(@section.config[:view])
     view_tmpl.set_data(:content, @content.html)
