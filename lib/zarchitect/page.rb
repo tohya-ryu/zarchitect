@@ -42,6 +42,11 @@ class Page < Zarchitect
         end
       end
     end
+    if @date
+      p @date.to_i.to_s(16)
+    end
+    p File.stat(@source_path).ctime
+    # categories should be defined in header, not via directories
   end
 
   def update
