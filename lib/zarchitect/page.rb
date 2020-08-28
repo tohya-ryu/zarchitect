@@ -17,7 +17,7 @@ class Page < Zarchitect
       if @section.categorized?
         @url = "/#{@section.name}/#{@category.name}/#{@id}/index.html"
       else
-        @url = "/#{@section.name}/#{@id}/index.html"
+        @url = "/#{@section.name}/#{@title}/index.html"
       end
     else
       @url   = "/#{@section.name}/index.html"
@@ -31,6 +31,14 @@ class Page < Zarchitect
 
     read_config
     @name = @config['title']
+    if @section.collection?
+      if @section.sort_type == "date"
+        unless @config.has_key?('date')
+          GPI.print "Error: Date missing in #{@source_path}"
+          GPI.quit
+      end
+    end
+
 
   end
 
