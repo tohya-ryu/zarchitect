@@ -12,6 +12,7 @@ class Page < Zarchitect
     @source_path = source_path
     @config      = Hash.new
     @category    = category
+    @date        = nil
 
     if @section.collection?
       if @section.categorized?
@@ -32,14 +33,15 @@ class Page < Zarchitect
     read_config
     @name = @config['title']
     if @section.collection?
-      if @section.sort_type == "date"
+      if @section.config(:sort_type) == "date"
         unless @config.has_key?('date')
           GPI.print "Error: Date missing in #{@source_path}"
           GPI.quit
+        else
+          @date = @config['date'] # class Time
+        end
       end
     end
-
-
   end
 
   def update
