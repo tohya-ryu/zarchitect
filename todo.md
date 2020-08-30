@@ -2,3 +2,4 @@
 - write tool to create skeleton files with new ID
 - add draft flag to md: drafts aren't included in index files
 - upload tool should ignore drafts
+- fix IDs in page urls
