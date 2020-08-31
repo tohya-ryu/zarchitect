@@ -22,8 +22,8 @@ Gem::Specification.new do |s|
              "lib/zarchitect/section.rb",
              "lib/zarchitect/util.rb",
              "lib/zarchitect/video.rb",
-             "lib/zarchitect/zerb.rb.erb",
-             "data/post.md"]
+             "lib/zarchitect/zerb.rb",
+             "data/post.md.erb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
   s.license = 'GPL-3.0'
 end
