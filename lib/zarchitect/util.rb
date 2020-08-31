@@ -10,4 +10,8 @@ module Util
     end
   end
 
+  def self.path_to_data
+    File.join(__dir__, "../../data")
+  end
+
 end
