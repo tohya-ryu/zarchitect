@@ -20,10 +20,7 @@ class Section < Zarchitect
     @url = "/#{@name}/index.html"
 
     # create section directory if necessary
-    unless Dir.exist?("_html/#{@name}")
-      Dir.mkdir(File.join(Dir.getwd, "_html", @name))
-      GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
-    end
+    create_dir
 
     if collection?
       GPI.print "Processing collection...", GPI::CLU.check_option('v')
@@ -134,6 +131,13 @@ class Section < Zarchitect
       return o if o.name == str
     end
     nil
+  end
+
+  def create_dir
+    unless Dir.exist?("_html/#{@name}")
+      Dir.mkdir(File.join(Dir.getwd, "_html", @name))
+      GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
+    end
   end
 
 end
