@@ -16,6 +16,7 @@ class Zarchitect
     GPI::CLU.init
     # Command name | range of parameter num | options
     GPI::CLU.use_command("update", 0..2, "rvq")
+    GPI::CLU.use_command("new", 2..3, "")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
@@ -36,7 +37,38 @@ class Zarchitect
       GPI.print "Could not load config.yaml"
       GPI.quit
     end
+    conf.to_module("Config")
     case GPI::CLU.command
+    when 'new' # create md file for new web page   
+      section = GPI::CLU.parameters[0]
+      unless Config.sections.has_key? (:"#{section}")
+        GPI.print "Error: missing config entry for section #{section}"
+        GPI.quit
+      end
+      t = Time.now.to_i
+      id = t.to_s(16).upcase
+      idrec = Array.new
+      Util.mkdir("_build")
+      mdpath = File.join(Util.path_to_data, "post.md.erb")
+      idlistfile = File.open(File.join("_build", "idlist.txt"), "a+")
+      idlist = idlistfile.read
+      idlist.each_line { |l| idrec.push l.strip }
+      idlistfile.write(id + "\n")
+      idlistfile.close
+      # validate id
+      i = 1
+      while idrec.include?(id) do
+        id = (t+i).to_s(16).upcase
+        i += 1
+      end
+      Util.mkdir(section)
+      if GPI::CLU.parameters.size > 2
+        Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
+        filename = File.join(section, GPI::CLU.parameters[1],
+                             "#{id}-#{GPI::CLU.parameters[2]}.md")
+      else
+        filename = File.join(section, "#{id}-#{GPI::CLU.parameters[1]}.md")
+      end
     when 'update'
       #FileManager.clean if GPI::CLU.check_option('r')
       if GPI::CLU.check_option('r') # rebuild
@@ -53,7 +85,6 @@ class Zarchitect
         end
       end
       prepwork
-      conf.to_module("Config")
       if GPI::CLU.check_option('q')
         GPI.print "skipping file updates", GPI::CLU.check_option('v')
       else
