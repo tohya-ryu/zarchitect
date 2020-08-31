@@ -9,7 +9,8 @@ module Util
       GPI.print "Created directory #{npath}", GPI::CLU.check_option('v')
     end
   end
-
+  
+  # path to data files located in installation directory
   def self.path_to_data
     File.join(__dir__, "../../data")
   end
