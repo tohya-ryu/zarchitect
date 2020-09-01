@@ -78,15 +78,6 @@ class Section < Zarchitect
     end
   end
 
-  private 
-
-  def self.find(str)
-    ObjectSpace.each_object(Section) do |o|
-      return o if o.name == str
-    end
-    nil
-  end
-
   def create_html_dirs
     unless Dir.exist?("_html/#{@name}")
       Dir.mkdir(File.join(Dir.getwd, "_html", @name))
@@ -143,6 +134,14 @@ class Section < Zarchitect
     end
   end
 
+  private 
+
+  def self.find(str)
+    ObjectSpace.each_object(Section) do |o|
+      return o if o.name == str
+    end
+    nil
+  end
 
 
 end
