@@ -8,11 +8,14 @@ class Page < Zarchitect
     GPI.print "Initializing page from #{source_path} ...",
       GPI::CLU.check_option('v')
     @section     = section
-    @id          = section.id_count.clone
     @source_path = source_path
     @config      = Hash.new
     @category    = category
     @date        = nil
+
+    read_config
+    @name = @config['title']
+    @id   = @config['id']
 
     if @section.collection?
       if @section.categorized?
@@ -30,8 +33,6 @@ class Page < Zarchitect
       GPI::CLU.check_option('v')
     GPI.print "with URL #{@url}", GPI::CLU.check_option('v')
 
-    read_config
-    @name = @config['title']
     if @section.collection?
       if @section.config(:sort_type) == "date"
         unless @config.has_key?('date')
@@ -98,6 +99,7 @@ class Page < Zarchitect
   end
 
   def read_config
+    GPI.print "readinf config...", GPI::CLU.check_option('v')
     YAML.load_stream(File.open(@source_path) { |f| f.read }) do |doc|
       @config = doc
       break
