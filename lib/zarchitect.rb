@@ -74,14 +74,20 @@ class Zarchitect
       end
       # write file
       a = ZERB.new(mdpath)
-      a.set_data(:title, CLU.parameters[2])
+      a.set_data(:title, GPI::CLU.parameters[2])
       a.set_data(:date, "# fixme #{Time.now}")
       a.set_data(:author, Config.admin)
       a.set_data(:id, id)
       a.prepare
       a.render
-      html = a.output
-      p html
+      str = a.output
+      GPI.print "writing #{filename}"
+      if File.exist?(filename)
+        GPI.print "Error: #{filename} already exists!"
+        GPI.quit
+      end
+      File.open(filename, "w") { |f| f.write(str) }
+      GPI.print "successfuly created #{filename}"
     when 'update'
       #FileManager.clean if GPI::CLU.check_option('r')
       if GPI::CLU.check_option('r') # rebuild
