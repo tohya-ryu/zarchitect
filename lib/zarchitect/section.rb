@@ -95,7 +95,6 @@ class Section < Zarchitect
     if collection? && categorized?
       dirs = Dir.directories(config[:path])
       dirs.each do |d|
-        @categories.push Category.new(self, d)
         unless Dir.exist?("_html/#{@name}/#{d}")
           dir =  File.join(Dir.getwd, "_html", @name, d)
           Dir.mkdir(dir)
@@ -113,6 +112,7 @@ class Section < Zarchitect
         # create category directories if necessary
         dirs = Dir.directories(config[:path])
         dirs.each do |d|
+          @categories.push Category.new(self, d)
           # create pages
           files = Dir.files(File.join(Dir.getwd, config[:path], d))
           #TODO sort files
