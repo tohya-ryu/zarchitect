@@ -16,54 +16,8 @@ class Section < Zarchitect
     @pages = Array.new
     @categories = Array.new
     @id_count = 0
-
     @url = "/#{@name}/index.html"
-
-    # create section directory if necessary
-    create_dir
-
-    if collection?
-      GPI.print "Processing collection...", GPI::CLU.check_option('v')
-      if categorized?
-        GPI.print "Processing categories...", GPI::CLU.check_option('v')
-        # create category directories if necessary
-        dirs = Dir.directories(config[:path])
-        dirs.each do |d|
-          @categories.push Category.new(self, d)
-          unless Dir.exist?("_html/#{@name}/#{d}")
-            dir =  File.join(Dir.getwd, "_html", @name, d)
-            Dir.mkdir(dir)
-            GPI.print "Created directory #{dir}", GPI::CLU.check_option('v')
-          end
-          # create pages
-          files = Dir.files(File.join(Dir.getwd, config[:path], d))
-          #TODO sort files
-          files.sort!
-          files.each do |f|
-            next if f[0] == "."
-            path = File.join(Dir.getwd, config[:path], d, f)
-            @pages.push Page.new(self, path, @categories[@categories.size-1])
-            @id_count += 1
-          end
-        end
-        # create page directories if necessary
-      else
-        # create pages
-        files = Dir.files(config[:path])
-        files.sort!
-        #TODO sort files
-        files.each do |f|
-          next if f[0] == "."
-          @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))
-          @id_count += 1
-        end
-      end
-    else
-      GPI.print "Processing single page...", GPI::CLU.check_option('v')
-      @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
-      @id_count += 1
-    end
-  end
+ end
 
   def update(page = nil)
     if collection?
@@ -133,11 +87,62 @@ class Section < Zarchitect
     nil
   end
 
-  def create_dir
+  def create_html_dirs
     unless Dir.exist?("_html/#{@name}")
       Dir.mkdir(File.join(Dir.getwd, "_html", @name))
       GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
     end
+    if collection? && categorized?
+      dirs = Dir.directories(config[:path])
+      dirs.each do |d|
+        @categories.push Category.new(self, d)
+        unless Dir.exist?("_html/#{@name}/#{d}")
+          dir =  File.join(Dir.getwd, "_html", @name, d)
+          Dir.mkdir(dir)
+          GPI.print "Created directory #{dir}", GPI::CLU.check_option('v')
+        end
+      end
+    end
   end
+
+  def create_pages
+    if collection?
+      GPI.print "Processing collection...", GPI::CLU.check_option('v')
+      if categorized?
+        GPI.print "Processing categories...", GPI::CLU.check_option('v')
+        # create category directories if necessary
+        dirs = Dir.directories(config[:path])
+        dirs.each do |d|
+          # create pages
+          files = Dir.files(File.join(Dir.getwd, config[:path], d))
+          #TODO sort files
+          files.sort!
+          files.each do |f|
+            next if f[0] == "."
+            path = File.join(Dir.getwd, config[:path], d, f)
+            @pages.push Page.new(self, path, @categories[@categories.size-1])
+            @id_count += 1
+          end
+        end
+        # create page directories if necessary
+      else
+        # create pages
+        files = Dir.files(config[:path])
+        files.sort!
+        #TODO sort files
+        files.each do |f|
+          next if f[0] == "."
+          @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))
+          @id_count += 1
+        end
+      end
+    else
+      GPI.print "Processing single page...", GPI::CLU.check_option('v')
+      @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
+      @id_count += 1
+    end
+  end
+
+
 
 end

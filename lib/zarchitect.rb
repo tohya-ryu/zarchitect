@@ -45,6 +45,7 @@ class Zarchitect
         GPI.print "Error: missing config entry for section #{section}"
         GPI.quit
       end
+      s = Section.new(section)
       t = Time.now.to_i
       id = t.to_s(16).upcase
       idrec = Array.new
@@ -94,6 +95,8 @@ class Zarchitect
       data = Hash.new
       Config.sections.each_key do |k|
         s = Section.new(k.to_s)
+        s.create_html_dirs
+        s.create_pages
         data[:"#{s.name}"] = s
       end
       ZERB.set_gdata(:sections, data)
