@@ -20,8 +20,11 @@ class Page < Zarchitect
     if @section.collection?
       if @section.categorized?
         @url = "/#{@section.name}/#{@category.name}/#{@id}/index.html"
+        Util.mkdir(File.join("_html", @section.name, @category.name,
+                             "#{@id}"))
       else
-        @url = "/#{@section.name}/#{@title}/index.html"
+        @url = "/#{@section.name}/#{@id}/index.html"
+        Util.mkdir(File.join("_html", @section.name, "#{@id}"))
       end
     else
       @url   = "/#{@section.name}/index.html"
@@ -42,9 +45,6 @@ class Page < Zarchitect
           @date = @config['date'] # class Time
         end
       end
-    end
-    if @date
-      p @date.to_i.to_s(16)
     end
     p File.stat(@source_path).ctime
     # categories should be defined in header, not via directories
@@ -99,7 +99,7 @@ class Page < Zarchitect
   end
 
   def read_config
-    GPI.print "readinf config...", GPI::CLU.check_option('v')
+    GPI.print "reading config...", GPI::CLU.check_option('v')
     YAML.load_stream(File.open(@source_path) { |f| f.read }) do |doc|
       @config = doc
       break

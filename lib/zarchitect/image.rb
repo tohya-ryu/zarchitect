@@ -112,7 +112,11 @@ class Image
   def self.find(k, v)
     # o = Image.find("url", "/files/projects/tre/screen1.png") // usage
     ObjectSpace.each_object(ImageSet) do |set|
+      GPI.print "Looking for img:", GPI::CLU.check_option('v')
       str = set.orig.send(k)
+      GPI.print "v:   #{v}", GPI::CLU.check_option('v')
+      GPI.print "str: #{str}", GPI::CLU.check_option('v')
+      GPI.print "", GPI::CLU.check_option('v')
       return set if str == v
     end
   end

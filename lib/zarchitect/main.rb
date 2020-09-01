@@ -20,11 +20,7 @@ class Main
     end
     Util.mkdir("_html/assets")
     Util.mkdir("_html/files")
-    if GPI::CLU.check_option('q')
-      GPI.print "skipping file updates", GPI::CLU.check_option('v')
-    else
-      FileManager.run
-    end
+    FileManager.run
     # prepare data for use in templates
     data = Hash.new
     Config.sections.each_key do |k|

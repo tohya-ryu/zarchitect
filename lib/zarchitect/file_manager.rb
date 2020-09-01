@@ -1,5 +1,10 @@
 module FileManager
 
+  @img = Array.new
+  @audio = Array.new
+  @video = Array.new
+  @misc  = Array.new
+
   FROM = "_files" # dir where raw files reside
   TO   = "_html/files"
 
@@ -17,19 +22,19 @@ module FileManager
       if Image.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as image file",
           GPI::CLU.check_option('v')
-        ImageSet.new(path, fullpath, realpath)
+        @img.push ImageSet.new(path, fullpath, realpath)
       elsif Audio.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as audio file",
           GPI::CLU.check_option('v')
-        Audio.new(fullpath)
+        @audio.push Audio.new(fullpath)
       elsif Video.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as video file",
           GPI::CLU.check_option('v')
-        Video.new(fullpath)
+        @video.push Video.new(fullpath)
       else
         GPI.print "processing #{fullpath} as any file",
           GPI::CLU.check_option('v')
-        MiscFile.new(fullpath)
+        @misc.push MiscFile.new(fullpath)
       end
       # create symlink in _html/files to physical files _files (if process did
       # not abort)
