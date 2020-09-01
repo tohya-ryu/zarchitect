@@ -62,14 +62,26 @@ class Zarchitect
         id = (t+i).to_s(16).upcase
         i += 1
       end
+      # get filename and setup necessary directories
       Util.mkdir(section)
       if GPI::CLU.parameters.size > 2
         Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
         filename = File.join(section, GPI::CLU.parameters[1],
                              "#{id}-#{GPI::CLU.parameters[2]}.md")
+        Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
       else
         filename = File.join(section, "#{id}-#{GPI::CLU.parameters[1]}.md")
       end
+      # write file
+      a = ZERB.new(mdpath)
+      a.set_data(:title, CLU.parameters[2])
+      a.set_data(:date, "# fixme #{Time.now}")
+      a.set_data(:author, Config.admin)
+      a.set_data(:id, id)
+      a.prepare
+      a.render
+      html = a.output
+      p html
     when 'update'
       #FileManager.clean if GPI::CLU.check_option('r')
       if GPI::CLU.check_option('r') # rebuild
