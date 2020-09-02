@@ -43,6 +43,17 @@ class Section < Zarchitect
   end
 
   def update_index
+    # only required for collections
+    return unless collection?
+    # sort pages
+    case config[:sort_type]
+    when "date"
+      @pages.sort_by! { |p| p.date }
+    when "alphanum"
+      @pages.sort!
+    end
+    
+    # create index files for whole collection
   end
 
   def collection?
@@ -109,7 +120,6 @@ class Section < Zarchitect
           @categories.push Category.new(self, d)
           # create pages
           files = Dir.files(File.join(Dir.getwd, config[:path], d))
-          #TODO sort files
           files.sort!
           files.each do |f|
             next if f[0] == "."
@@ -123,7 +133,6 @@ class Section < Zarchitect
         # create pages
         files = Dir.files(config[:path])
         files.sort!
-        #TODO sort files
         files.each do |f|
           next if f[0] == "."
           @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))

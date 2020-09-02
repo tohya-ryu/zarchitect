@@ -1,5 +1,5 @@
 class Page < Zarchitect
-  attr_reader :source_path, :html_path, :name, :category, :url
+  attr_reader :source_path, :html_path, :name, :category, :url, :date
 
   #+++++++++++++++++++++++++++++++++++
   # @content
