@@ -131,11 +131,12 @@ class Main
 
   def self.escape_title(str)
     i = 0
+    str2 = String.new
     str.each_char do |c|
-      str[i] = "" unless c.match? /[a-zA-Z0-9-_]/
+      str2 << c if c.match? /[a-zA-Z0-9\-_]/
       i += 1
     end
-    str
+    str2
   end
 
 end
