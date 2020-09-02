@@ -72,7 +72,9 @@ class Page < Zarchitect
     if @section.config.has_key?(:keywords)
       keywords << ', ' << @section.config[:keywords]
     end
-    keywords << ', ' << @config['keywords'] if @config.has_key?('keywords')
+    if @config.has_key?('keywords') && !(@config['keywords'].nil?)
+      keywords << ', ' << @config['keywords']
+    end
     layout_tmpl.set_meta(:keywords, keywords)
     layout_tmpl.set_meta(:author, @config['author'])
     if @config.has_key?('description')
@@ -80,7 +82,9 @@ class Page < Zarchitect
     else
       desc = @content.html.clone
       desc = desc[0..160]
-      desc[-1] = "…"
+      if desc.length > 0
+        desc[(desc.length-1)] = "…"
+      end
       layout_tmpl.set_meta(:description, desc)
     end
     # set page data

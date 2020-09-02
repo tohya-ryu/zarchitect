@@ -51,17 +51,20 @@ class Main
         Assets.update
         section = Section.find(GPI::CLU.parameters[0])
         section.update_pages(GPI::CLU.parameters[1])
+        section.update_index
       else
         # update all new posts
         Assets.update
         section = Section.find(GPI::CLU.parameters[0])
         section.update_pages
+        section.update_index
       end
     else
       # Update all sections
       Assets.update
       ObjectSpace.each_object(Section) do |s|
         s.update_pages
+        s.update_index
         if s.collection?
           # consider section index
         else

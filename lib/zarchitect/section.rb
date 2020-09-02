@@ -43,14 +43,15 @@ class Section < Zarchitect
   end
 
   def update_index
+    GPI.print "Updating index(es) for #{@name}", GPI::CLU.check_option('v')
     # only required for collections
     return unless collection?
     # sort pages
     case config[:sort_type]
     when "date"
-      @pages.sort_by! { |p| p.date }
+      @pages.sort_by! { |p| p.date }.reverse!
     when "alphanum"
-      @pages.sort!
+      @pages.sort_by! { |p| p.name }
     end
     
     # create index files for whole collection
