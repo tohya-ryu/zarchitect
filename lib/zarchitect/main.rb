@@ -98,12 +98,16 @@ class Main
     # get filename and setup necessary directories
     Util.mkdir(section)
     if GPI::CLU.parameters.size > 2
+      title = GPI::CLU.parameters[2]
+      title = Main.escape_title(title).downcase
       Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
       filename = File.join(section, GPI::CLU.parameters[1],
-                           "#{id}-#{GPI::CLU.parameters[2]}.md")
+                           "#{id}-#{title}.md")
       Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
     else
-      filename = File.join(section, "#{id}-#{GPI::CLU.parameters[1]}.md")
+      title = GPI::CLU.parameters[1]
+      title = Main.escape_title(title).downcase
+      filename = File.join(section, "#{id}-#{title}.md")
     end
     # write file
     a = ZERB.new(mdpath)
@@ -121,6 +125,17 @@ class Main
     end
     File.open(filename, "w") { |f| f.write(str) }
     GPI.print "successfuly created #{filename}"
+  end
+
+  private
+
+  def self.escape_title(str)
+    i = 0
+    str.each_char do |c|
+      str[i] = "" unless c.match? /[a-zA-Z0-9-_]/
+      i += 1
+    end
+    str
   end
 
 end
