@@ -65,8 +65,8 @@ class Content < Zarchitect
           end
         when 'img_full'
           GPI.print "Processing media: img_full", GPI::CLU.check_option('v')
-          @image = Image.find(url, m[:id])
-          a = ZERB.new("_layouts/_image_full.html.rb")
+          @image = Image.find("url", m[:id])
+          a = ZERB.new("_layouts/_image_full.html.erb")
           a.set_data(:image, @image)
           a.set_data(:caption, @caption)
           a.prepare
@@ -75,7 +75,7 @@ class Content < Zarchitect
         when 'video'
           GPI.print "Processing media: video", GPI::CLU.check_option('v')
           @video = VideoFile.find(m[:id])
-          a = ZERB.new("_layouts/_video.html.rb")
+          a = ZERB.new("_layouts/_video.html.erb")
           a.set_data(:video, @video)
           a.set_data(:caption, @caption)
           a.prepare
@@ -84,7 +84,7 @@ class Content < Zarchitect
         when 'audio'
           GPI.print "Processing media: audio", GPI::CLU.check_option('v')
           @audio = AudioFile.find(m[:id])
-          a = ZERB.new("_layouts/_audio.html.rb")
+          a = ZERB.new("_layouts/_audio.html.erb")
           a.set_data(:audio, @audio)
           a.set_data(:caption, @caption)
           a.prepare
@@ -93,7 +93,7 @@ class Content < Zarchitect
         when 'yt'
           @yt_id = m[:id]
           GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
-          a = ZERB.new("_layouts/_youtube.html.rb")
+          a = ZERB.new("_layouts/_youtube.html.erb")
           a.set_data(:yt_id, @yt_id)
           a.set_data(:caption, @caption)
           a.prepare
