@@ -98,13 +98,17 @@ class Main
     # get filename and setup necessary directories
     Util.mkdir(section)
     if GPI::CLU.parameters.size > 2
+      # has category
       title = GPI::CLU.parameters[2]
+      category = GPI::CLU.parameters[1]
+      category = Main.escape_title(category).downcase
       title = Main.escape_title(title).downcase
-      Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
-      filename = File.join(section, GPI::CLU.parameters[1],
+      Util.mkdir(File.join(section, category))
+      filename = File.join(section, category,
                            "#{id}-#{title}.md")
-      Util.mkdir(File.join(section, GPI::CLU.parameters[1]))
+      Util.mkdir(File.join(section, category))
     else
+      # no category
       title = GPI::CLU.parameters[1]
       title = Main.escape_title(title).downcase
       filename = File.join(section, "#{id}-#{title}.md")
@@ -115,6 +119,9 @@ class Main
     a.set_data(:date, "# fixme #{Time.now}")
     a.set_data(:author, Config.admin)
     a.set_data(:id, id)
+    if GPI::CLU.parameters.size > 2 
+      a.set_data(:category, category)
+    end
     a.prepare
     a.render
     str = a.output

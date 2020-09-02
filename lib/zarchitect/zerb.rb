@@ -82,6 +82,10 @@ class ZERB < Zarchitect
     @data[k] 
   end
 
+  def data_exist?(k)
+    @data.has_key?(k)
+  end
+
   def include(path)
     path.prepend("_layouts/")
     GPI.print "Including #{path} into " \
