@@ -1,3 +1,4 @@
+- main.new: fix file names (escape titles)
 - add draft flag to md: drafts aren't included in index files
 - upload tool should ignore drafts
 - create index files for collections (always starting a new)

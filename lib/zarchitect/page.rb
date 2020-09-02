@@ -46,7 +46,6 @@ class Page < Zarchitect
         end
       end
     end
-    p File.stat(@source_path).ctime
     # categories should be defined in header, not via directories
   end
 
