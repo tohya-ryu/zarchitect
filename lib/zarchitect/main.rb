@@ -50,18 +50,18 @@ class Main
         # update single post
         Assets.update
         section = Section.find(GPI::CLU.parameters[0])
-        section.update(GPI::CLU.parameters[1])
+        section.update_pages(GPI::CLU.parameters[1])
       else
         # update all new posts
         Assets.update
         section = Section.find(GPI::CLU.parameters[0])
-        section.update()
+        section.update_pages
       end
     else
       # Update all sections
       Assets.update
       ObjectSpace.each_object(Section) do |s|
-        s.update()
+        s.update_pages
         if s.collection?
           # consider section index
         else

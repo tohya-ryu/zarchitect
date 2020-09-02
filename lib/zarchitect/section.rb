@@ -19,7 +19,7 @@ class Section < Zarchitect
     @url = "/#{@name}/index.html"
  end
 
-  def update(page = nil)
+  def update_pages(page = nil)
     if collection?
       @pages.each do |p|
         if p.require_update?
@@ -40,6 +40,9 @@ class Section < Zarchitect
           GPI::CLU.check_option('v')
       end
     end
+  end
+
+  def update_index
   end
 
   def collection?
