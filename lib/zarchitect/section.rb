@@ -53,8 +53,20 @@ class Section < Zarchitect
     when "alphanum"
       @pages.sort_by! { |p| p.name }
     end
-    
-    # create index files for whole collection
+    unless config[:paginate] # no pagination, create index with all pages
+      create_index(@pages)
+    else
+      n = 1 # number of index.html
+      if config[:paginate] > 0
+        n = (@pages.size.to_f / config[:paginate].to_f).ceil
+      end
+      GPI.print "n = #{n}", GPI::CLU.check_option('v')
+    end
+  end
+
+  def create_index(collection)
+    layout_tmpl = ZERB.new(config[:index_layout])
+    view_tmpl   = ZERB.new(config[:index_view])
   end
 
   def collection?
