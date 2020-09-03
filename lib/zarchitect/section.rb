@@ -54,7 +54,7 @@ class Section < Zarchitect
       @pages.sort_by! { |p| p.name }
     end
     unless config[:paginate] # no pagination, create index with all pages
-      create_index(@pages, 0)
+      create_index("_html/#{@name}/index.html",@pages, 0)
     else
       n = 1 # number of index.html
       if config[:paginate] > 0
@@ -65,17 +65,26 @@ class Section < Zarchitect
       while i < n
         if config[:paginate] > 0
           pages = @pages.slice(i * config[:paginate], config[:paginate])
-          create_index(pages, i, n)
+          if i == 0
+            path = "_html/#{@name}/index.html"
+          else
+            path = "_html/#{@name}/index#{i}.html"
+          end
+          create_index(path, pages, i, n)
         else
-          create_index(@pages, i)
+          create_index("_html/#{@name}/index.html", @pages, i)
         end
         i += 1
       end
     end
   end
 
-  def create_index(collection, curr_index, max_index = nil)
-    
+  def create_index(path, collection, curr_index, max_index = nil)
+    if max_index.nil?
+      GPI.print "creating index(#{curr_index}).html"
+    else
+      GPI.print "creating index(#{curr_index}/#{max_index}).html"
+    end
     #layout_tmpl = ZERB.new(config[:index_layout])
     #view_tmpl   = ZERB.new(config[:index_view])
   end
