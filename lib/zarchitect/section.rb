@@ -63,7 +63,9 @@ class Section < Zarchitect
       GPI.print "Creating #{n} index pages", GPI::CLU.check_option('v')
       i = 0
       while i < n
+        pages = @pages.slice(i * config[:paginate], config[:paginate])
         create_index(pages, i)
+        i += 1
       end
     end
   end
@@ -75,8 +77,8 @@ class Section < Zarchitect
     # id = 2 = index2.html
     # ...
     
-    layout_tmpl = ZERB.new(config[:index_layout])
-    view_tmpl   = ZERB.new(config[:index_view])
+    #layout_tmpl = ZERB.new(config[:index_layout])
+    #view_tmpl   = ZERB.new(config[:index_view])
   end
 
   def collection?
