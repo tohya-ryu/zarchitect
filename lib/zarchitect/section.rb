@@ -65,7 +65,7 @@ class Section < Zarchitect
       while i < n
         if config[:paginate] > 0
           pages = @pages.slice(i * config[:paginate], config[:paginate])
-          create_index(pages, i)
+          create_index(pages, i, n)
         else
           create_index(@pages, i)
         end
@@ -74,12 +74,7 @@ class Section < Zarchitect
     end
   end
 
-  def create_index(collection, id)
-    # id = index number
-    # id = 0 = index.html
-    # id = 1 = index1.html
-    # id = 2 = index2.html
-    # ...
+  def create_index(collection, curr_index, max_index = nil)
     
     #layout_tmpl = ZERB.new(config[:index_layout])
     #view_tmpl   = ZERB.new(config[:index_view])
