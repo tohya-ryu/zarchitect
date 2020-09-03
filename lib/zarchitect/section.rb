@@ -54,17 +54,27 @@ class Section < Zarchitect
       @pages.sort_by! { |p| p.name }
     end
     unless config[:paginate] # no pagination, create index with all pages
-      create_index(@pages)
+      create_index(@pages, 0)
     else
       n = 1 # number of index.html
       if config[:paginate] > 0
         n = (@pages.size.to_f / config[:paginate].to_f).ceil
       end
-      GPI.print "n = #{n}", GPI::CLU.check_option('v')
+      GPI.print "Creating #{n} index pages", GPI::CLU.check_option('v')
+      i = 0
+      while i < n
+        create_index(pages, i)
+      end
     end
   end
 
-  def create_index(collection)
+  def create_index(collection, id)
+    # id = index number
+    # id = 0 = index.html
+    # id = 1 = index1.html
+    # id = 2 = index2.html
+    # ...
+    
     layout_tmpl = ZERB.new(config[:index_layout])
     view_tmpl   = ZERB.new(config[:index_view])
   end
