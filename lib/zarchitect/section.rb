@@ -63,8 +63,12 @@ class Section < Zarchitect
       GPI.print "Creating #{n} index pages", GPI::CLU.check_option('v')
       i = 0
       while i < n
-        pages = @pages.slice(i * config[:paginate], config[:paginate])
-        create_index(pages, i)
+        if config[:paginate] > 0
+          pages = @pages.slice(i * config[:paginate], config[:paginate])
+          create_index(pages, i)
+        else
+          create_index(@pages, i)
+        end
         i += 1
       end
     end
