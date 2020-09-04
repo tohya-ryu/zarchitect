@@ -27,6 +27,7 @@ class Main
       s = Section.new(k.to_s)
       s.create_html_dirs
       s.create_pages
+      s.create_paginator
       data[:"#{s.name}"] = s
     end
     ZERB.set_gdata(:sections, data)

@@ -78,7 +78,7 @@ class Section < Zarchitect
     else
       n = 1 # number of index.html
       if config[:paginate] > 0
-        n = (@pages.size.to_f / config[:paginate].to_f).ceil
+        n = @paginator.page_number
       end
       GPI.print "Creating #{n} index pages", GPI::CLU.check_option('v')
       i = 0
@@ -95,6 +95,7 @@ class Section < Zarchitect
           create_index("_html/#{@name}/index.html", @pages, i)
         end
         i += 1
+        @paginator.next
       end
     end
   end
