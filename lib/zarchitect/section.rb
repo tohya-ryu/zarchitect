@@ -95,7 +95,7 @@ class Section < Zarchitect
           create_index("_html/#{@name}/index.html", @pages, i)
         end
         i += 1
-        @paginator.next
+        @paginator.next unless @paginator.nil?
       end
     end
   end

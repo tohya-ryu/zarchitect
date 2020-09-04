@@ -13,10 +13,10 @@ class Paginator
   end
 
   def next
-    @curr_page += 1
-    if @curr_page > @page_number
-      GPI.print "Error: paginator went above total page number."
-      GPI.quit
+    if @curr_page < @page_number
+      @curr_page += 1
+    else
+      GPI.print "Warning: paginator attempted to exceed total page number"
     end
   end
 
