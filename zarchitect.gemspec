@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/main.rb",
              "lib/zarchitect/misc_file.rb",
              "lib/zarchitect/page.rb",
+             "lib/zarchitect/paginator.rb",
              "lib/zarchitect/rouge_html.rb",
              "lib/zarchitect/section.rb",
              "lib/zarchitect/util.rb",
