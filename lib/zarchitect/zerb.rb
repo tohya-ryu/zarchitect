@@ -86,7 +86,7 @@ class ZERB < Zarchitect
     @data.has_key?(k)
   end
 
-  def include(path)
+  def include(path, options = {})
     path.prepend("_layouts/")
     GPI.print "Including #{path} into " \
       "#{@@template_stack[@@template_stack.size-1]}",
@@ -96,6 +96,9 @@ class ZERB < Zarchitect
       GPI.quit
     end
     b = ZERB.new(path)
+    options.each do |k,v|
+      b.set_data(k,v)
+    end
     b.prepare
     b.render
     b.output
