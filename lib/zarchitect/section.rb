@@ -1,5 +1,5 @@
 class Section < Zarchitect
-    attr_reader :name, :url, :pages, :categories, :id_count
+    attr_reader :name, :url, :pages, :categories, :id_count, :paginator
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
@@ -18,10 +18,26 @@ class Section < Zarchitect
     @id_count = 0
     @url = "/#{@name}/index.html"
     @pages_per_index = 0 # 0 = ALL ON ONE INDEX / no pagination
+
+  def create_paginator
+    GPI.print "Setting up paginator for #{@name}", GPI::CLU.check_option('v')
+    unless collection?
+      GPTI.print "No paginator required (not a collection)",
+        GPI::CLU.check_option('v')
+      @paginator = nil
+      return
+    end
     if config[:paginate] && config[:paginate] > 0
       @pages_per_index = config[:paginate]
+
+      paginator_base_url = "/#{@name}"
+      paginator_num = (@pages.size.to_f / config[:paginate].to_f).ceil
+
+      
+      @paginator = Paginator.new(paginator_base_url, paginator_num)
     end
- end
+  end
+  end
 
   def update_pages(page = nil)
     if collection?
