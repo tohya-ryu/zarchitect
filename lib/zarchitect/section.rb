@@ -17,6 +17,10 @@ class Section < Zarchitect
     @categories = Array.new
     @id_count = 0
     @url = "/#{@name}/index.html"
+    @pages_per_index = 0 # 0 = ALL ON ONE INDEX / no pagination
+    if config[:paginate] && config[:paginate] > 0
+      @pages_per_index = config[:paginate]
+    end
  end
 
   def update_pages(page = nil)
@@ -106,6 +110,10 @@ class Section < Zarchitect
       key = false
     end
     key
+  end
+
+  def paginates?
+    @pages_per_index > 0
   end
 
   def config(k = nil, f = false) # key required if f = true
