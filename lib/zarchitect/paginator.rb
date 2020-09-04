@@ -16,7 +16,8 @@ class Paginator
     if @curr_page < @page_number
       @curr_page += 1
     else
-      GPI.print "Warning: paginator attempted to exceed total page number"
+      GPI.print "Warning: paginator attempted to exceed total page number",
+        GPI::CLU.check_option('v')
     end
   end
 
