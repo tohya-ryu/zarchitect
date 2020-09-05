@@ -18,6 +18,7 @@ class Main
         end
       end
     end
+    Util.mkdir("_html")
     Util.mkdir("_html/assets")
     Util.mkdir("_html/files")
     FileManager.run
