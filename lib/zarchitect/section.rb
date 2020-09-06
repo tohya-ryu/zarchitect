@@ -107,8 +107,21 @@ class Section < Zarchitect
       GPI.print "creating #{path} (#{curr_index}/#{max_index-1}",
         GPI::CLU.check_option('v')
     end
-    #layout_tmpl = ZERB.new(config[:index_layout])
-    #view_tmpl   = ZERB.new(config[:index_view])
+    layout_tmpl = ZERB.new(config[:index_layout])
+    view_tmpl   = ZERB.new(config[:index_view])
+    view_tmpl.prepare
+    view_tmpl.render
+    view_html = view_tmpl.output
+    layout_tmpl.set_data(:view, view_html)
+    # TODO
+    layout_tmpl.set_meta(:title, "")
+    layout_tmpl.set_meta(:keywords, "")
+    layout_tmpl.set_meta(:author, "")
+    layout_tmpl.set_meta(:description, "")
+    layout_tmpl.prepare
+    layout_tmpl.render
+    html = layout_tmpl.output
+    # write file...
   end
 
   def collection?
