@@ -109,6 +109,7 @@ class Section < Zarchitect
     end
     layout_tmpl = ZERB.new(config[:index_layout])
     view_tmpl   = ZERB.new(config[:index_view])
+    view_tmpl.set_data(:pages, collection)
     view_tmpl.prepare
     view_tmpl.render
     view_html = view_tmpl.output
