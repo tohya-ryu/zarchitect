@@ -19,6 +19,8 @@ class Section < Zarchitect
     @url = "/#{@name}/index.html"
     @pages_per_index = 0 # 0 = ALL ON ONE INDEX / no pagination
 
+  end
+
   def create_paginator
     GPI.print "Setting up paginator for #{@name}", GPI::CLU.check_option('v')
     unless collection?
@@ -36,7 +38,6 @@ class Section < Zarchitect
       
       @paginator = Paginator.new(paginator_base_url, paginator_num)
     end
-  end
   end
 
   def update_pages(page = nil)
@@ -88,7 +89,7 @@ class Section < Zarchitect
           if i == 0
             path = "_html/#{@name}/index.html"
           else
-            path = "_html/#{@name}/index#{i}.html"
+            path = "_html/#{@name}/index#{i-1}.html"
           end
           create_index(path, pages, i, n)
         else
