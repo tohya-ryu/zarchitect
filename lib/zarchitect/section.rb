@@ -123,7 +123,7 @@ class Section < Zarchitect
     layout_tmpl.render
     html = layout_tmpl.output
     # write file...
-    File.open(path "w") { |f| f.write(html) }
+    File.open(path, "w") { |f| f.write(html) }
     GPI.print "Wrote #{path}", GPI::CLU.check_option('v')
   end
 
