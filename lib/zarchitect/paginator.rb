@@ -40,6 +40,7 @@ class Paginator
       i = 1
       while i <= @page_number
         @range.push i
+        i += 1
       end
     else
       b = @curr_page - sector # begin
@@ -52,7 +53,7 @@ class Paginator
       i = b
       while i <= e do
         @range.push i
-        i -= 1
+        i += 1
       end
       @range.push 0 if e < @page_number-2 # gap!
       @range.push @page_number-1, @page_number
