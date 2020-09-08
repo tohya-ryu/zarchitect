@@ -29,6 +29,7 @@ class Paginator
   private
 
   def update_range
+    # creates array of page numbers to use as pagination links
     default = [ 1, 2, @curr_page, @page_number-1, @page_number ]
     sector = (@max -1) / 2 # 7 if max 15
     @range.clear
