@@ -4,11 +4,11 @@ class Paginator
   MAX = 15
 
   def initialize(base_url, page_number)
-    @base_url    = base_url
-    @page_number = page_number
-    @curr_page   = 1
-    @range       = Array.new
-    @max         = MAX
+    @base_url    = base_url    # used to construct urls to pages
+    @page_number = page_number # number of pages in total
+    @curr_page   = 1           # current page
+    @range       = Array.new   # numbers of pages in pagination
+    @max         = MAX         # how many pages to be shown in pagination
   end
 
   def url(n)
@@ -61,8 +61,6 @@ class Paginator
       @range.push 0 if e < @page_number-2 # gap!
       @range.push @page_number-1, @page_number
     end
-
-    p @range
 
   end
 
