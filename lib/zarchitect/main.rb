@@ -85,7 +85,7 @@ class Main
     end
     s = Section.new(section)
     t = Time.now.to_i
-    id = t.to_s(16)
+    id = t.to_s(16).downcase
     idrec = Array.new
     Util.mkdir("_build")
     mdpath = File.join(Util.path_to_data, "post.md.erb")
