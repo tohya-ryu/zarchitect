@@ -89,7 +89,7 @@ class Section < Zarchitect
           if i == 0
             path = "_html/#{@name}/index.html"
           else
-            path = "_html/#{@name}/index#{i-1}.html"
+            path = "_html/#{@name}/index-#{i+1}.html"
           end
           create_index(path, pages, i, n)
         else

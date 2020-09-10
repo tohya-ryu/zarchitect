@@ -12,8 +12,11 @@ class Paginator
   end
 
   def url(n)
-    n = "" if n == 1
-    File.join(@base_url, "index#{n}.html")
+    if n == 1
+      return File.join(@base_url, "index.html")
+    else
+      return File.join(@base_url, "index-#{n}.html")
+    end
   end
 
   def next
