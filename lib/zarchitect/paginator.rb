@@ -47,12 +47,12 @@ class Paginator
       end
     else
       b = @curr_page - sector # begin
-      b = 3 if start < 3
-      e = start + (@max-1)-4 # end
+      b = 3 if b < 3
+      e = b + (@max-1)-4 # end
       e = page_number-2 if e > @page_number-2
 
       @range.push 1, 2
-      @range.push 0 if start > 3 # gap!
+      @range.push 0 if b > 3 # gap!
       i = b
       while i <= e do
         @range.push i
@@ -61,6 +61,8 @@ class Paginator
       @range.push 0 if e < @page_number-2 # gap!
       @range.push @page_number-1, @page_number
     end
+
+    p @range
 
   end
 
