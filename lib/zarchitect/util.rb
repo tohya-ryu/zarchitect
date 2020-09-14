@@ -2,21 +2,22 @@ module Util
 
   def self.mkdir(path)
     a = path.split("/")
-    i = 0
-    a.each do |s|
-      if i > 0
-        j = 0
-        p = ""
-        while j < i
-          p = File.join(p,
-          j += 1
+    if a.count == 1
+        Util.mkdir2(path)
+    else
+      i = 0
+      p = ""
+      a.each do |s|
+        if i == 0
+          p = s
+          Util.mkdir2(p)
+        else
+          p = File.join(p, s)
+          Util.mkdir2(p)
         end
-      else
-        Util.mkdir2(s)
+        i += 1
       end
-      i += 1
     end
-
   end
   
   # path to data files located in installation directory
