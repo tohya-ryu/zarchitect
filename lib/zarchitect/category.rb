@@ -21,7 +21,7 @@ class Category < Zarchitect
       @paginator = nil
       return
     end
-    if @section.config[:paginate] && @secion.config[:paginate] > 0
+    if @section.config[:paginate] && @section.config[:paginate] > 0
       @pages_per_index = @section.config[:paginate]
 
       paginator_base_url = "/#{@section.name}/#{@name}"
