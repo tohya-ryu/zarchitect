@@ -54,9 +54,10 @@ class Category < Zarchitect
           else
             path = "_html/#{@section.name}/#{@name}/index-#{i+1}.html"
           end
-          create_index(path, pages, i, n)
+          @section.create_index(path, pages, i, n)
         else
-          create_index("_html/#{@section.name}/#{@name}/index.html", @pages, i)
+          @section.create_index("_html/#{@section.name}/#{@name}/index.html",
+                                @pages, i)
         end
         i += 1
         @paginator.next unless @paginator.nil?
