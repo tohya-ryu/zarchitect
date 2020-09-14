@@ -1,5 +1,6 @@
 class Section < Zarchitect
-    attr_reader :name, :url, :pages, :categories, :id_count, :paginator
+  attr_reader :name, :url, :pages, :categories, :id_count, :paginator,
+    :rpages
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
@@ -14,6 +15,7 @@ class Section < Zarchitect
     # Set instance variables
     @name = name
     @pages = Array.new
+    @rpages = nil # pages without drafts
     @categories = Array.new
     @id_count = 0
     @url = "/#{@name}/index.html"
@@ -22,6 +24,7 @@ class Section < Zarchitect
   end
 
   def create_paginator
+    @rpages = @pages.select { |p| p.draft == false }
     GPI.print "Setting up paginator for #{@name}", GPI::CLU.check_option('v')
     unless collection?
       GPTI.print "No paginator required (not a collection)",
@@ -33,7 +36,7 @@ class Section < Zarchitect
       @pages_per_index = config[:paginate]
 
       paginator_base_url = "/#{@name}"
-      paginator_num = (@pages.size.to_f / config[:paginate].to_f).ceil
+      paginator_num = (@rpages.size.to_f / config[:paginate].to_f).ceil
 
       
       @paginator = Paginator.new(paginator_base_url, paginator_num)
@@ -71,11 +74,13 @@ class Section < Zarchitect
     case config[:sort_type]
     when "date"
       @pages.sort_by! { |p| p.date }.reverse!
+      @rpages.sort_by! { |p| p.date }.reverse!
     when "alphanum"
       @pages.sort_by! { |p| p.name }
+      @rpages.sort_by! { |p| p.name }
     end
     unless config[:paginate] # no pagination, create index with all pages
-      create_index("_html/#{@name}/index.html",@pages, 0)
+      create_index("_html/#{@name}/index.html",@rpages, 0)
     else
       n = 1 # number of index.html
       if config[:paginate] > 0
@@ -85,7 +90,7 @@ class Section < Zarchitect
       i = 0
       while i < n
         if config[:paginate] > 0
-          pages = @pages.slice(i * config[:paginate], config[:paginate])
+          pages = @rpages.slice(i * config[:paginate], config[:paginate])
           if i == 0
             path = "_html/#{@name}/index.html"
           else
@@ -93,7 +98,7 @@ class Section < Zarchitect
           end
           create_index(path, pages, i, n)
         else
-          create_index("_html/#{@name}/index.html", @pages, i)
+          create_index("_html/#{@name}/index.html", @rpages, i)
         end
         i += 1
         @paginator.next unless @paginator.nil?

@@ -9,7 +9,8 @@ class Category < Zarchitect
   end
 
   def set_pages
-    @pages = @section.pages.select { |p| p.category.name == @name }
+    # alrady filtered drafts out
+    @pages = @section.rpages.select { |p| p.category.name == @name }
   end
 
   def create_paginator
