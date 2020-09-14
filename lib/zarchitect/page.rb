@@ -12,10 +12,14 @@ class Page < Zarchitect
     @config      = Hash.new
     @category    = category
     @date        = nil
+    @draft       = false
 
     read_config
     @name = @config['title']
     @id   = @config['id']
+    if @config.has_key?('draft')
+      @draft = @config['draft']
+    end
 
     if @section.collection?
       if @section.categorized?

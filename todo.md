@@ -1,4 +1,3 @@
-- create index files for categories
-- clear index files on each update
 - add draft flag to md: drafts aren't included in index files
+- indexes need to ignore drafts
 - upload tool should ignore drafts
