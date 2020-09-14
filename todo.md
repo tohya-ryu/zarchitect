@@ -1,3 +1,2 @@
-- add draft flag to md: drafts aren't included in index files
-- indexes need to ignore drafts
-- upload tool should ignore drafts
+- save draft html in special folder
+- uploads ignore drafts
