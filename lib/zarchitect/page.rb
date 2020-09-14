@@ -24,17 +24,30 @@ class Page < Zarchitect
     if @section.collection?
       if @section.categorized?
         @url = "/#{@section.name}/#{@category.name}/#{@id}/index.html"
-        Util.mkdir(File.join("_html", @section.name, @category.name,
-                             "#{@id}"))
+        if @draft
+          Util.mkdir(File.join("_draft", @section.name, @category.name,
+                               "#{@id}"))
+        else
+          Util.mkdir(File.join("_html", @section.name, @category.name,
+                               "#{@id}"))
+        end
       else
         @url = "/#{@section.name}/#{@id}/index.html"
-        Util.mkdir(File.join("_html", @section.name, "#{@id}"))
+        if @draft
+          Util.mkdir(File.join("_draft", @section.name, "#{@id}"))
+        else
+          Util.mkdir(File.join("_html", @section.name, "#{@id}"))
+        end
       end
     else
       @url   = "/#{@section.name}/index.html"
     end
     @html_path = @url.clone
-    @html_path = File.join(Dir.getwd, "_html", @url)
+    if @draft
+      @html_path = File.join(Dir.getwd, "_draft", @url)
+    else
+      @html_path = File.join(Dir.getwd, "_html", @url)
+    end
 
     GPI.print "... to #{@html_path},",
       GPI::CLU.check_option('v')
