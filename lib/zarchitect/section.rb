@@ -99,6 +99,9 @@ class Section < Zarchitect
         @paginator.next unless @paginator.nil?
       end
     end
+    @categories.each do |cat|
+      cat.update_index
+    end
   end
 
   def create_index(path, collection, curr_index, max_index = nil)
