@@ -3,6 +3,7 @@ class Page < Zarchitect
 
   #+++++++++++++++++++++++++++++++++++
   # @content
+  @@current_page = nil
 
   def initialize(section, source_path, category = nil)
     GPI.print "Initializing page from #{source_path} ...",
@@ -67,6 +68,7 @@ class Page < Zarchitect
   end
 
   def update
+    @@current_page = self
     GPI.print "Updating HTML for #{@source_path}", GPI::CLU.check_option('v')
     @content = Content.new(@source_path)
     @content.markup
@@ -134,6 +136,10 @@ class Page < Zarchitect
     else
       return true
     end
+  end
+
+  def self.current_page
+    @@current_page
   end
 
 end

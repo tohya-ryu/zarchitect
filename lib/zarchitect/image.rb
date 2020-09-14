@@ -1,7 +1,8 @@
 class Image
-  attr_reader :dimensions, :size, :type, :url
+  attr_reader :dimensions, :size, :type
   attr_writer :thumbs_f, :thumbl_f
 
+  @@search = false
   THUMB_ROOT = "_html"
 
   #+++++++++++++++++++++++++++++
@@ -57,6 +58,14 @@ class Image
     @thumbl_f
   end
 
+  def url
+    if (!(Page.current_page.nil?) && Page.current_page.draft && !@@search)
+      "../_draft#{@url}"
+    else
+      @url
+    end
+  end
+
   def larger_than_thumb_small?
       @dimensions.x > Config.thumbs[0].to_i ||
         @dimensions.y > Config.thumbs[1].to_i
@@ -110,6 +119,7 @@ class Image
   end
 
   def self.find(k, v)
+    @@search = true
     # o = Image.find("url", "/files/projects/tre/screen1.png") // usage
     GPI.print "Looking for img: #{v}", GPI::CLU.check_option('v')
     ObjectSpace.each_object(ImageSet) do |set|
@@ -118,9 +128,11 @@ class Image
       #GPI.print "str: #{str}", GPI::CLU.check_option('v')
       if str == v
         GPI.print "Image found", GPI::CLU.check_option('v')
+        @@search = false
         return set
       end
     end
+    @@search = false
     nil
   end
   
