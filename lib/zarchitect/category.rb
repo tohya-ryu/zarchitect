@@ -13,7 +13,7 @@ class Category < Zarchitect
   end
 
   def create_paginator
-    GPI.print "Setting up paginator for #{@section/name}/#{@name}",
+    GPI.print "Setting up paginator for #{@section.name}/#{@name}",
       GPI::CLU.check_option('v')
       unless @section.collection?
       GPTI.print "No paginator required (not a collection)",
