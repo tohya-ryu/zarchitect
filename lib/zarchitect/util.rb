@@ -5,6 +5,12 @@ module Util
     i = 0
     a.each do |s|
       if i > 0
+        j = 0
+        p = ""
+        while j < i
+          p = File.join(p,
+          j += 1
+        end
       else
         Util.mkdir2(s)
       end
