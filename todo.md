@@ -1,2 +1,2 @@
-- save draft html in special folder
+- update Util.mkdir to create directories recursively
 - uploads ignore drafts
