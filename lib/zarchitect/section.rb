@@ -18,7 +18,11 @@ class Section < Zarchitect
     @rpages = nil # pages without drafts
     @categories = Array.new
     @id_count = 0
-    @url = "/#{@name}/index.html"
+    if @name == "index"
+      @url = "/index.html"
+    else
+      @url = "/#{@name}/index.html"
+    end
     @pages_per_index = 0 # 0 = ALL ON ONE INDEX / no pagination
 
   end
@@ -77,6 +81,8 @@ class Section < Zarchitect
         GPI::CLU.check_option('v')
       return
     end
+    max = 0
+    max = config(:maxpages) if config.has_key?(:maxpages)
     GPI.print "Updating index(es) for #{@name}", GPI::CLU.check_option('v')
     # only required for collections
     return unless collection?
@@ -94,7 +100,11 @@ class Section < Zarchitect
     else
       n = 1 # number of index.html
       if config[:paginate] > 0
-        n = @paginator.page_number
+        if max > 0
+          n = max
+        else
+          n = @paginator.page_number
+        end
       end
       GPI.print "Creating #{n} index pages", GPI::CLU.check_option('v')
       i = 0
