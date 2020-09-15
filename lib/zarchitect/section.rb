@@ -246,7 +246,11 @@ class Section < Zarchitect
       end
     else
       GPI.print "Processing single page...", GPI::CLU.check_option('v')
-      @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
+      if @name == "index"
+        @pages.push Page.new(self, "")
+      else
+        @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
+      end
       @id_count += 1
     end
   end
