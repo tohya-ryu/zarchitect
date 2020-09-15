@@ -112,7 +112,7 @@ class Section < Zarchitect
         if config[:paginate] > 0
           pages = @rpages.slice(i * config[:paginate], config[:paginate])
           if i == 0
-            if @section.name == "index"
+            if @name == "index"
               path = "_html/index.html"
             else
               path = "_html/#{@name}/index.html"
