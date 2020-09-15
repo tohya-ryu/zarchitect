@@ -240,18 +240,31 @@ class Section < Zarchitect
         # create page directories if necessary
       else
         # create pages
-        files = Dir.files(config[:path])
-        files.sort!
-        files.each do |f|
-          next if f[0] == "."
-          @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))
-          @id_count += 1
+        if @name == "index"
+          a = config(:uses).split(',')
+          a.each do |n|
+            ObjectSpace.each_object(Section) do |s|
+              if s.name == n
+                # get pages
+                s.pages.each do |p|
+                  @pages.push p.clone
+                end
+              end
+            end
+          end
+        else
+          files = Dir.files(config[:path])
+          files.sort!
+          files.each do |f|
+            next if f[0] == "."
+            @pages.push Page.new(self, File.join(Dir.getwd, config[:path], f))
+            @id_count += 1
+          end
         end
       end
     else
       GPI.print "Processing single page...", GPI::CLU.check_option('v')
       if @name == "index"
-        #TODO mirror pages from other sections defined by config(:uses)
         a = config(:uses).split(',')
         a.each do |n|
           ObjectSpace.each_object(Section) do |s|

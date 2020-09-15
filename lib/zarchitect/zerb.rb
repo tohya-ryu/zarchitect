@@ -22,6 +22,8 @@ class ZERB < Zarchitect
   end
 
   def prepare
+    GPI.print "ZERB preparing #{@template}",
+      GPI::CLU.check_option('v')
     @renderer = ERB.new(File.open(@template) { |f| f.read})
   end
 
