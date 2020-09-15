@@ -197,6 +197,7 @@ class Section < Zarchitect
   end
 
   def create_html_dirs
+    return if @name == "index"
     unless Dir.exist?("_html/#{@name}")
       Dir.mkdir(File.join(Dir.getwd, "_html", @name))
       GPI.print "Created directory _html/#{@name}", GPI::CLU.check_option('v')
