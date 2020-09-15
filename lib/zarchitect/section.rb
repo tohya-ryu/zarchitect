@@ -44,6 +44,11 @@ class Section < Zarchitect
   end
 
   def update_pages(page = nil)
+    if config.has_key?(:noitems) && config[:noitems]
+      GPI.print "Skipping HTML rendering for section #{@name}",
+        GPI::CLU.check_option('v')
+      return
+    end
     if collection?
       @pages.each do |p|
         if p.require_update?
@@ -67,6 +72,11 @@ class Section < Zarchitect
   end
 
   def update_index
+    if config.has_key?(:noindex) && config[:noindex]
+      GPI.print "Skipping index HTML rendering for section #{@name}",
+        GPI::CLU.check_option('v')
+      return
+    end
     GPI.print "Updating index(es) for #{@name}", GPI::CLU.check_option('v')
     # only required for collections
     return unless collection?
