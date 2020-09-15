@@ -31,7 +31,7 @@ class Section < Zarchitect
     @rpages = @pages.select { |p| p.draft == false }
     GPI.print "Setting up paginator for #{@name}", GPI::CLU.check_option('v')
     unless collection?
-      GPTI.print "No paginator required (not a collection)",
+      GPI.print "No paginator required (not a collection)",
         GPI::CLU.check_option('v')
       @paginator = nil
       return
@@ -112,7 +112,11 @@ class Section < Zarchitect
         if config[:paginate] > 0
           pages = @rpages.slice(i * config[:paginate], config[:paginate])
           if i == 0
-            path = "_html/#{@name}/index.html"
+            if @section.name == "index"
+              path = "_html/index.html"
+            else
+              path = "_html/#{@name}/index.html"
+            end
           else
             path = "_html/#{@name}/index-#{i+1}.html"
           end
