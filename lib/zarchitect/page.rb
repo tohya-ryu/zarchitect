@@ -41,21 +41,13 @@ class Page < Zarchitect
         end
       end
     else
-      if @section.name == "index"
-        @url   = "/index.html"
-      else
-        @url   = "/#{@section.name}/index.html"
-      end
+      @url   = "/#{@section.name}/index.html"
     end
-    if @section.name == "index"
-      @html_path = File.join(Dir.getwd, @url)
+    @html_path = @url.clone
+    if @draft
+      @html_path = File.join(Dir.getwd, "_draft", @url)
     else
-      @html_path = @url.clone
-      if @draft
-        @html_path = File.join(Dir.getwd, "_draft", @url)
-      else
-        @html_path = File.join(Dir.getwd, "_html", @url)
-      end
+      @html_path = File.join(Dir.getwd, "_html", @url)
     end
 
     GPI.print "... to #{@html_path},",

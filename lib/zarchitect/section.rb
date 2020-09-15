@@ -247,7 +247,8 @@ class Section < Zarchitect
     else
       GPI.print "Processing single page...", GPI::CLU.check_option('v')
       if @name == "index"
-        @pages.push Page.new(self, "")
+        #TODO mirror pages from other sections defined by config(:uses)
+        #@pages.push Page.new(self, "")
       else
         @pages.push Page.new(self, File.join(Dir.getwd, config[:path]))
       end
