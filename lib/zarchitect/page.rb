@@ -122,7 +122,7 @@ class Page < Zarchitect
       GPI.print "Wrote #{@html_path}", GPI::CLU.check_option('v')
     else
       prev_html = File.open(@html_path, 'r') { |f| f.read }
-      if prev_html == @html
+      if prev_html.eql? @html
         GPI.print "Skipped writing #{@html_path} - no update necessary",
           GPI::CLU.check_option('v')
       else
