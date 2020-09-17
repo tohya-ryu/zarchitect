@@ -21,6 +21,7 @@ class Main
     Util.mkdir("_html")
     Util.mkdir("_html/assets")
     Util.mkdir("_html/files")
+    SCSS.run
     FileManager.run
     # prepare data for use in templates
     data = Hash.new
