@@ -144,8 +144,20 @@ class Section < Zarchitect
     layout_tmpl.render
     html = layout_tmpl.output
     # write file...
-    File.open(path, "w") { |f| f.write(html) }
-    GPI.print "Wrote #{path}", GPI::CLU.check_option('v')
+    # check if write out is required
+    unless File.exist?(path)
+      File.open(path, "w") { |f| f.write(html) }
+      GPI.print "Wrote #{path}", GPI::CLU.check_option('v')
+    else
+      prev_html = File.open(path, 'r') { |f| f.read }
+      if prev_html == html
+        GPI.print "Skipped writing #{path} - no update necessary",
+          GPI::CLU.check_option('v')
+      else
+        File.open(path, "w") { |f| f.write(html) }
+        GPI.print "Overwrote #{path}", GPI::CLU.check_option('v')
+      end
+    end
   end
 
   def collection?
