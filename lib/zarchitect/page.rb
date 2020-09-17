@@ -115,9 +115,21 @@ class Page < Zarchitect
     layout_tmpl.set_data(:view, view_html)
     layout_tmpl.prepare
     layout_tmpl.render
-    html = layout_tmpl.output
-    File.open(@html_path, "w") { |f| f.write(html) }
-    GPI.print "Wrote #{@html_path}", GPI::CLU.check_option('v')
+    @html = layout_tmpl.output
+    # check if write out is required
+    unless File.exist?(@html_path)
+      write
+      GPI.print "Wrote #{@html_path}", GPI::CLU.check_option('v')
+    else
+      prev_html = File.open(@html_path, 'r') { |f| f.read }
+      if prev_html == @html
+        GPI.print "Skipped writing #{@html_path} - no update necessary",
+          GPI::CLU.check_option('v')
+      else
+        write
+        GPI.print "Overwrote #{@html_path}", GPI::CLU.check_option('v')
+      end
+    end
   end
 
   def read_config
@@ -140,6 +152,12 @@ class Page < Zarchitect
 
   def self.current_page
     @@current_page
+  end
+
+  private
+
+  def write
+    File.open(@html_path, "w") { |f| f.write(@html) }
   end
 
 end
