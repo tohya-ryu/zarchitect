@@ -7,13 +7,24 @@ class SCSS
         if File.extname(path) == ".scss"
           npath = path.clone
           npath.gsub!('.scss', '.css')
-          cmd = "scss #{path} #{npath}"
-          GPI.print cmd
-          r = %x{ #{cmd} }
-          GPI.print r unless r == ""
+          unless File.exist?(npath)
+            update(path, npath)
+          else
+            if File.stat(path).mtime > File.stat(npath).mtime
+              update(path, npath)
+            end
+          end
         end
       end
     end
   end
 
+  def self.update(path, npath)
+    cmd = "scss #{path} #{npath}"
+    GPI.print cmd
+    r = %x{ #{cmd} }
+    GPI.print r unless r == ""
+  end
+
 end
+
