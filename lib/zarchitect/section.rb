@@ -55,23 +55,11 @@ class Section < Zarchitect
     end
     if collection?
       @pages.each do |p|
-        if p.require_update?
-          p.update
-        else
-          GPI.print "Ignoring #{p.source_path} (no update necessary)",
-            GPI::CLU.check_option('v')
-        end
+        p.update
       end
     else
       # create / update a single page
-      if @pages[0].require_update?
-        #@pages[0].read_config
-        #@pages[0].read_content
-        @pages[0].update
-      else
-        GPI.print "Ignoring #{@pages[0].source_path} (no update necessary)",
-          GPI::CLU.check_option('v')
-      end
+      @pages[0].update
     end
   end
 
