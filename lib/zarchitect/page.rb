@@ -80,12 +80,12 @@ class Page < Zarchitect
       title = Config.site_name.clone
       title << Config.title_sep
       title << @config['title']
-      layout_tmpl.set_meta(:title, title)
+      layout_tmpl.set_meta(:title, title.dump)
     else
       title = Config.site_name.clone
       title << Config.title_sep
       title << @config['title']
-      layout_tmpl.set_meta(:title, title)
+      layout_tmpl.set_meta(:title, title.dump)
     end
     keywords = Config.site_keywords.clone
     if @section.config.has_key?(:keywords)
@@ -94,17 +94,23 @@ class Page < Zarchitect
     if @config.has_key?('keywords') && !(@config['keywords'].nil?)
       keywords << ', ' << @config['keywords']
     end
-    layout_tmpl.set_meta(:keywords, keywords)
-    layout_tmpl.set_meta(:author, @config['author'])
+    layout_tmpl.set_meta(:keywords, keywords.dump)
+    if @config.has_key?('author')
+      author = @config['author'].dump
+    else
+      author = ""
+    end
+    layout_tmpl.set_meta(:author, author)
     if @config.has_key?('description')
-      layout_tmpl.set_meta(:description, @config['description'])
+      layout_tmpl.set_meta(:description, @config['description'].dump)
     else
       desc = @content.html.clone
       desc = desc[0..160]
+      desc = Sanitize.fragment(desc)
       if desc.length > 0
         desc[(desc.length-1)] = "…"
       end
-      layout_tmpl.set_meta(:description, desc)
+      layout_tmpl.set_meta(:description, desc.dump)
     end
     # set page data
     # prepare content

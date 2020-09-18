@@ -1,5 +1,6 @@
 require 'yaml'
 require 'erb'
+require 'sanitize'
 require 'gpi'
 
 class Zarchitect
