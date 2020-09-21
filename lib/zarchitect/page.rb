@@ -1,6 +1,6 @@
 class Page < Zarchitect
   attr_reader :source_path, :html_path, :name, :category, :url, :date, :draft,
-    :section
+    :section, :content
 
   #+++++++++++++++++++++++++++++++++++
   # @content
@@ -68,11 +68,15 @@ class Page < Zarchitect
     # categories should be defined in header, not via directories
   end
 
+  def read_content
+    @content = Content.new(@source_path)
+    @content.markup
+  end
+
   def update
     @@current_page = self
     GPI.print "Updating HTML for #{@source_path}", GPI::CLU.check_option('v')
-    @content = Content.new(@source_path)
-    @content.markup
+    read_content
     layout_tmpl = ZERB.new(@section.config[:layout])
     view_tmpl   = ZERB.new(@section.config[:view])
     view_tmpl.set_data(:content, @content.html)

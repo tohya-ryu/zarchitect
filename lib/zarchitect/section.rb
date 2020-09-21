@@ -51,6 +51,9 @@ class Section < Zarchitect
     if config.has_key?(:noitems) && config[:noitems]
       GPI.print "Skipping HTML rendering for section #{@name}",
         GPI::CLU.check_option('v')
+      @pages.each do |p|
+        p.read_content
+      end
       return
     end
     if collection?
