@@ -74,7 +74,7 @@ class Content < Zarchitect
           html = a.output
         when 'video'
           GPI.print "Processing media: video", GPI::CLU.check_option('v')
-          @video = VideoFile.find(m[:id])
+          @video = Video.find("url", m[:id])
           a = ZERB.new("_layouts/_video.html.erb")
           a.set_data(:video, @video)
           a.set_data(:caption, @caption)

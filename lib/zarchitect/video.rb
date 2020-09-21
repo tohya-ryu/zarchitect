@@ -21,9 +21,14 @@ class Video
   end
 
   def self.find(k, v)
+    GPI.print "Looking for video: #{v}", GPI::CLU.check_option('v')
     ObjectSpace.each_object(Video) do |a|
       str = a.send(k)
-      return a if str == v
+      if str == v
+        GPI.print "Video found", GPI::CLU.check_option('v')
+        @@search = false
+        return a
+      end
     end
   end
   
