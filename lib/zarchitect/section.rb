@@ -28,7 +28,6 @@ class Section < Zarchitect
   end
 
   def create_paginator
-    @rpages = @pages.select { |p| p.draft == false }
     GPI.print "Setting up paginator for #{@name}", GPI::CLU.check_option('v')
     unless collection?
       GPI.print "No paginator required (not a collection)",
@@ -108,6 +107,14 @@ class Section < Zarchitect
           else
             path = "_html/#{@name}/index-#{i+1}.html"
           end
+          p pages.count
+          pages.each do |p|
+            p p.name
+          end
+          p path
+          p i
+          p n
+          p "---"
           create_index(path, pages, i, n)
         else
           create_index("_html/#{@name}/index.html", @rpages, i)
@@ -117,6 +124,7 @@ class Section < Zarchitect
       end
     end
     @categories.each do |cat|
+      cat.set_pages
       cat.update_index
     end
   end
@@ -128,6 +136,16 @@ class Section < Zarchitect
       GPI.print "creating #{path} (#{curr_index}/#{max_index-1}",
         GPI::CLU.check_option('v')
     end
+
+     p "rendering index..."
+     p path
+     collection.each do |c|
+       p c.name
+     end
+     "---"
+
+
+
     layout_tmpl = ZERB.new(config[:index_layout])
     view_tmpl   = ZERB.new(config[:index_view])
     view_tmpl.set_data(:pages, collection)
@@ -281,6 +299,7 @@ class Section < Zarchitect
       end
       @id_count += 1
     end
+    @rpages = @pages.select { |p| p.draft == false }
   end
 
   private 
