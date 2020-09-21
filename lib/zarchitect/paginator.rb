@@ -3,12 +3,14 @@ class Paginator
 
   MAX = 15
 
-  def initialize(base_url, page_number)
+  def initialize(base_url, page_number, ppi)
     @base_url    = base_url    # used to construct urls to pages
     @page_number = page_number # number of pages in total
     @curr_page   = 1           # current page
     @range       = Array.new   # numbers of pages in pagination
     @max         = MAX         # how many pages to be shown in pagination
+    @pages_per_index = ppi
+    update_range
   end
 
   def url(n)
@@ -27,6 +29,10 @@ class Paginator
       GPI.print "Warning: paginator attempted to exceed total page number",
         GPI::CLU.check_option('v')
     end
+  end
+
+  def paginates?
+    @pages_per_index > 0
   end
 
   private

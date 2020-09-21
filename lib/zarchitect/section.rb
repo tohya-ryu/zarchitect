@@ -42,7 +42,8 @@ class Section < Zarchitect
       paginator_num = (@rpages.size.to_f / config[:paginate].to_f).ceil
 
       
-      @paginator = Paginator.new(paginator_base_url, paginator_num)
+      @paginator = Paginator.new(paginator_base_url, paginator_num,
+                                @pages_per_index)
     end
   end
 
@@ -83,7 +84,7 @@ class Section < Zarchitect
       @rpages.sort_by! { |p| p.name }
     end
     unless config[:paginate] # no pagination, create index with all pages
-      create_index("_html/#{@name}/index.html",@rpages, 0)
+      create_index(@paginator, "_html/#{@name}/index.html",@rpages, 0)
     else
       n = 1 # number of index.html
       if config[:paginate] > 0
@@ -107,9 +108,9 @@ class Section < Zarchitect
           else
             path = "_html/#{@name}/index-#{i+1}.html"
           end
-          create_index(path, pages, i, n)
+          create_index(@paginator, path, pages, i, n)
         else
-          create_index("_html/#{@name}/index.html", @rpages, i)
+          create_index(@paginator, "_html/#{@name}/index.html", @rpages, i)
         end
         i += 1
         @paginator.next unless @paginator.nil?
@@ -121,7 +122,7 @@ class Section < Zarchitect
     end
   end
 
-  def create_index(path, collection, curr_index, max_index = nil)
+  def create_index(paginator, path, collection, curr_index, max_index = nil)
     if max_index.nil?
       GPI.print "creating #{path}", GPI::CLU.check_option('v')
     else
@@ -132,6 +133,7 @@ class Section < Zarchitect
     layout_tmpl = ZERB.new(config[:index_layout])
     view_tmpl   = ZERB.new(config[:index_view])
     view_tmpl.set_data(:pages, collection)
+    view_tmpl.set_data(:paginator, paginator)
     view_tmpl.prepare
     view_tmpl.render
     view_html = view_tmpl.output
@@ -177,10 +179,6 @@ class Section < Zarchitect
       key = false
     end
     key
-  end
-
-  def paginates?
-    @pages_per_index > 0
   end
 
   def config(k = nil, f = false) # key required if f = true

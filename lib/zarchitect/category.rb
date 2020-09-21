@@ -29,13 +29,15 @@ class Category < Zarchitect
       paginator_num = (@pages.size.to_f / @section.config[:paginate].to_f).ceil
 
       
-      @paginator = Paginator.new(paginator_base_url, paginator_num)
+      @paginator = Paginator.new(paginator_base_url, paginator_num,
+                                @pages_per_index)
     end
   end
 
   def update_index
     unless @section.config[:paginate] > 0
-      @section.create_index("_html/#{@section.name}/#{@name}/index.html",
+      @section.create_index(@paginator,
+                            "_html/#{@section.name}/#{@name}/index.html",
                             @pages, 0)
     else
       set_pages
@@ -55,9 +57,10 @@ class Category < Zarchitect
           else
             path = "_html/#{@section.name}/#{@name}/index-#{i+1}.html"
           end
-          @section.create_index(path, pages, i, n)
+          @section.create_index(@paginator, path, pages, i, n)
         else
-          @section.create_index("_html/#{@section.name}/#{@name}/index.html",
+          @section.create_index(@paginator,
+                                "_html/#{@section.name}/#{@name}/index.html",
                                 @pages, i)
         end
         i += 1
