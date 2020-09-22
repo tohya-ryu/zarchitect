@@ -149,6 +149,27 @@ class Section < Zarchitect
     layout_tmpl.prepare
     layout_tmpl.render
     html = layout_tmpl.output
+    i = 0
+    html.gsub!("IceBlog.openPostIMG(1)") do |s|
+      i += 1
+      "IceBlog.openPostIMG(#{i})"
+    end
+    i = 0
+    html.gsub!("data-id=\"1\"") do |s|
+      i += 1
+      "data-id=\"#{i}\""
+    end
+    i = 0
+    html.gsub!("post-image-1") do |s|
+      i += 1
+      "post-image-#{i}"
+    end
+    i = 0
+    html.gsub!("post-image-figure-1") do |s|
+      i += 1
+      "post-image-figure-#{i}"
+    end
+
     # write file...
     # check if write out is required
     unless File.exist?(path)
