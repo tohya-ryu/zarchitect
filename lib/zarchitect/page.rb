@@ -17,7 +17,13 @@ class Page < Zarchitect
     @draft       = false
 
     read_config
-    @name = @config['title']
+    if @config.has_key?('title')
+      @name = @config['title']
+    elsif @seciton.config.has_key?(:default_title)
+      @name = @section.config(:default_title)
+    else
+      @name = ""
+    end
     @id   = @config['id']
     if @config.has_key?('draft')
       @draft = @config['draft']
