@@ -17,6 +17,9 @@ class RSS
     @items.sort_by! { |i| i.date }.reverse!
   end
 
+  def build
+  end
+
 
 end
 

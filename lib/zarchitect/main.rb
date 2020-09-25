@@ -1,4 +1,4 @@
-class Main
+class Main < Zarchitect
 
   def initialize
   end
@@ -76,6 +76,7 @@ class Main
       end
     end
     # update Index
+    rss.build
   end
 
   def cmd_new
