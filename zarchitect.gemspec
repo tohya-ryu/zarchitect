@@ -2,7 +2,7 @@ Gem::Specification.new do |s|
   s.name = 'zarchitect'
   s.version = '0.0.0'
   s.executables << 'zarchitect'
-  s.date = '2020-07-29'
+  s.date = '2020-09-25'
   s.summary = 'Static website generator'
   s.description = 'Yet another static website generator'
   s.authors = ["tohya ryu"]
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/misc_file.rb",
              "lib/zarchitect/page.rb",
              "lib/zarchitect/paginator.rb",
+             "lib/zarchitect/ress.rb",
              "lib/zarchitect/rouge_html.rb",
              "lib/zarchitect/scss.rb",
              "lib/zarchitect/section.rb",

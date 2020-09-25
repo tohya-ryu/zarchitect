@@ -1,7 +1,7 @@
+require 'gpi'
 require 'yaml'
 require 'erb'
 require 'sanitize'
-require 'gpi'
 
 class Zarchitect
 
@@ -65,6 +65,7 @@ require 'zarchitect/misc_file.rb'
 require 'zarchitect/page.rb'
 require 'zarchitect/paginator.rb'
 require 'zarchitect/rouge_html.rb'
+require 'zarchitect/rss.rb'
 require 'zarchitect/scss.rb'
 require 'zarchitect/section.rb'
 require 'zarchitect/util.rb'
