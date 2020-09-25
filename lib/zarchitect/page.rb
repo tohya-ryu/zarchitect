@@ -21,7 +21,7 @@ class Page < Zarchitect
 
     if @config.has_key?('title')
       @name = @config['title']
-    elsif @seciton.config.has_key?(:default_title)
+    elsif @section.config.has_key?(:default_title)
       @name = @section.config(:default_title)
     else
       @name = ""
