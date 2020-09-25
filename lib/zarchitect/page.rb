@@ -86,6 +86,9 @@ class Page < Zarchitect
         end
       end
     end
+    if @date.nil?
+      @date = File.stat(@source_path).ctime
+    end
     rss.try_item(self)
   end
 
