@@ -1,2 +1,2 @@
-- fix pagination
+- write rss build method
 - uploads ignore drafts
