@@ -22,6 +22,7 @@ end
 
 
 class RSSItem
+  attr_reader :date, :title, :description, :link, :guid
 
   def initialize(page)
     @date = page.date
