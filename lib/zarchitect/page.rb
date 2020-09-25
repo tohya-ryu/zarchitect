@@ -86,7 +86,7 @@ class Page < Zarchitect
         end
       end
     end
-    # categories should be defined in header, not via directories
+    rss.try_item(self)
   end
 
   def read_content

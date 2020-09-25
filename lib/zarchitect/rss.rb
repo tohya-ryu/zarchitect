@@ -27,6 +27,8 @@ class RSSItem
     @date = page.date
     @title = page.name
     @description = page.description
+    @link = page.url
+    @guid = page.url
   end
 
 end

@@ -5,8 +5,6 @@ require 'sanitize'
 
 class Zarchitect
 
-  #
-
   def initialize
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
@@ -21,6 +19,7 @@ class Zarchitect
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
+    @@rss = RSS.new
   end
 
   def main
@@ -48,6 +47,10 @@ class Zarchitect
     when 'sync'
       # draw data from mastodon / twitter api
     end
+  end
+
+  def rss
+    @@rss
   end
 
 end
