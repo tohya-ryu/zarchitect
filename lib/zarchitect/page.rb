@@ -1,6 +1,6 @@
 class Page < Zarchitect
   attr_reader :source_path, :html_path, :name, :category, :url, :date, :draft,
-    :section, :content
+    :section, :content, :description
 
   #+++++++++++++++++++++++++++++++++++
   # @content
@@ -17,6 +17,8 @@ class Page < Zarchitect
     @draft       = false
 
     read_config
+    read_content
+
     if @config.has_key?('title')
       @name = @config['title']
     elsif @seciton.config.has_key?(:default_title)
@@ -24,6 +26,19 @@ class Page < Zarchitect
     else
       @name = ""
     end
+
+    if @config.has_key?('description')
+      @description = @config['description'].dump
+    else
+      @description = @content.html.clone
+      @description = @description[0..160]
+      @description = Sanitize.fragment(@description)
+      if @description.length > 0
+        @description[(@description.length-1)] = "…"
+      end
+      @description = @description.dump
+    end
+
     @id   = @config['id']
     if @config.has_key?('draft')
       @draft = @config['draft']
@@ -82,7 +97,7 @@ class Page < Zarchitect
   def update
     @@current_page = self
     GPI.print "Updating HTML for #{@source_path}", GPI::CLU.check_option('v')
-    read_content
+    #read_content
     layout_tmpl = ZERB.new(@section.config[:layout])
     view_tmpl   = ZERB.new(@section.config[:view])
     view_tmpl.set_data(:content, @content.html)
@@ -112,17 +127,7 @@ class Page < Zarchitect
       author = ""
     end
     layout_tmpl.set_meta(:author, author)
-    if @config.has_key?('description')
-      layout_tmpl.set_meta(:description, @config['description'].dump)
-    else
-      desc = @content.html.clone
-      desc = desc[0..160]
-      desc = Sanitize.fragment(desc)
-      if desc.length > 0
-        desc[(desc.length-1)] = "…"
-      end
-      layout_tmpl.set_meta(:description, desc.dump)
-    end
+    layout_tmpl.set_meta(:description, @description)
     # set page data
     # prepare content
     view_tmpl.set_data(:title, @name)

@@ -25,6 +25,8 @@ class RSSItem
 
   def initialize(page)
     @date = page.date
+    @title = page.name
+    @description = page.description
   end
 
 end
