@@ -2,6 +2,7 @@ require 'gpi'
 require 'yaml'
 require 'erb'
 require 'sanitize'
+require 'rss'
 
 class Zarchitect
 
@@ -19,7 +20,7 @@ class Zarchitect
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
-    @@rss = RSS.new
+    @@rss = ZRSS.new
   end
 
   def main

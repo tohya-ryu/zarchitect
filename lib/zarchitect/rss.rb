@@ -1,4 +1,4 @@
-class RSS
+class ZRSS
 
   def initialize
     @items = Array.new
@@ -18,6 +18,25 @@ class RSS
   end
 
   def build
+    rss = RSS::Maker.make("atom") do |maker|
+      maker.channel.title = Config.site_name
+      maker.channel.author = Config.admin
+      maker.channel.updated = Time.now.to_s
+      maker.channel.about = Config.site_description
+      maker.channel.link = Config.url
+
+      @items.each do |item|
+        maker.items.new_item do |rss_item|
+          rss_item.title = item.title
+          rss_item.pubDate = item.date
+          rss_item.link = item.link
+          #rss_item.guid = item.guid
+        end
+      end
+    end
+
+    #puts rss
+    #write rss
   end
 
 
