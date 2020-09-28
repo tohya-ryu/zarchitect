@@ -29,6 +29,7 @@ class ZRSS
         maker.items.new_item do |rss_item|
           rss_item.title = item.title
           rss_item.pubDate = item.date
+          rss_item.description = item.description
           rss_item.link = item.link
           #rss_item.guid = item.guid
         end
