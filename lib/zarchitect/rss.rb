@@ -35,8 +35,8 @@ class ZRSS
       end
     end
 
-    #puts rss
     #write rss
+    File.open("_html/feed.rss", "w") { |f| f.write(rss) }
   end
 
 
