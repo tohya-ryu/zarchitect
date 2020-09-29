@@ -30,13 +30,12 @@ class Page < Zarchitect
     if @config.has_key?('description')
       @description = @config['description'].dump
     else
-      @description = @content.html
-      @description = @description[0..160]
-      @description = Sanitize.fragment(@description)
-      if @description.length > 0
-        @description[(@description.length-1)] = "…"
-      end
-      @description = @description.dump
+      nodes = @content.nodes.select { |n| n.type == "p" }
+      if nodes.count > 0
+        @description = Sanitize.fragment(nodes[0])
+        @description = @description.dump
+      else
+        @description = ""
     end
 
     @id   = @config['id']

@@ -1,4 +1,5 @@
 class Content < Zarchitect
+  attr_reader :nodes
 
   def initialize(path)
     @raw = File.open(path) { |f| f.read }
