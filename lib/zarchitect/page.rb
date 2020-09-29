@@ -36,6 +36,7 @@ class Page < Zarchitect
         @description = @description.dump
       else
         @description = ""
+      end
     end
 
     @id   = @config['id']
