@@ -30,7 +30,7 @@ class Page < Zarchitect
     if @config.has_key?('description')
       @description = @config['description'].dump
     else
-      @description = @content.html.clone
+      @description = @content.html
       @description = @description[0..160]
       @description = Sanitize.fragment(@description)
       if @description.length > 0

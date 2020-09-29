@@ -1,5 +1,4 @@
 class Content < Zarchitect
-  attr_reader :html
 
   def initialize(path)
     @raw = File.open(path) { |f| f.read }
@@ -15,11 +14,12 @@ class Content < Zarchitect
     end
     @raw = @raw.drop(i+1)
     @raw = @raw.join
+    @nodes = Array.new
   end
 
   def markup
     GPI.print "Processing markdown", GPI::CLU.check_option('v')
-    @html = @raw
+    chtml = @raw
     @img_id = 0
     @img_id_inc = 1
     new_string = ""
@@ -28,7 +28,7 @@ class Content < Zarchitect
       MEDIA:(?<filetype>img|img_full|video|yt|audio):
       (?<id>[a-zA-Z0-9|._\/]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
       /x
-    @html.each_line do |str|
+    chtml.each_line do |str|
       m = regexp.match(str)
       if m
         # file tag found
@@ -116,10 +116,52 @@ class Content < Zarchitect
 
     markdown = Redcarpet::Markdown.new(RougeHTML,
                                        autolink: true)
-    @html = markdown.render(new_string)
+    chtml = markdown.render(new_string)
+
+    parse(chtml)
+
+  end
+
+  def html
+    str = String.new
+    @nodes.each do |n|
+      str << n.html
+    end
+    str
+  end
+
+  def preview(n)
+    if full_preview?(n)
+      html
+    else
+      str = String.new
+      i = 0
+      @nodes.each do |n|
+        break if i == n
+        str << n.html 
+        i += 1
+      end
+      str
+    end
+  end
+
+  def full_preview?(n)
+    @nodes.count > n
   end
 
   private
+
+  def parse(html)
+    node = Nokogiri::HTML.fragment(html) do |config|
+      config.strict.noblanks
+    end
+
+    nodes = node.children.select { |c| c.class == Nokogiri::XML::Element }
+
+    nodes.each do |n|
+      @nodes.push ContentNode.new(n)
+    end
+  end
 
   def media_img
   end
@@ -136,4 +178,13 @@ class Content < Zarchitect
   def media_audio
   end
 
+end
+
+class ContentNode
+  attr_reader :type, :html
+  
+  def initialize(node)
+    @type = node.name
+    @html = node.to_html
+  end
 end

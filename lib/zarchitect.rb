@@ -3,6 +3,7 @@ require 'yaml'
 require 'erb'
 require 'sanitize'
 require 'rss'
+require 'nokogiri'
 
 class Zarchitect
 
