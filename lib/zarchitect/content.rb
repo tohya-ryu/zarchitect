@@ -27,11 +27,15 @@ class Content < Zarchitect
     regexp = /
       \A
       MEDIA:(?<filetype>img|img_full|video|yt|audio):
-      (?<id>[a-zA-Z0-9|._\/]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
+      (?<id>[a-zA-Z0-9|._\-\/]+):"(?<caption>.*)":?(?<width>[0-9px%]*)
       /x
     chtml.each_line do |str|
+      if str.include?('MEDIA')
+        GPI.print "media processor: #{str}", GPI::CLU.check_option('v')
+      end
       m = regexp.match(str)
       if m
+        GPI.print "matched regex", GPI::CLU.check_option('v')
         # file tag found
         # replace with corresponding html :)
         # m[0] whole tag
@@ -46,7 +50,7 @@ class Content < Zarchitect
           if m[:id].count('|') == @caption.count('|')
             m[:id].split('|').each do |id|
               img = Image.find("url", id)
-              found = true if img
+              found = true unless img.nil?
               @imgset.push img unless img.nil?
             end
             @img_id_inc = @imgset.size
@@ -126,7 +130,9 @@ class Content < Zarchitect
           end
         end
         if new_html.include?('\n')
-          str.sub! m[0], new_html.chomp!
+          str.sub!(m[0], new_html.chomp!)
+        else
+          str.sub!(m[0], new_html)
         end
       end
       new_string << str
@@ -164,7 +170,7 @@ class Content < Zarchitect
   end
 
   def full_preview?(n)
-    @nodes.count > n
+    (@nodes.count <= n)
   end
 
   private
