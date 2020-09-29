@@ -37,6 +37,7 @@ class Content < Zarchitect
         # m[0] whole tag
         @caption = m[:caption]
         new_html = ""
+        found = false
         case m[:filetype]
         when 'img'
           GPI.print "Processing media: img", GPI::CLU.check_option('v')
@@ -44,7 +45,8 @@ class Content < Zarchitect
           @imgset = Array.new
           if m[:id].count('|') == @caption.count('|')
             m[:id].split('|').each do |id|
-              @imgset.push Image.find("url", id)
+              img = Image.find("url", id)
+              @imgset.push img unless img.nil?
             end
             @img_id_inc = @imgset.size
             #@images = ImageFile.find(m[:id].split('|'))
@@ -53,14 +55,18 @@ class Content < Zarchitect
             else
               @max_width = '100%'
             end
-            a = ZERB.new("_layouts/_image.html.erb")
-            a.set_data(:img_id, @img_id)
-            a.set_data(:imgset, @imgset)
-            a.set_data(:max_width, @max_width)
-            a.set_data(:caption, @caption)
-            a.prepare
-            a.render
-            html = a.output
+            if @imgset.count > 0
+              a = ZERB.new("_layouts/_image.html.erb")
+              a.set_data(:img_id, @img_id)
+              a.set_data(:imgset, @imgset)
+              a.set_data(:max_width, @max_width)
+              a.set_data(:caption, @caption)
+              a.prepare
+              a.render
+              html = a.output
+            else
+              html = "img not found"
+            end
           else
             html = "failed to render media"
           end
@@ -110,7 +116,10 @@ class Content < Zarchitect
             new_html << substr
           end
         end
-        str.sub! m[0], new_html.chomp!
+        if m[0]
+          str.sub! m[0], new_html.chomp!
+        else
+        end
       end
       new_string << str
     end
