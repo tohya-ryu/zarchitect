@@ -30,6 +30,8 @@ class Video
         return a
       end
     end
+    @@search = false
+    nil
   end
   
 end

@@ -108,12 +108,16 @@ class Page < Zarchitect
     if @section.collection?
       title = Config.site_name.clone
       title << Config.title_sep
-      title << @config['title']
+      if @config.has_key?('title')
+        title << @config['title']
+      end
       layout_tmpl.set_meta(:title, title.dump)
     else
       title = Config.site_name.clone
       title << Config.title_sep
-      title << @config['title']
+      if @config.has_key?('title')
+        title << @config['title']
+      end
       layout_tmpl.set_meta(:title, title.dump)
     end
     keywords = Config.site_keywords.clone

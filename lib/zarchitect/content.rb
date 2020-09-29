@@ -46,6 +46,7 @@ class Content < Zarchitect
           if m[:id].count('|') == @caption.count('|')
             m[:id].split('|').each do |id|
               img = Image.find("url", id)
+              found = true if img
               @imgset.push img unless img.nil?
             end
             @img_id_inc = @imgset.size
@@ -82,21 +83,29 @@ class Content < Zarchitect
         when 'video'
           GPI.print "Processing media: video", GPI::CLU.check_option('v')
           @video = Video.find("url", m[:id])
-          a = ZERB.new("_layouts/_video.html.erb")
-          a.set_data(:video, @video)
-          a.set_data(:caption, @caption)
-          a.prepare
-          a.render
-          html = a.output
+          unless @video.nil?
+            a = ZERB.new("_layouts/_video.html.erb")
+            a.set_data(:video, @video)
+            a.set_data(:caption, @caption)
+            a.prepare
+            a.render
+            html = a.output
+          else
+            html = "video not found"
+          end
         when 'audio'
           GPI.print "Processing media: audio", GPI::CLU.check_option('v')
           @audio = AudioFile.find(m[:id])
-          a = ZERB.new("_layouts/_audio.html.erb")
-          a.set_data(:audio, @audio)
-          a.set_data(:caption, @caption)
-          a.prepare
-          a.render
-          html = a.output
+          unless @audio.nil?
+            a = ZERB.new("_layouts/_audio.html.erb")
+            a.set_data(:audio, @audio)
+            a.set_data(:caption, @caption)
+            a.prepare
+            a.render
+            html = a.output
+          else
+            html = "audio not found"
+          end
         when 'yt'
           @yt_id = m[:id]
           GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
@@ -116,9 +125,8 @@ class Content < Zarchitect
             new_html << substr
           end
         end
-        if m[0]
+        if new_html.include?('\n')
           str.sub! m[0], new_html.chomp!
-        else
         end
       end
       new_string << str

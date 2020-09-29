@@ -25,6 +25,7 @@ class Audio
       str = a.send(k)
       return a if str == v
     end
+    nil
   end
   
 end
