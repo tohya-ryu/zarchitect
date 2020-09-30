@@ -2,9 +2,9 @@ class Content < Zarchitect
   attr_reader :nodes
 
   def initialize(path)
-    @source = path
+    @source = path.clone
     @source.gsub!('/', '_')
-    exit
+    @source.sub!('.md', '')
     @raw = File.open(path) { |f| f.read }
     @raw = @raw.lines
     i = 0
@@ -164,11 +164,9 @@ class Content < Zarchitect
       html
     else
       str = String.new
-      i = 0
-      @nodes.each do |n|
+      @nodes.each_with_index do |node,i|
         break if i == n
-        str << n.html 
-        i += 1
+        str << node.html 
       end
       str
     end
@@ -181,14 +179,25 @@ class Content < Zarchitect
   private
 
   def parse(html)
+    debug_dir = File.join("_build/debug", @source)
+    if GPI::CLU.check_option('d')
+      debug_dir = Util.mkdir(debug_dir)
+    end
+
     node = Nokogiri::HTML.fragment(html) do |config|
       config.strict.noblanks
     end
 
     nodes = node.children.select { |c| c.class == Nokogiri::XML::Element }
 
-    nodes.each do |n|
+    nodes.each_with_index do |n,i|
       @nodes.push ContentNode.new(n)
+
+      if GPI::CLU.check_option('d') # debug
+        f = File.join(debug_dir, "#{i}.txt")
+        File.open(f, "w") { |f| f.write(@nodes.last.html) }
+      end
+
     end
   end
 
