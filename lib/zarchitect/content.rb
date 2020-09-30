@@ -41,7 +41,6 @@ class Content < Zarchitect
         # m[0] whole tag
         @caption = m[:caption]
         new_html = ""
-        found = false
         case m[:filetype]
         when 'img'
           GPI.print "Processing media: img", GPI::CLU.check_option('v')
@@ -50,7 +49,6 @@ class Content < Zarchitect
           if m[:id].count('|') == @caption.count('|')
             m[:id].split('|').each do |id|
               img = Image.find("url", id)
-              found = true unless img.nil?
               @imgset.push img unless img.nil?
             end
             @img_id_inc = @imgset.size
@@ -70,20 +68,24 @@ class Content < Zarchitect
               a.render
               html = a.output
             else
-              html = "img not found"
+              html = "[img not found]"
             end
           else
-            html = "failed to render media"
+            html = "[failed to render media]"
           end
         when 'img_full'
           GPI.print "Processing media: img_full", GPI::CLU.check_option('v')
           @image = Image.find("url", m[:id])
-          a = ZERB.new("_layouts/_image_full.html.erb")
-          a.set_data(:image, @image)
-          a.set_data(:caption, @caption)
-          a.prepare
-          a.render
-          html = a.output
+          unless @image.nil?
+            a = ZERB.new("_layouts/_image_full.html.erb")
+            a.set_data(:image, @image)
+            a.set_data(:caption, @caption)
+            a.prepare
+            a.render
+            html = a.output
+          else
+            html = "[img not found]"
+          end
         when 'video'
           GPI.print "Processing media: video", GPI::CLU.check_option('v')
           @video = Video.find("url", m[:id])
@@ -95,7 +97,7 @@ class Content < Zarchitect
             a.render
             html = a.output
           else
-            html = "video not found"
+            html = "[video not found]"
           end
         when 'audio'
           GPI.print "Processing media: audio", GPI::CLU.check_option('v')
@@ -108,7 +110,7 @@ class Content < Zarchitect
             a.render
             html = a.output
           else
-            html = "audio not found"
+            html = "[audio not found]"
           end
         when 'yt'
           @yt_id = m[:id]
@@ -120,7 +122,7 @@ class Content < Zarchitect
           a.render
           html = a.output
         else
-          html = "failed to render media"
+          html = "[failed to render media]"
         end
         html.each_line do |substr|
           if substr.lstrip
