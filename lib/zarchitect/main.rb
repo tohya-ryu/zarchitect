@@ -144,6 +144,12 @@ class Main < Zarchitect
     GPI.print "successfuly created #{filename}"
   end
 
+  def cmd_update_assets
+    Util.mkdir("_html/assets")
+    SCSS.run
+    Assets.update
+  end
+
   private
 
   def self.escape_title(str)
