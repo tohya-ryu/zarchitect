@@ -16,7 +16,7 @@ class Zarchitect
     GPI.extend(:string)
     GPI::CLU.init
     # Command name | range of parameter num | options
-    GPI::CLU.use_command("update", 0..2, "rvq")
+    GPI::CLU.use_command("update", 0..2, "rvqd")
     GPI::CLU.use_command("new", 2..3, "")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync

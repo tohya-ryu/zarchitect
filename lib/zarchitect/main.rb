@@ -21,6 +21,9 @@ class Main < Zarchitect
     Util.mkdir("_html")
     Util.mkdir("_html/assets")
     Util.mkdir("_html/files")
+    if GPI::CLU.check_option('d')
+      Util.mkdir("_build/debug")
+    end
     SCSS.run
     FileManager.run
     # prepare data for use in templates

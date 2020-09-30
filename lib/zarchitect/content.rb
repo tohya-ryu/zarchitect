@@ -2,6 +2,9 @@ class Content < Zarchitect
   attr_reader :nodes
 
   def initialize(path)
+    @source = path
+    @source.gsub!('/', '_')
+    exit
     @raw = File.open(path) { |f| f.read }
     @raw = @raw.lines
     i = 0
