@@ -123,6 +123,10 @@ class ZERB < Zarchitect
     tag << %{>#{str}</a>}
   end
 
+  def fdate(date)
+    date.strftime("%F")
+  end
+
   def include_view
     data(:view)
   end
