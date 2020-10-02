@@ -146,6 +146,7 @@ class Section < Zarchitect
     layout_tmpl.set_meta(:keywords, "")
     layout_tmpl.set_meta(:author, "")
     layout_tmpl.set_meta(:description, "")
+    layout_tmpl.set_data(:current_section, self)
     layout_tmpl.prepare
     layout_tmpl.render
     html = layout_tmpl.output
