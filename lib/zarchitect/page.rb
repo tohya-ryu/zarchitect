@@ -85,6 +85,10 @@ class Page < Zarchitect
           @date = @config['date'] # class Time
         end
       end
+    else
+      if @config.has_key?('date')
+        @date = @config['date']
+      end
     end
     if @date.nil?
       @date = File.stat(@source_path).ctime
