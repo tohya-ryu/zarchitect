@@ -84,6 +84,10 @@ class Page < Zarchitect
         else
           @date = @config['date'] # class Time
         end
+      else
+        if @config.has_key?('date')
+          @date = @config['date']
+        end
       end
     else
       if @config.has_key?('date')
