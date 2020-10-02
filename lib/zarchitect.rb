@@ -23,6 +23,7 @@ class Zarchitect
     GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
     @@rss = ZRSS.new
+    Assets.cpdirs
   end
 
   def main
