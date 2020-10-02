@@ -259,6 +259,7 @@ class Section < Zarchitect
             @pages.push Page.new(self, path, @categories[@categories.size-1])
             @id_count += 1
           end
+          @categories.sort_by! { |c| c.name }
         end
         # create page directories if necessary
       else
