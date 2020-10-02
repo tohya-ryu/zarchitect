@@ -7,6 +7,9 @@ class SCSS
         if File.extname(path) == ".scss"
           npath = path.clone
           npath.gsub!('.scss', '.css')
+          update(path, npath)
+
+=begin
           unless File.exist?(npath)
             update(path, npath)
           else
@@ -14,6 +17,8 @@ class SCSS
               update(path, npath)
             end
           end
+=end
+
         end
       end
     end
