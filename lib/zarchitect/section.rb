@@ -1,6 +1,7 @@
 class Section < Zarchitect
   attr_reader :name, :url, :pages, :categories, :id_count, :paginator,
     :rpages
+  attr_accessor :currcat
 
   # @@config[:sections][:"#{@name}"][:layout]
   ########################
@@ -24,6 +25,7 @@ class Section < Zarchitect
       @url = "/#{@name}/index.html"
     end
     @pages_per_index = 0 # 0 = ALL ON ONE INDEX / no pagination
+    @currcat = nil
 
   end
 
@@ -147,6 +149,7 @@ class Section < Zarchitect
     layout_tmpl.set_meta(:author, "")
     layout_tmpl.set_meta(:description, "")
     layout_tmpl.set_data(:current_section, self)
+    layout_tmpl.set_data(:current_category, @currcat)
     layout_tmpl.prepare
     layout_tmpl.render
     html = layout_tmpl.output

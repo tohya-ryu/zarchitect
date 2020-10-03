@@ -148,6 +148,7 @@ class Page < Zarchitect
     view_html = view_tmpl.output
     layout_tmpl.set_data(:view, view_html)
     layout_tmpl.set_data(:current_section, @section)
+    layout_tmpl.set_data(:current_category, @category)
     layout_tmpl.prepare
     layout_tmpl.render
     @html = layout_tmpl.output

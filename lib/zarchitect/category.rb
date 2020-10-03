@@ -35,6 +35,7 @@ class Category < Zarchitect
   end
 
   def update_index
+    @section.currcat = self
     unless @section.config[:paginate] > 0
       @section.create_index(@paginator,
                             "_html/#{@section.name}/#{@name}/index.html",
@@ -67,6 +68,7 @@ class Category < Zarchitect
         @paginator.next unless @paginator.nil?
       end
     end
+    @section.currcat = nil
   end
 
 end
