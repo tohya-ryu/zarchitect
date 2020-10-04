@@ -1,2 +1,15 @@
+- do not show date for profile/links
+- remove categories for blog indexes
+- fix projects index
+- removel legal link -> contact link instead
+- write profile (->about)
+- write links
+- maybe fix keywords
+- fix titles
+- fix translations index
+- fix fth????????
+- remove top menu
+- add page with media ?
+- visitor counter!
 - write rss build method
 - uploads ignore drafts
