@@ -101,7 +101,7 @@ class Page < Zarchitect
   end
 
   def read_content
-    @content = Content.new(@source_path)
+    @content = Content.new(@source_path, @config)
     @content.markup
   end
 

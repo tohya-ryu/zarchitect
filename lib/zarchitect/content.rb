@@ -1,7 +1,7 @@
 class Content < Zarchitect
   attr_reader :nodes
 
-  def initialize(path)
+  def initialize(path, config)
     @source = path.clone
     @source.gsub!('/', '_')
     @source.sub!('.md', '')
@@ -19,6 +19,7 @@ class Content < Zarchitect
     @raw = @raw.drop(i+1)
     @raw = @raw.join
     @nodes = Array.new
+    @config = config
   end
 
   def markup
@@ -63,6 +64,11 @@ class Content < Zarchitect
             end
             if @imgset.count > 0
               a = ZERB.new("_layouts/_image.html.erb")
+              if @config.has_key?('force-small-thumb')
+                a.set_data(:fst, @config['force-small-thumb'])
+              else
+                a.set_data(:fst, false)
+              end
               a.set_data(:img_id, @img_id)
               a.set_data(:imgset, @imgset)
               a.set_data(:max_width, @max_width)

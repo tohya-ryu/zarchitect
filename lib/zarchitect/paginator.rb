@@ -32,7 +32,7 @@ class Paginator
   end
 
   def paginates?
-    @pages_per_index > 0
+    @page_number > 1
   end
 
   private
