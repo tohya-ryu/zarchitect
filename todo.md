@@ -1,6 +1,5 @@
 - remove categories for blog indexes
 - fix projects index
-- removel legal link -> contact link instead
 - write profile (->about)
 - write links
 - maybe fix keywords
