@@ -28,7 +28,7 @@ class Page < Zarchitect
     end
 
     if @config.has_key?('description')
-      @description = @config['description'].dump
+      @description = @config['description']
     else
       nodes = @content.nodes.select { |n| n.type == "p" }
       if nodes.count > 0

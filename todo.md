@@ -1,11 +1,9 @@
 - remove categories for blog indexes
-- fix projects index
 - write profile (->about)
 - write links
 - maybe fix keywords
 - fix titles
-- fix translations index
-- fix fth????????
+- fix tags
 - remove top menu
 - add page with media ?
 - visitor counter!
