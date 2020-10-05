@@ -113,17 +113,17 @@ class Page < Zarchitect
     view_tmpl   = ZERB.new(@section.config[:view])
     view_tmpl.set_data(:content, @content.html)
     # prepare meta information
+    title = Config.site_name.clone
+    title << Config.title_sep
     if @section.collection?
-      title = Config.site_name.clone
-      title << Config.title_sep
-      title << @name
-      layout_tmpl.set_meta(:title, title.dump)
-    else
-      title = Config.site_name.clone
-      title << Config.title_sep
-      title << @name
-      layout_tmpl.set_meta(:title, title.dump)
+      title << @section.name << Config.title_sep
     end
+    if @section.categorized?
+      title << @category.name << Config.title_sep
+    end
+    title << @name
+    layout_tmpl.set_meta(:title, title)
+
     keywords = Config.site_keywords.clone
     if @section.config.has_key?(:keywords)
       keywords << ', ' << @section.config[:keywords]

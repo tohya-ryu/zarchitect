@@ -144,10 +144,18 @@ class Section < Zarchitect
     view_html = view_tmpl.output
     layout_tmpl.set_data(:view, view_html)
     # TODO
-    layout_tmpl.set_meta(:title, "")
     layout_tmpl.set_meta(:keywords, "")
-    layout_tmpl.set_meta(:author, "")
-    layout_tmpl.set_meta(:description, "")
+    layout_tmpl.set_meta(:author, Config.admin)
+    if @currcat
+      layout_tmpl.set_meta(:title, Config.site_name+
+                          Config.title_sep + @name +
+                          Config.title_sep + @currcat.name)
+      layout_tmpl.set_meta(:description, "#{@name} #{@currcat.name}")
+    else
+      layout_tmpl.set_meta(:title,
+                           "#{Config.site_name}#{Config.title_sep}#{@name}")
+      layout_tmpl.set_meta(:description, @name)
+    end
     layout_tmpl.set_data(:current_section, self)
     layout_tmpl.set_data(:current_category, @currcat)
     layout_tmpl.prepare
