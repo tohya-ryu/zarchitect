@@ -144,7 +144,7 @@ class Section < Zarchitect
     view_html = view_tmpl.output
     layout_tmpl.set_data(:view, view_html)
     # TODO
-    layout_tmpl.set_meta(:keywords, "")
+    layout_tmpl.set_meta(:keywords, Config.site_keywords.clone)
     layout_tmpl.set_meta(:author, Config.admin)
     if @currcat
       layout_tmpl.set_meta(:title, Config.site_name+
