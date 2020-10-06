@@ -22,8 +22,7 @@ class RougeHTML < Redcarpet::Render::HTML
       elsif j.length == 2
         j.prepend("0")
       end
-      code2 << "<span style='user-select:none;-moz-user-select:none;'>" +
-               "#{j}  </span>#{l}" 
+      code2 << "<span class='codelinenumber'>#{j}  </span>#{l}" 
       i += 1
     end
 
