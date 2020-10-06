@@ -1,7 +1,6 @@
-- write profile (->about)
-- write links
 - fix tags
 - add page with media ?
 - visitor counter!
-- write rss build method
+- write about
+- write links
 - uploads ignore drafts
