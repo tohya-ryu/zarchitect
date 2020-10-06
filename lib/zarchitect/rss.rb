@@ -28,7 +28,7 @@ class ZRSS
       @items.each do |item|
         maker.items.new_item do |rss_item|
           rss_item.title = item.title
-          rss_item.pubDate = item.date
+          rss_item.pubDate = item.dates
           rss_item.description = item.description
           rss_item.link = item.link
           #rss_item.guid = item.guid
@@ -45,10 +45,12 @@ end
 
 
 class RSSItem
-  attr_reader :date, :title, :description, :link, :guid
+  attr_reader :date, :title, :description, :link, :guid,
+    :dates
 
   def initialize(page)
     @date = page.date
+    @dates = page.date.strftime("%a, %d %b  %Y %T %z")
     @title = page.name
     @description = page.description
     @link = page.url

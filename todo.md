@@ -1,6 +1,5 @@
 - write profile (->about)
 - write links
-- maybe fix keywords
 - fix tags
 - add page with media ?
 - visitor counter!
