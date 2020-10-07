@@ -1,3 +1,0 @@
-#!/usr/bin/env ruby
-require 'zarchitect2'
-Zarchitect.new.main
