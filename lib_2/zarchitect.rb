@@ -8,8 +8,6 @@ require 'nokogiri'
 class Zarchitect
 
   def initialize
-    p "zarch2"
-    exit
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
     GPI.extend(:file)
@@ -18,17 +16,14 @@ class Zarchitect
     GPI.extend(:string)
     GPI::CLU.init
     # Command name | range of parameter num | options
-    GPI::CLU.use_command("u", [0], "rvqd")
-    GPI::CLU.use_command("update", [0], "rvqd")
-
+    GPI::CLU.use_command("update", 0..2, "rvqd")
     GPI::CLU.use_command("ua", [0], "")
-    GPI::CLU.use_command("update-assets", [0], "")
-
     GPI::CLU.use_command("new", 2..3, "")
     #app_command(0..2, "r") # appname = command.name
+    GPI::CLU.use_command("sync", 1, "") # paramter=section to sync
     GPI::CLU.process_args
-    #@@rss = ZRSS.new
-    #Assets.cpdirs
+    @@rss = ZRSS.new
+    Assets.cpdirs
   end
 
   def main
@@ -38,7 +33,6 @@ class Zarchitect
       GPI.print "Non-verbose Mode"
     end
     # Load config
-    load_conf
     conf = Hash.new
     #@@options = Hash.new { rebuild: nil }
     begin
@@ -65,22 +59,8 @@ class Zarchitect
     @@rss
   end
 
-  def load_conf
-    @conf = Hash.new
-    Dir.files("_config") do |f|
-      p f
-    end
-    begin
-      File.open('_config/_zarchitect.yaml') { |f| @conf = YAML.load(f) }
-    rescue StandardError
-      GPI.print "Failed to load _config/_zarchitect.yaml"
-      GPI.quit
-    end
-    exit
-  end
-
 end
-=begin
+
 require 'zarchitect/assets.rb'
 require 'zarchitect/audio.rb'
 require 'zarchitect/category.rb'
@@ -89,8 +69,7 @@ require 'zarchitect/file_manager.rb'
 require 'zarchitect/image.rb'
 require 'zarchitect/image_set.rb'
 require 'zarchitect/index.rb'
-require 'zarchitect/cmd_update.rb'
-require 'zarchitect/cmd_new.rb'
+require 'zarchitect/main.rb'
 require 'zarchitect/misc_file.rb'
 require 'zarchitect/page.rb'
 require 'zarchitect/paginator.rb'
@@ -101,4 +80,3 @@ require 'zarchitect/section.rb'
 require 'zarchitect/util.rb'
 require 'zarchitect/video.rb'
 require 'zarchitect/zerb.rb'
-=end
