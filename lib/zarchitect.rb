@@ -8,8 +8,6 @@ require 'nokogiri'
 class Zarchitect
 
   def initialize
-    p "zarch2"
-    exit
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
     GPI.extend(:file)
@@ -39,7 +37,6 @@ class Zarchitect
     end
     # Load config
     load_conf
-    conf = Hash.new
     #@@options = Hash.new { rebuild: nil }
     begin
       File.open('_config.yaml') { |f| conf = YAML.load(f) }
@@ -66,31 +63,33 @@ class Zarchitect
   end
 
   def load_conf
-    @conf = Hash.new
-    Dir.files("_config") do |f|
-      p f
+    @zr_config = Config.new("_config/_zarchitect.yaml")
+    @index_config = Config.new("_config/_index.yaml")
+    @index_config.validate
+    @sec_config = Array.new
+    Dir.files("_config").each do |f|
+      next if f == "_zarchitect.yaml"
+      next if f == "_index.yaml"
+      @sec_config.push Config.new("_config/#{f}")
+      @sec_config.validate
     end
-    begin
-      File.open('_config/_zarchitect.yaml') { |f| @conf = YAML.load(f) }
-    rescue StandardError
-      GPI.print "Failed to load _config/_zarchitect.yaml"
-      GPI.quit
-    end
+    @zr_config.validate_zrconf
     exit
   end
 
 end
-=begin
+
 require 'zarchitect/assets.rb'
 require 'zarchitect/audio.rb'
 require 'zarchitect/category.rb'
+require 'zarchitect/config.rb'
 require 'zarchitect/content.rb'
 require 'zarchitect/file_manager.rb'
 require 'zarchitect/image.rb'
 require 'zarchitect/image_set.rb'
 require 'zarchitect/index.rb'
-require 'zarchitect/cmd_update.rb'
-require 'zarchitect/cmd_new.rb'
+#require 'zarchitect/cmd_update.rb'
+#require 'zarchitect/cmd_new.rb'
 require 'zarchitect/misc_file.rb'
 require 'zarchitect/page.rb'
 require 'zarchitect/paginator.rb'
@@ -101,4 +100,3 @@ require 'zarchitect/section.rb'
 require 'zarchitect/util.rb'
 require 'zarchitect/video.rb'
 require 'zarchitect/zerb.rb'
-=end
