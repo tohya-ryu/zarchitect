@@ -4,8 +4,6 @@ class Main < Zarchitect
   end
 
   def cmd_update
-    SCSS.run
-    FileManager.run
     # prepare data for use in templates
     data = Hash.new
     Config.sections.each_key do |k|

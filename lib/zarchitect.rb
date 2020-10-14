@@ -25,8 +25,7 @@ class Zarchitect
     GPI::CLU.use_command("new", 2..3, "")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.process_args
-    #@@rss = ZRSS.new
-    #Assets.cpdirs
+    @@rss = ZRSS.new
   end
 
   def main
@@ -79,20 +78,23 @@ class Zarchitect
   end
 
   def load_conf
-    @zr_config = Config.new("_config/_zarchitect.yaml")
-    @zr_config.validate_zrconf
-    @index_config = Config.new("_config/_index.yaml")
-    @index_config.validate
-    @sec_config = Array.new
+    @@zr_config = Config.new("_config/_zarchitect.yaml")
+    @@zr_config.validate_zrconf
+    @@index_config = Config.new("_config/_index.yaml")
+    @@index_config.validate
+    @@sec_config = Array.new
     Dir.files("_config").each do |f|
       next if f[0] == "." # don't read swap files
       next if f == "_zarchitect.yaml"
       next if f == "_index.yaml"
-      @sec_config.push Config.new("_config/#{f}")
-      @sec_config.last.validate
+      @@sec_config.push Config.new("_config/#{f}")
+      @@sec_config.last.validate
     end
   end
 
+  def Zarchitect.conf
+    @@zr_config
+  end
 end
 
 require 'zarchitect/assets.rb'

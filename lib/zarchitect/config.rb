@@ -19,6 +19,19 @@ class Config
     end
   end
 
+  def has_option?(str)
+    @hash.has_key?(str)
+  end
+
+  def read(key)
+    if hash_option?(key)
+      @hash[key] 
+    else
+      GPI.print "Option #{key} missing in  config #{@file}."
+      GPI.quit
+    end
+  end
+
   def validate
     GPI.print "Validating #{@file}."
     if @hash.has_key?("sort_type")

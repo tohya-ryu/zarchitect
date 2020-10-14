@@ -1,24 +1,21 @@
 class SCSS
 
   def self.run
-    Util.mkdir("_assets")
-    Dir[ File.join("_assets", "**", "*") ].reverse.reject do |path|
-      unless File.directory?(path)
-        if File.extname(path) == ".scss"
-          npath = path.clone
-          npath.gsub!('.scss', '.css')
-          update(path, npath)
-
-=begin
-          unless File.exist?(npath)
+    if Zarchitect.conf.has_option? "scss_enabled"
+      Zarchitect.conf.read("scss_enabled").each do |str|
+        path = File.join("_assets", str)
+        npath = path.clone
+        npath.gsub!(".scss", ".css")
+        update(path, npath)
+      end
+    else
+      Dir[ File.join("_assets", "**", "*") ].reverse.reject do |path|
+        unless File.directory?(path)
+          if File.extname(path) == ".scss"
+            npath = path.clone
+            npath.gsub!('.scss', '.css')
             update(path, npath)
-          else
-            if File.stat(path).mtime > File.stat(npath).mtime
-              update(path, npath)
-            end
           end
-=end
-
         end
       end
     end
