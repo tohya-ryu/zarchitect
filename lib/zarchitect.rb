@@ -37,14 +37,6 @@ class Zarchitect
     end
     # Load config
     load_conf
-    #@@options = Hash.new { rebuild: nil }
-    begin
-      File.open('_config.yaml') { |f| conf = YAML.load(f) }
-    rescue StandardError
-      GPI.print "Could not load config.yaml"
-      GPI.quit
-    end
-    conf.to_module("Config")
     m = Main.new
     case GPI::CLU.command
     when 'new' # create md file for new web page   
@@ -75,7 +67,6 @@ class Zarchitect
       @sec_config.push Config.new("_config/#{f}")
       @sec_config.last.validate
     end
-    GPI.quit
   end
 
 end
