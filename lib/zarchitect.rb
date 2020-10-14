@@ -37,10 +37,10 @@ class Zarchitect
     end
     # Load config
     load_conf
-    m = Main.new
     case GPI::CLU.command
     when 'new' # create md file for new web page   
-      m.cmd_new
+      cmd = Command::Update.new
+      cmd.run
     when 'update'
       m.cmd_update
     when 'sync'
