@@ -7,7 +7,7 @@ module Command
       Zarchitect.setup_html_tree
       Assets.cpdirs
       SCSS.run
-      #FileManager.run
+      FileManager.run
     end
 
     def run
