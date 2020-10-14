@@ -4,26 +4,6 @@ class Main < Zarchitect
   end
 
   def cmd_update
-    #FileManager.clean if GPI::CLU.check_option('r')
-    if GPI::CLU.check_option('r') # rebuild
-      Dir[ File.join("_html", "**", "*") ].reverse.reject do |fullpath|
-        if File.directory?(fullpath)
-          GPI.print "deleting dir #{fullpath}"
-          Dir.delete(fullpath)
-          GPI.print "deleted dir #{fullpath}"
-        else
-          GPI.print "deleting file #{fullpath}"
-          File.delete(fullpath)
-          GPI.print "deleted file #{fullpath}"
-        end
-      end
-    end
-    Util.mkdir("_html")
-    Util.mkdir("_html/assets")
-    Util.mkdir("_html/files")
-    if GPI::CLU.check_option('d')
-      Util.mkdir("_build/debug")
-    end
     SCSS.run
     FileManager.run
     # prepare data for use in templates
