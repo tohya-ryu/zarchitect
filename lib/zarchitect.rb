@@ -64,17 +64,18 @@ class Zarchitect
 
   def load_conf
     @zr_config = Config.new("_config/_zarchitect.yaml")
+    @zr_config.validate_zrconf
     @index_config = Config.new("_config/_index.yaml")
     @index_config.validate
     @sec_config = Array.new
     Dir.files("_config").each do |f|
+      next if f[0] == "." # don't read swap files
       next if f == "_zarchitect.yaml"
       next if f == "_index.yaml"
       @sec_config.push Config.new("_config/#{f}")
-      @sec_config.validate
+      @sec_config.last.validate
     end
-    @zr_config.validate_zrconf
-    exit
+    GPI.quit
   end
 
 end

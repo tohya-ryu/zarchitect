@@ -8,17 +8,140 @@ class Config
     @hash = Hash.new
     begin
       YAML.load_stream(File.open(file) { |f| f.read }) do |doc|
+        #key = file.sub(File.extname(file), '').sub('_config/', '')
+        #@hash[:key] = doc
         @hash = doc
         break
       end
     rescue StandardError
-      GPI.print "Failed to load _config/_zarchitect.yaml."
+      GPI.print "Failed to load #{@file}."
       GPI.quit
     end
   end
 
+  def validate
+    GPI.print "Validating #{@file}."
+    if @hash.has_key?("sort_type")
+      unless ["alphanum", "date"].include?(@hash["sort_type"])
+        GPI.print "Value of [sort_type] has to be 'date' or 'alphanum'."
+        GPI.quit
+      end
+    else
+      @hash["sort_type"] = "alphanum"
+    end
+    if @hash.has_key?("sort_order")
+      unless ["default", "reverse"].include?(@hash["sort_order"])
+        GPI.print "Value of [sort_order] has to be 'default' or 'reverse'."
+        GPI.quit
+      end
+    else
+      @hash["sort_order"] = "default"
+    end
+    unless @hash.has_key?("collection") 
+      @hash["collection"] = false
+    end
+    if @hash["collection"] == true
+      unless @hash.has_key?("index_layout")
+        GPI.print "The [index_layout] option is required."
+        GPI.quit
+      else
+        unless @hash["index_layout"].class == String
+          GPI.print "Value of [index_layout] is not a string."
+          GPI.quit
+        end
+      end
+      unless @hash.has_key?("index_view")
+        GPI.print "The [index_view] option is required."
+        GPI.quit
+      else
+        unless @hash["index_view"].class == String
+          GPI.print "Value of [index_view] is not a string."
+          GPI.quit
+        end
+      end
+      unless @file == "_config/_index.yaml"
+        if @hash.has_key?("directory")
+          unless @hash["directory"].class == String
+            GPI.print "Value of [directory] has to be a string."
+            GPI.quit
+          end
+        else
+          GPI.print "Collections require the [directory] option."
+          GPI.quit
+        end
+      end
+      unless @hash.has_key?("categorize")
+        GPI.print ("Collections require the [categorize] option.")
+        GPI.quit
+      end
+      if @hash["categorize"] == true
+        unless @hash.has_key?("tags")
+          GPI.print ("Collections with categories require the [tags] option.")
+          GPI.quit
+        end
+      end
+    else
+      @hash["categorize"] = false
+      @hash["tags"] = false
+    end
+    unless @file == "_config/_index.yaml"
+      @hash["index"] = false
+      if @hash.has_key?("name")
+        unless @hash["name"].class == String
+          GPI.print "[name] is required to be a string."
+          GPI.quit
+        end
+      else
+        GPI.print "[name] option is missing."
+        GPI.quit
+      end
+    else
+      @hash["index"] = true
+      if @hash.has_key?("uses") 
+        unless @hash["uses"].class == String
+          GPI.print "[uses] should be a comma separated list of sections."
+          GPI.quit
+        end
+      end
+    end
+    unless @hash.has_key?("layout")
+      GPI.print "The [layout] option is required."
+      GPI.quit
+    else
+      unless @hash["layout"].class == String
+        GPI.print "Value of [layout] is not a string."
+        GPI.quit
+      end
+    end
+    unless @hash.has_key?("view")
+      GPI.print "The [view] option is required."
+      GPI.quit
+    else
+      unless @hash["view"].class == String
+        GPI.print "Value of [view] is not a string."
+        GPI.quit
+      end
+    end
+    if @hash.has_key?("paginate")
+      unless @hash["paginate"].class == Integer
+        GPI.print "Value of [paginate] can only be an integer."
+        GPI.quit
+      else
+        if @hash["paginate"] < 0
+          GPI.print "Valur of [paginate] has to be equal or greater than 0."
+          GPI.quit
+        end
+      end
+    else
+      if @hash["collection"] == true
+        GPI.print "[paginate] option is required for collections."
+        GPI.quit
+      end
+    end
+  end
+
   def validate_zrconf
-    GPI.print "Validating #{@file}"
+    GPI.print "Validating #{@file}."
     unless @hash.has_key?("url")
       GPI.print "config key [url] missing in _config/_zarchitect.yaml."
       GPI.quit
