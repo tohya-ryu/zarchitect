@@ -40,7 +40,7 @@ class Zarchitect
     when "new" # create md file for new web page   
       cmd = Command::New.new
       cmd.run
-    when "update" || "u"
+    when "update","u"
       cmd = CMD::Update.new
       cmd.run
     when "sync"
