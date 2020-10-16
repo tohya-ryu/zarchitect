@@ -88,7 +88,7 @@ class Zarchitect
       next if f[0] == "." # don't read swap files
       next if f == "_zarchitect.yaml"
       next if f == "_index.yaml"
-      n = f.sub(".yaml.", "")
+      n = f.sub(".yaml", "")
       @@sec_config.push Config.new("_config/#{f}", n)
       @@sec_config.last.validate
     end
