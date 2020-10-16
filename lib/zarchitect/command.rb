@@ -1,3 +1,3 @@
-class Command
+module Command
 
 end

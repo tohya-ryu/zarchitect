@@ -37,14 +37,15 @@ class Zarchitect
     # Load config
     load_conf
     case GPI::CLU.command
-    when 'new' # create md file for new web page   
-      cmd = Command::Update.new
+    when "new" # create md file for new web page   
+      cmd = Command::New.new
       cmd.run
-    when 'update'
-      m.cmd_update
-    when 'sync'
+    when "update" || "u"
+      cmd = CMD::Update.new
+      cmd.run
+    when "sync"
       # draw data from mastodon / twitter api
-    when 'ua'
+    when "ua"
       m.cmd_update_assets
     end
   end
@@ -78,16 +79,17 @@ class Zarchitect
   end
 
   def load_conf
-    @@zr_config = Config.new("_config/_zarchitect.yaml")
+    @@zr_config = Config.new("_config/_zarchitect.yaml", "configuration")
     @@zr_config.validate_zrconf
-    @@index_config = Config.new("_config/_index.yaml")
+    @@index_config = Config.new("_config/_index.yaml", "index")
     @@index_config.validate
     @@sec_config = Array.new
     Dir.files("_config").each do |f|
       next if f[0] == "." # don't read swap files
       next if f == "_zarchitect.yaml"
       next if f == "_index.yaml"
-      @@sec_config.push Config.new("_config/#{f}")
+      n = f.sub(".yaml.", "")
+      @@sec_config.push Config.new("_config/#{f}", n)
       @@sec_config.last.validate
     end
   end
@@ -114,7 +116,7 @@ require 'zarchitect/file_manager.rb'
 require 'zarchitect/image.rb'
 require 'zarchitect/image_set.rb'
 require 'zarchitect/index.rb'
-#require 'zarchitect/cmd_update.rb'
+require 'zarchitect/cmd_update.rb'
 #require 'zarchitect/cmd_new.rb'
 require 'zarchitect/misc_file.rb'
 require 'zarchitect/page.rb'

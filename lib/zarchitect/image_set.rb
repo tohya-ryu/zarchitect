@@ -21,15 +21,15 @@ class ImageSet
     @orig.thumbl_f = File.exist?(thumbl_path)
     unless @orig.thumb_small?
       if @orig.larger_than_thumb_small?
-        r = @orig.create_thumbnail(thumbs_path, Config.thumbs[0].to_i,
-                                   Config.thumbs[1].to_i)
+        r = @orig.create_thumbnail(thumbs_path, Zarchitect.conf.thumbs[0].to_i,
+                                   Zarchitect.conf.thumbs[1].to_i)
         @orig.thumbs_f = r
       end
     end
     unless @orig.thumb_large?
       if @orig.larger_than_thumb_small?
-        r = @orig.create_thumbnail(thumbl_path, Config.thumbl[0].to_i,
-                                   Config.thumbl[1].to_i)
+        r = @orig.create_thumbnail(thumbl_path, Zarchitect.conf.thumbl[0].to_i,
+                                   Zarchitect.conf.thumbl[1].to_i)
         @orig.thumbl_f = r
       end
     end

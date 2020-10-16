@@ -2,7 +2,7 @@ class Config
   
   # Constructor
   # requires yaml file
-  def initialize(file)
+  def initialize(file, key)
     @file = file
     GPI.print "Initializing config from #{file}.", GPI::CLU.check_option('v')
     @hash = Hash.new
@@ -17,6 +17,14 @@ class Config
       GPI.print "Failed to load #{@file}."
       GPI.quit
     end
+    @hash["key"] = key
+    instance_eval {
+      @hash.each_key do |k|
+        define_singleton_method k do
+          @hash[k]
+        end
+      end
+    }
   end
 
   def has_option?(str)
@@ -24,7 +32,7 @@ class Config
   end
 
   def read(key)
-    if hash_option?(key)
+    if has_option?(key)
       @hash[key] 
     else
       GPI.print "Option #{key} missing in  config #{@file}."

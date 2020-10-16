@@ -42,10 +42,10 @@ class Image
     @size         = File.size(path)
     @type         = arr[1]
     # validate file size
-    if @size > Config.image_limit.to_f.mib_to_bytes
+    if @size > Zarchitect.conf.image_limit.to_f.mib_to_bytes
       GPI.print "Error: File #{path} too large "\
         "(#{@size.bytes_to_mib.to_f.round(2)}MiB)."\
-        " Allowed size: #{Config.image_limit.to_f.mb_to_mib.round(2)}"
+        " Allowed size: #{Zarchitect.conf.image_limit.to_f.mb_to_mib.round(2)}"
       GPI.quit
     end
   end
@@ -67,13 +67,13 @@ class Image
   end
 
   def larger_than_thumb_small?
-      @dimensions.x > Config.thumbs[0].to_i ||
-        @dimensions.y > Config.thumbs[1].to_i
+    @dimensions.x > Zarchitect.conf.thumbs[0].to_i ||
+      @dimensions.y > Zarchitect.conf.thumbs[1].to_i
   end
 
   def larger_than_thumb_large?
-      @dimensions.x > Config.thumbl[0].to_i ||
-        @dimensions.y > Config.thumbl[1].to_i
+    @dimensions.x > Zarchitect.conf.thumbl[0].to_i ||
+      @dimensions.y > Zarchitect.conf.thumbl[1].to_i
   end
 
   def create_thumbnail(path, thumb_x, thumb_y)

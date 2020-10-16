@@ -8,10 +8,10 @@ class Audio
     @size = File.size(path)
     @type = "video/" << File.extname(path)[1..-1]
 
-    if @size > Config.audio_limit.to_f.mib_to_bytes
+    if @size > Zarchitect.conf.audio_limit.to_f.mib_to_bytes
       GPI.print "Error: File #{path} too large "\
         "(#{@size.bytes_to_mib.to_f.round(2)}MiB)."\
-        " Allowed size: #{Config.audio_limit.to_f.mb_to_mib.round(2)}"
+        " Allowed size: #{Zarchitect.conf.audio_limit.to_f.mb_to_mib.round(2)}"
       GPI.quit
     end
   end
