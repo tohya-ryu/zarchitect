@@ -95,6 +95,14 @@ class Zarchitect
   def Zarchitect.conf
     @@zr_config
   end
+
+  def Zarchitect.iconf
+    @@index_config
+  end
+  
+  def Zarchitect.sconf
+    @@sec_config
+  end
 end
 
 require 'zarchitect/assets.rb'
