@@ -6,9 +6,11 @@ module CMD
       @sections = Hash.new
       Zarchitect.rebuild if GPI::CLU.check_option('r')
       Zarchitect.setup_html_tree
-      Assets.cpdirs
+      @assets = Assets.new
+      @assets.cpdirs
       SCSS.run
-      FileManager.run
+      @files = FileManager.new
+      @files.run
     end
 
     def run

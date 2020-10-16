@@ -1,18 +1,20 @@
-module FileManager
+class FileManager < Zarchitect
 
-  @img = Array.new
-  @audio = Array.new
-  @video = Array.new
-  @misc  = Array.new
+  def initialize
+    @from = FILEDIR # where user puts files
+    @to = File.join(HTMLDIR, FILESDIR) # files in website dir tree
 
-  FROM = "_files" # dir where raw files reside
-  TO   = "_html/files"
+    @img = Array.new
+    @audio = Array.new
+    @video = Array.new
+    @misc  = Array.new
+  end
 
-  def self.run
+  def run
     # iterate FROM 
-    Dir[ File.join(FROM, '**', '*') ].reject do |fullpath|
-      path = fullpath[(FROM.length)..-1]
-      realpath = File.join(TO, path) # path of new dir/symlink
+    Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
+      path = fullpath[(@from.length)..-1]
+      realpath = File.join(@to, path) # path of new dir/symlink
       
       # dir handling / create copies in TO
       Util.mkdir(realpath) if File.directory?(fullpath)
@@ -46,7 +48,7 @@ module FileManager
     end
   end
 
-  def self.symlink(from, to)
+  def symlink(from, to)
     GPI.print "creating symlink #{to} ~> #{from}", 
       GPI::CLU.check_option('v')
     File.symlink(from, to)
@@ -54,7 +56,7 @@ module FileManager
       GPI::CLU.check_option('v')
   end
 
-  def self.clean
+  def clean
     # remove all files in _html/files
     %x{rm -r _html/files/*} 
   end

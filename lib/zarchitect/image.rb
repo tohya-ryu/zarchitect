@@ -1,9 +1,8 @@
-class Image
+class Image < Zarchitect
   attr_reader :dimensions, :size, :type
   attr_writer :thumbs_f, :thumbl_f
 
   @@search = false
-  THUMB_ROOT = "_html"
 
   #+++++++++++++++++++++++++++++
   # @path
@@ -22,7 +21,7 @@ class Image
       @url[0] = "/" # replace _ with /
     else
       # thumbnail
-      @url  = path[(THUMB_ROOT.length)..-1]
+      @url  = path[(HTMLDIR.length)..-1]
     end
     @dimensions = Point.new(0,0)
     #=============================== [0] = realpath
@@ -60,7 +59,7 @@ class Image
 
   def url
     if (!(Page.current_page.nil?) && Page.current_page.draft && !@@search)
-      "../_draft#{@url}"
+      File.join("..", DRAFTDIR, @url)
     else
       @url
     end
@@ -79,7 +78,7 @@ class Image
   def create_thumbnail(path, thumb_x, thumb_y)
     GPI.print "attempting to create thumbnail #{path}",
       GPI::CLU.check_option('v')
-    return false if path.include?("/share/") # no thumbs for external files
+    return false if path.include?("/#{SHARESDIR}/") # no thumbs for pic within
     x = @dimensions.x
     y = @dimensions.y
     if x <= thumb_x && y <= thumb_y # no need to create thumbnail

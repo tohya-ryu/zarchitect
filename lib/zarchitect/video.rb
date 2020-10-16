@@ -1,4 +1,4 @@
-class Video
+class Video < Zarchitect
   attr_reader :size, :type, :url
 
   def initialize(path)
@@ -6,7 +6,7 @@ class Video
     @url = path.clone
     @url[0] = "/"
     @size = File.size(path)
-    @type = "audio/" << File.extname(path)[1..-1]
+    @type = "video/" << File.extname(path)[1..-1]
 
     if @size > Zarchitect.conf.video_limit.to_f.mib_to_bytes
       GPI.print "Error: File #{path} too large "\

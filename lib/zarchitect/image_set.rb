@@ -1,4 +1,4 @@
-class ImageSet
+class ImageSet < Zarchitect
   attr_reader :orig, :thumbs, :thumbl
   #TODO abort on invalid filesize
 

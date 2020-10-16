@@ -1,14 +1,16 @@
 require 'gpi'
 
-module Assets
+class Assets < Zarchitect
 
-  FROM = "_assets"
-  TO   = "_html/assets"
+  def initialize
+    @from = ASSETDIR
+    @to = File.join(HTMLDIR, ASSETSDIR)
+  end
 
-  def self.update
-    Dir[ File.join(FROM, '**', '*') ].reject do |fullpath|
-      path = fullpath[(FROM.length)..-1]
-      realpath = File.join(TO, path)
+  def update
+    Dir[ File.join(from, '**', '*') ].reject do |fullpath|
+      path = fullpath[(from.length)..-1]
+      realpath = File.join(@to, path)
 
       Util.mkdir(realpath) if File.directory?(fullpath)
       next if File.directory?(fullpath)
@@ -23,10 +25,10 @@ module Assets
     end
   end
 
-  def self.cpdirs
-    Dir[ File.join(FROM, '**', '*') ].reject do |fullpath|
-      path = fullpath[(FROM.length)..-1]
-      realpath = File.join(TO, path)
+  def cpdirs
+    Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
+      path = fullpath[(@from.length)..-1]
+      realpath = File.join(@to, path)
 
       Util.mkdir(realpath) if File.directory?(fullpath)
     end

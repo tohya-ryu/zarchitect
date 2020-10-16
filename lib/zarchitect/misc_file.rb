@@ -1,4 +1,4 @@
-class MiscFile
+class MiscFile < Zarchitect
   attr_reader :size, :type, :url
 
   def initialize(path)

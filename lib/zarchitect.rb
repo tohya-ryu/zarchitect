@@ -8,6 +8,15 @@ require 'nokogiri'
 class Zarchitect
 
   HTMLDIR = "_html"
+  BUILDIR = "_build"
+  FILEDIR = "_files"
+  ASSETDIR = "_assets"
+  DRAFTDIR = "_drafts"
+
+  FILESDIR = "files"
+  SHARESDIR = "share" # directory under _files that doesn't have thumbnails
+  ASSETSDIR = "assets"
+  DEBUGSDIR = "debug"
 
   def initialize
     GPI.app_name = "zarchitect"
@@ -60,7 +69,7 @@ class Zarchitect
 
   def self.rebuild
     # delete all contents of _html
-    Dir[ File.join("_html", "**", "*") ].reverse.reject do |fullpath|
+    Dir[ File.join(HTMLDIR, "**", "*") ].reverse.reject do |fullpath|
       if File.directory?(fullpath)
         GPI.print "deleting dir #{fullpath}"
         Dir.delete(fullpath)
@@ -74,10 +83,10 @@ class Zarchitect
   end
 
   def self.setup_html_tree
-    Util.mkdir("_html")
-    Util.mkdir("_html/assets")
-    Util.mkdir("_html/files")
-    Util.mkdir("_build/debug") if GPI::CLU.check_option('d')
+    Util.mkdir(HTMLDIR)
+    Util.mkdir(File.join(HTMLDIR, ASSETSDIR))
+    Util.mkdir(File.join(HTMLDIR, FILESDIR))
+    Util.mkdir(File.join(BUILDDIR, DEBUGSDIR)) if GPI::CLU.check_option('d')
   end
 
   def load_conf
