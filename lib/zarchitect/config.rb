@@ -18,6 +18,11 @@ class Config
       GPI.quit
     end
     @hash["key"] = key
+    unless @file == "_config/_index.yaml"
+      @hash["index"] = false
+    else
+      @hash["index"] = true
+    end
     instance_eval {
       @hash.each_key do |k|
         define_singleton_method k do
@@ -106,7 +111,6 @@ class Config
       @hash["tags"] = false
     end
     unless @file == "_config/_index.yaml"
-      @hash["index"] = false
       if @hash.has_key?("name")
         unless @hash["name"].class == String
           GPI.print "[name] is required to be a string."
@@ -117,7 +121,6 @@ class Config
         GPI.quit
       end
     else
-      @hash["index"] = true
       if @hash.has_key?("uses") 
         unless @hash["uses"].class == String
           GPI.print "[uses] should be a comma separated list of sections."

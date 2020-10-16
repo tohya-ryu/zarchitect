@@ -13,9 +13,8 @@ module CMD
 
     def run
       Zarchitect.sconf.each do |s|
-        @sections[s.key] = s
+        @sections[s.key] = Section.new(s)
       end
-      p @sections
     end
 
     private

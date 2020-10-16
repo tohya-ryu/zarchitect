@@ -7,6 +7,8 @@ require 'nokogiri'
 
 class Zarchitect
 
+  HTMLDIR = "_html"
+
   def initialize
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
