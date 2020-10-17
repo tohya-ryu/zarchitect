@@ -13,8 +13,8 @@ class Section < Zarchitect
       @url = "/#{@conf.key}/index.html"
     end
     create_dir
-    fetch_pages
-    set_categories
+    #fetch_pages
+    #set_categories
   end
 
   private
