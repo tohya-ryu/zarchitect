@@ -22,6 +22,11 @@ class Section < Zarchitect
   def create_dir
     unless @conf.index
       Util.mkdir(File.join(HTMLDIR, @conf.key))
+      if @conf.collection && @conf.categorize
+        Dir.directories(@conf.directory).each do |d|
+          Util.mkdir(File.join(Dir.getwd, HTMLDIR, @conf.key, d))
+        end
+      end
     end
   end
 
