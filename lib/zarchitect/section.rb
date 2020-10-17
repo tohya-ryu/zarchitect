@@ -13,7 +13,7 @@ class Section < Zarchitect
       @url = "/#{@conf.key}/index.html"
     end
     create_dir
-    #fetch_pages
+    fetch_pages
     #set_categories
   end
 
@@ -27,6 +27,21 @@ class Section < Zarchitect
           Util.mkdir(File.join(HTMLDIR, @conf.key, d))
         end
       end
+    end
+  end
+
+  def fetch_pages
+    return unless @conf.has_option?("directory")
+    if @conf.collection && @conf.categorize
+      Dir.directories(@conf.directory).each do |d|
+        path = File.join(Dir.getwd, @conf.key, d)
+        p path
+        Dir.files(path).each do |f|
+          fpath = File.join(path, f)
+          p fpath
+        end
+      end
+    else
     end
   end
 
