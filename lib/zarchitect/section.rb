@@ -15,6 +15,11 @@ class Section < Zarchitect
     create_dir
     fetch_pages
     #set_categories
+    #
+    p "##########################"
+    if @conf.collection && @conf.categorize
+      p @conf.categories
+    end
   end
 
   private
@@ -35,10 +40,10 @@ class Section < Zarchitect
     if @conf.collection && @conf.categorize
       Dir.directories(@conf.directory).each do |d|
         path = File.join(Dir.getwd, @conf.key, d)
-        p path
+        #p path
         Dir.files(path).each do |f|
           fpath = File.join(path, f)
-          p fpath
+          #p fpath
         end
       end
     else
