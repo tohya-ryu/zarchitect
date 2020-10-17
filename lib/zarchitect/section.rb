@@ -24,7 +24,7 @@ class Section < Zarchitect
       Util.mkdir(File.join(HTMLDIR, @conf.key))
       if @conf.collection && @conf.categorize
         Dir.directories(@conf.directory).each do |d|
-          Util.mkdir(File.join(Dir.getwd, HTMLDIR, @conf.key, d))
+          Util.mkdir(File.join(HTMLDIR, @conf.key, d))
         end
       end
     end
