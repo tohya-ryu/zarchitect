@@ -1,8 +1,10 @@
 class Section < Zarchitect
+  attr_reader :key
 
   def initialize(conf)
     GPI.print "Initializing Section #{conf.key}.", GPI::CLU.check_option('v')
     @conf = conf
+    @key = conf.key
     @name = @conf.name.clone
     @pages = Array.new
     @categories = Array.new
@@ -15,6 +17,7 @@ class Section < Zarchitect
     create_dir
     fetch_categories
     fetch_pages
+    @categories.each { |c| c.fetch_tags }
   end
 
   private
@@ -35,6 +38,13 @@ class Section < Zarchitect
 
   def fetch_pages
     return unless @conf.has_option?("directory")
+    Dir.filesr(@conf.directory).each do |f|
+      # works!
+    end
+
+
+=begin
+
     if @conf.collection && @conf.categorize
       Dir.directories(@conf.directory).each do |d|
         path = File.join(Dir.getwd, @conf.key, d)
@@ -46,6 +56,7 @@ class Section < Zarchitect
       end
     else
     end
+=end
   end
 
 end
