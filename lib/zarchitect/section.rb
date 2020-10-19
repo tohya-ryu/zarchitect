@@ -41,22 +41,6 @@ class Section < Zarchitect
     Dir.filesr(@conf.directory).each do |f|
       # works!
     end
-
-
-=begin
-
-    if @conf.collection && @conf.categorize
-      Dir.directories(@conf.directory).each do |d|
-        path = File.join(Dir.getwd, @conf.key, d)
-        #p path
-        Dir.files(path).each do |f|
-          fpath = File.join(path, f)
-          #p fpath
-        end
-      end
-    else
-    end
-=end
   end
 
 end
