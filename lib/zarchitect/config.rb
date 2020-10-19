@@ -105,6 +105,30 @@ class Config
           GPI.print ("Collections with categories require the [tags] option.")
           GPI.quit
         end
+        unless @hash.has_key?("categories")
+          GPI.print ("Collections with categories require" +
+                     " the [categories] option.")
+          GPI.quit
+        else
+          unless @hash["categories"].class == Hash
+            GPI.print "Categories option is required to be a hash."
+            GPI.quit
+          else
+            @hash["categories"].each do |k,v|
+              if k.class == String && v.class == String
+                if k.match(/\A[a-zA-Z0-9_-]*\z/).nil?
+                  GPI.print "Invalid category key: #{k}. Only alphanumerics,"+
+                    " dashes and underscores allowed!"
+                    GPI.quit
+                end
+              else
+                GPI.print "Keys and values of [categories] option have to be" +
+                  " strings."
+                GPI.quit
+              end
+            end
+          end
+        end
       end
     else
       @hash["categorize"] = false
