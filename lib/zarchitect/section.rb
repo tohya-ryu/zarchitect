@@ -6,7 +6,7 @@ class Section < Zarchitect
     @conf = conf
     @key = conf.key
     @name = @conf.name.clone
-    @pages = Array.new
+    @posts = Array.new
     @categories = Array.new
     @index = Array.new
     if @conf.index
@@ -16,7 +16,7 @@ class Section < Zarchitect
     end
     create_dir
     fetch_categories
-    fetch_pages
+    fetch_posts
     @categories.each { |c| c.fetch_tags }
   end
 
@@ -36,10 +36,10 @@ class Section < Zarchitect
     end
   end
 
-  def fetch_pages
+  def fetch_posts
     return unless @conf.has_option?("directory")
     Dir.filesr(@conf.directory).each do |f|
-      # works!
+      @posts.push Post.new(f, self)
     end
   end
 

@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/image.rb",
              "lib/zarchitect/index.rb",
              "lib/zarchitect/misc_file.rb",
-             "lib/zarchitect/page.rb",
+             "lib/zarchitect/post.rb",
              "lib/zarchitect/paginator.rb",
              "lib/zarchitect/rss.rb",
              "lib/zarchitect/rouge_html.rb",
