@@ -2,7 +2,7 @@ class Config
   
   # Constructor
   # requires yaml file
-  def initialize(file, key)
+  def initialize(file, key = nil)
     @file = file
     GPI.print "Initializing config from #{file}.", GPI::CLU.check_option('v')
     @hash = Hash.new
@@ -17,11 +17,13 @@ class Config
       GPI.print "Failed to load #{@file}."
       GPI.quit
     end
-    @hash["key"] = key
-    unless @file == "_config/_index.yaml"
-      @hash["index"] = false
-    else
-      @hash["index"] = true
+    unless key.nil?
+      @hash["key"] = key
+      unless @file == "_config/_index.yaml"
+        @hash["index"] = false
+      else
+        @hash["index"] = true
+      end
     end
     instance_eval {
       @hash.each_key do |k|
@@ -43,6 +45,10 @@ class Config
       GPI.print "Option #{key} missing in  config #{@file}."
       GPI.quit
     end
+  end
+
+  def validate_post
+    #TODO
   end
 
   def validate
