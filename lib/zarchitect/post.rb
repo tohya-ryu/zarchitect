@@ -1,6 +1,6 @@
 class Post < Zarchitect
   attr_reader :source_path, :conf, :content, :name, :draft, :date,
-    :description, :url
+    :description, :url, :category
 
   def initialize(path, section)
     GPI.print "Initializing post #{path}.", GPI::CLU.check_option('v')
