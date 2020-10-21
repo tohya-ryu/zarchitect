@@ -11,6 +11,7 @@ class Post < Zarchitect
     @category = nil
     set_draft
     set_date
+    set_description
     fetch_category if @conf.has_option?("category")
     create_dir
     fetch_content 
@@ -101,6 +102,19 @@ class Post < Zarchitect
     end
     if @date.nil?
       @date = File.stat(@source_path).ctime
+    end
+  end
+
+  def set_description
+    if @conf.has_option?('description')
+      @description = @conf.description
+    else
+      nodes = @content.nodes.select { |n| n.type == "p" }
+      if nodes.count > 0
+        @description = Sanitize.fragment(nodes[0])
+      else
+        @description = ""
+      end
     end
   end
 
