@@ -1,5 +1,5 @@
 class Post < Zarchitect
-  attr_reader :source_path, :conf, :content, :name, :draft
+  attr_reader :source_path, :conf, :content, :name, :draft, :date
 
   def initialize(path, section)
     GPI.print "Initializing post #{path}.", GPI::CLU.check_option('v')
@@ -10,6 +10,7 @@ class Post < Zarchitect
     @id = @conf.id.clone
     @category = nil
     set_draft
+    set_date
     fetch_category if @conf.has_option?("category")
     create_dir
     fetch_content 
@@ -76,6 +77,31 @@ class Post < Zarchitect
   def set_draft
     @draft = false
     @draft = @conf.draft if @conf.has_option?("draft")
+  end
+
+  def set_date
+    @date = nil
+    if @section.conf.collection
+      if @section.conf.sort_type == "date"
+        unless @conf.has_option?('date')
+          GPI.print "Error: Date missing in #{@source_path}"
+          GPI.quit
+        else
+          @date = @conf.date #class Time
+        end
+      else
+        if @conf.has_option?('date')
+          @date = @conf.date
+        end
+      end
+    else
+      if @conf.has_option?('date')
+        @date = @conf.date
+      end
+    end
+    if @date.nil?
+      @date = File.stat(@source_path).ctime
+    end
   end
 
 end
