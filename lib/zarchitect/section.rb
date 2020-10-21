@@ -18,7 +18,7 @@ class Section < Zarchitect
     if @conf.collection && @conf.categorize
       @categories.each { |c| c.fetch_tags } if @conf.tags
     end
-    fetch_indexes
+    setup_index
   end
 
   def posts
@@ -31,8 +31,8 @@ class Section < Zarchitect
 
   private
 
-  def fetch_indexes
-    @indexes = Array.new
+  def setup_index
+    @index = Index.new
   end
 
   def create_dir
