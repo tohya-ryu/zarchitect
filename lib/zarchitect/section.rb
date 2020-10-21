@@ -18,7 +18,9 @@ class Section < Zarchitect
     fetch_categories
     fetch_posts
     sort_posts
-    @categories.each { |c| c.fetch_tags }
+    if @conf.collection && @conf.categorize
+      @categories.each { |c| c.fetch_tags } if @conf.tags
+    end
   end
 
   private
