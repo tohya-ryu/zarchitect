@@ -1,11 +1,12 @@
 class Content < Zarchitect
   attr_reader :nodes
 
-  def initialize(path, config)
-    @source = path.clone
+  def initialize(post)
+    @post = post
+    @source = @post.source_path.clone
     @source.gsub!('/', '_')
     @source.sub!('.md', '')
-    @raw = File.open(path) { |f| f.read }
+    @raw = File.open(@post.source_path) { |f| f.read }
     @raw = @raw.lines
     i = 0
     z = 0
@@ -19,7 +20,6 @@ class Content < Zarchitect
     @raw = @raw.drop(i+1)
     @raw = @raw.join
     @nodes = Array.new
-    @config = config
   end
 
   def markup
@@ -37,99 +37,25 @@ class Content < Zarchitect
       if str.include?('MEDIA')
         GPI.print "media processor: #{str}", GPI::CLU.check_option('v')
       end
-      m = regexp.match(str)
-      if m
+      @m = regexp.match(str)
+      if @m
         GPI.print "matched regex", GPI::CLU.check_option('v')
         # file tag found
         # replace with corresponding html :)
         # m[0] whole tag
         @caption = m[:caption]
         new_html = ""
-        case m[:filetype]
+        case @m[:filetype]
         when 'img'
-          GPI.print "Processing media: img", GPI::CLU.check_option('v')
-          @img_id += @img_id_inc
-          @imgset = Array.new
-          if m[:id].count('|') == @caption.count('|')
-            m[:id].split('|').each do |id|
-              img = Image.find("url", id)
-              @imgset.push img unless img.nil?
-            end
-            @img_id_inc = @imgset.size
-            #@images = ImageFile.find(m[:id].split('|'))
-            unless m[:width].empty?
-              @max_width = m[:width]
-            else
-              @max_width = '100%'
-            end
-            if @imgset.count > 0
-              a = ZERB.new("_layouts/_image.html.erb")
-              if @config.has_key?('force-small-thumb')
-                a.set_data(:fst, @config['force-small-thumb'])
-              else
-                a.set_data(:fst, false)
-              end
-              a.set_data(:img_id, @img_id)
-              a.set_data(:imgset, @imgset)
-              a.set_data(:max_width, @max_width)
-              a.set_data(:caption, @caption)
-              a.prepare
-              a.render
-              html = a.output
-            else
-              html = "[img not found]"
-            end
-          else
-            html = "[failed to render media]"
-          end
+          html = media_img
         when 'img_full'
-          GPI.print "Processing media: img_full", GPI::CLU.check_option('v')
-          @image = Image.find("url", m[:id])
-          unless @image.nil?
-            a = ZERB.new("_layouts/_image_full.html.erb")
-            a.set_data(:image, @image)
-            a.set_data(:caption, @caption)
-            a.prepare
-            a.render
-            html = a.output
-          else
-            html = "[img not found]"
-          end
+          html = media_img_full
         when 'video'
-          GPI.print "Processing media: video", GPI::CLU.check_option('v')
-          @video = Video.find("url", m[:id])
-          unless @video.nil?
-            a = ZERB.new("_layouts/_video.html.erb")
-            a.set_data(:video, @video)
-            a.set_data(:caption, @caption)
-            a.prepare
-            a.render
-            html = a.output
-          else
-            html = "[video not found]"
-          end
+          html = media_video
         when 'audio'
-          GPI.print "Processing media: audio", GPI::CLU.check_option('v')
-          @audio = AudioFile.find(m[:id])
-          unless @audio.nil?
-            a = ZERB.new("_layouts/_audio.html.erb")
-            a.set_data(:audio, @audio)
-            a.set_data(:caption, @caption)
-            a.prepare
-            a.render
-            html = a.output
-          else
-            html = "[audio not found]"
-          end
+          html = media_audio
         when 'yt'
-          @yt_id = m[:id]
-          GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
-          a = ZERB.new("_layouts/_youtube.html.erb")
-          a.set_data(:yt_id, @yt_id)
-          a.set_data(:caption, @caption)
-          a.prepare
-          a.render
-          html = a.output
+          html = media_youtube
         else
           html = "[failed to render media]"
         end
@@ -185,7 +111,7 @@ class Content < Zarchitect
   private
 
   def parse(html)
-    debug_dir = File.join("_build/debug", @source)
+    debug_dir = File.join(File.join(BUILDIR, DEBUGSDIR), @source)
     if GPI::CLU.check_option('d')
       debug_dir = Util.mkdir(debug_dir)
     end
@@ -208,18 +134,97 @@ class Content < Zarchitect
   end
 
   def media_img
+    GPI.print "Processing media: img", GPI::CLU.check_option('v')
+    @img_id += @img_id_inc
+    @imgset = Array.new
+    if @m[:id].count('|') == @caption.count('|')
+      @m[:id].split('|').each do |id|
+        img = Image.find("url", id)
+        @imgset.push img unless img.nil?
+      end
+      @img_id_inc = @imgset.size
+      #@images = ImageFile.find(m[:id].split('|'))
+      unless @m[:width].empty?
+        @max_width = m[:width]
+      else
+        @max_width = '100%'
+      end
+      if @imgset.count > 0
+        a = ZERB.new("_layouts/_image.html.erb")
+        if @post.conf.has_option?('sthumb')
+          a.set_data(:fst, @post.conf.sthumb)
+        else
+          a.set_data(:fst, false)
+        end
+        a.set_data(:img_id, @img_id)
+        a.set_data(:imgset, @imgset)
+        a.set_data(:max_width, @max_width)
+        a.set_data(:caption, @caption)
+        a.prepare
+        a.render
+        html = a.output
+      else
+        html = "[img not found]"
+      end
+    else
+      html = "[failed to render media]"
+    end
   end
 
   def media_img_full
+    GPI.print "Processing media: img_full", GPI::CLU.check_option('v')
+    @image = Image.find("url", @m[:id])
+    unless @image.nil?
+      a = ZERB.new("_layouts/_image_full.html.erb")
+      a.set_data(:image, @image)
+      a.set_data(:caption, @caption)
+      a.prepare
+      a.render
+      html = a.output
+    else
+      html = "[img not found]"
+    end
   end
 
   def media_video
+    GPI.print "Processing media: video", GPI::CLU.check_option('v')
+    @video = Video.find("url", @m[:id])
+    unless @video.nil?
+      a = ZERB.new("_layouts/_video.html.erb")
+      a.set_data(:video, @video)
+      a.set_data(:caption, @caption)
+      a.prepare
+      a.render
+      html = a.output
+    else
+      html = "[video not found]"
+    end
   end
 
   def media_youtube
+    @yt_id = m[:id]
+    GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
+    a = ZERB.new("_layouts/_youtube.html.erb")
+    a.set_data(:yt_id, @yt_id)
+    a.set_data(:caption, @caption)
+    a.prepare
+    a.render
+    html = a.output
   end
 
   def media_audio
+    GPI.print "Processing media: audio", GPI::CLU.check_option('v')
+    @audio = AudioFile.find(@m[:id])
+    unless @audio.nil?
+      a = ZERB.new("_layouts/_audio.html.erb")
+      a.set_data(:audio, @audio)
+      a.set_data(:caption, @caption)
+      a.prepare
+      a.render
+      html = a.output
+    else
+      html = "[audio not found]"
+    end
   end
 
 end
