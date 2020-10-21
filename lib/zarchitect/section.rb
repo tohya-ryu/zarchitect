@@ -1,5 +1,5 @@
 class Section < Zarchitect
-  attr_reader :key, :conf, :name, :categories, :posts
+  attr_reader :key, :conf, :name, :categories
 
   def initialize(conf)
     GPI.print "Initializing Section #{conf.key}.", GPI::CLU.check_option('v')
@@ -17,6 +17,15 @@ class Section < Zarchitect
     sort_posts
     if @conf.collection && @conf.categorize
       @categories.each { |c| c.fetch_tags } if @conf.tags
+    end
+    fetch_indexes
+  end
+
+  def posts
+    if GPI::CLU.check_option('D')
+      @posts
+    else
+      @posts.select { |p| p.draft == false }
     end
   end
 

@@ -27,8 +27,8 @@ class Zarchitect
     GPI.extend(:string)
     GPI::CLU.init
     # Command name | range of parameter num | options
-    GPI::CLU.use_command("u", [0], "rvqd")
-    GPI::CLU.use_command("update", [0], "rvqd")
+    GPI::CLU.use_command("u", [0], "rvqdD")
+    GPI::CLU.use_command("update", [0], "rvqdD")
 
     GPI::CLU.use_command("ua", [0], "")
     GPI::CLU.use_command("update-assets", [0], "")
