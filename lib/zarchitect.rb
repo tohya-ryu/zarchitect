@@ -33,6 +33,10 @@ class Zarchitect
     GPI::CLU.use_command("ua", [0], "")
     GPI::CLU.use_command("update-assets", [0], "")
 
+    GPI::CLU.use_command("uf", [0], "")
+    GPI::CLU.use_command("update-files", [0], "")
+    GPI::CLU.use_command("setup", [0], "")
+
     GPI::CLU.use_command("new", 2..3, "")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.process_args
@@ -56,8 +60,12 @@ class Zarchitect
       cmd.run
     when "sync"
       # draw data from mastodon / twitter api
-    when "ua"
-      m.cmd_update_assets
+    when "update-assets","ua"
+      CMD::Misc.update_assets
+    when "update-files","uf"
+      CMD::Misc.update_files
+    when "setup"
+      CMD::Misc.setup
     end
   end
 

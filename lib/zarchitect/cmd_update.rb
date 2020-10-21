@@ -4,13 +4,15 @@ module CMD
 
     def initialize
       @sections = Hash.new
-      Zarchitect.rebuild if GPI::CLU.check_option('r')
-      Zarchitect.setup_html_tree
-      @assets = Assets.new
-      @assets.cpdirs
-      SCSS.run
-      @files = FileManager.new
-      @files.run
+      if GPI::CLU.check_option('r')
+        Zarchitect.rebuild
+        Zarchitect.setup_html_tree
+        @assets = Assets.new
+        @assets.cpdirs
+        SCSS.run
+        @files = FileManager.new
+        @files.run
+      end
     end
 
     def run
