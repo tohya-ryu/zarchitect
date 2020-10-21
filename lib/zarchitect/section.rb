@@ -45,7 +45,7 @@ class Section < Zarchitect
   end
 
   def sort_posts
-    return unless @conf.has_option?("collection")
+    return unless @conf.collection
     case @conf.sort_type
     when "date"
       if @conf.sort_order == "reverse"
