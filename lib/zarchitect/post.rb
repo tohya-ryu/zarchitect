@@ -1,5 +1,6 @@
 class Post < Zarchitect
-  attr_reader :source_path, :conf, :content, :name, :draft, :date
+  attr_reader :source_path, :conf, :content, :name, :draft, :date,
+    :description, :url
 
   def initialize(path, section)
     GPI.print "Initializing post #{path}.", GPI::CLU.check_option('v')
@@ -11,10 +12,10 @@ class Post < Zarchitect
     @category = nil
     set_draft
     set_date
-    set_description
     fetch_category if @conf.has_option?("category")
     create_dir
     fetch_content 
+    set_description
     set_name
     set_url
     set_html_path
