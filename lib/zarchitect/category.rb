@@ -23,7 +23,7 @@ class Category < Zarchitect
       @tags = nil
     else
       @tags = Array.new
-      ar.each { |v| @tags.push Tag.new(v) }
+      ar.each { |v| @tags.push Tag.new(v, self) }
     end
   end
 

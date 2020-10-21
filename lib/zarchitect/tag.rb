@@ -1,8 +1,16 @@
 class Tag < Zarchitect
 
-  def initialize(str)
+  def initialize(str, cat)
+    @category = cat
     @name = str
     @key = hash(str)
+    @url = "/#{@category.section.key}/#{@category.key}/#{@key}/index.html"
+  end
+
+  def posts
+    @category.section.posts.select {
+      |p| p.category == @category &&p.tags.include @name 
+    }
   end
 
   private

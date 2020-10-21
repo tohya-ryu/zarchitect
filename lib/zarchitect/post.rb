@@ -24,6 +24,14 @@ class Post < Zarchitect
     rss.try_item(self)
   end
 
+  def tags
+    if @conf.has_option?("tags")
+      @conf.tags
+    else
+      Array.new
+    end
+  end
+
   private
 
   def fetch_content
