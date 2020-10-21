@@ -1,4 +1,5 @@
 class Category < Zarchitect
+  attr_reader :key, :name
 
   def initialize(key, name, section)
     @key = key

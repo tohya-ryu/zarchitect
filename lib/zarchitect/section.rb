@@ -1,5 +1,5 @@
 class Section < Zarchitect
-  attr_reader :key
+  attr_reader :key, :conf, :name, :categories
 
   def initialize(conf)
     GPI.print "Initializing Section #{conf.key}.", GPI::CLU.check_option('v')
