@@ -43,7 +43,7 @@ class Content < Zarchitect
         # file tag found
         # replace with corresponding html :)
         # m[0] whole tag
-        @caption = m[:caption]
+        @caption = @m[:caption]
         new_html = ""
         case @m[:filetype]
         when 'img'
@@ -67,9 +67,9 @@ class Content < Zarchitect
           end
         end
         if new_html.include?('\n')
-          str.sub!(m[0], new_html.chomp!)
+          str.sub!(@m[0], new_html.chomp!)
         else
-          str.sub!(m[0], new_html)
+          str.sub!(@m[0], new_html)
         end
       end
       new_string << str
@@ -145,7 +145,7 @@ class Content < Zarchitect
       @img_id_inc = @imgset.size
       #@images = ImageFile.find(m[:id].split('|'))
       unless @m[:width].empty?
-        @max_width = m[:width]
+        @max_width = @m[:width]
       else
         @max_width = '100%'
       end
@@ -202,7 +202,7 @@ class Content < Zarchitect
   end
 
   def media_youtube
-    @yt_id = m[:id]
+    @yt_id = @m[:id]
     GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
     a = ZERB.new("_layouts/_youtube.html.erb")
     a.set_data(:yt_id, @yt_id)
