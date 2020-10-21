@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/rouge_html.rb",
              "lib/zarchitect/scss.rb",
              "lib/zarchitect/section.rb",
+             "lib/zarchitect/tag.rb",
              "lib/zarchitect/util.rb",
              "lib/zarchitect/video.rb",
              "lib/zarchitect/zerb.rb",
