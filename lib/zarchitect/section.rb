@@ -17,6 +17,7 @@ class Section < Zarchitect
     create_dir
     fetch_categories
     fetch_posts
+    sort_posts
     @categories.each { |c| c.fetch_tags }
   end
 
@@ -40,6 +41,24 @@ class Section < Zarchitect
     return unless @conf.has_option?("directory")
     Dir.filesr(@conf.directory).each do |f|
       @posts.push Post.new(f, self)
+    end
+  end
+
+  def sort_posts
+    return unless @conf.has_option?("collection")
+    case @conf.sort_type
+    when "date"
+      if @conf.sort_order == "reverse"
+        @posts.sort_by! { |p| p.date }.reverse!
+      else
+        @posts.sort_by! { |p| p.date }
+      end
+    when "alphanum"
+      if @conf.sort_order == "reverse"
+        @posts.sort_by! { |p| p.name }.reverse!
+      else
+        @posts.sort_by! { |p| p.name }
+      end
     end
   end
 
