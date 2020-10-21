@@ -12,10 +12,6 @@ class Category < Zarchitect
 
   def fetch_tags
     # after fetch_pages is implemented
-    GPI.print "#{@name} ==="
-    posts.each do |p|
-      p.name
-    end
   end
 
   def posts
