@@ -75,7 +75,7 @@ class Post < Zarchitect
 
   def set_draft
     @draft = false
-    @draft = @conf.draft if @conf.has_option("draft")
+    @draft = @conf.draft if @conf.has_option?("draft")
   end
 
 end
