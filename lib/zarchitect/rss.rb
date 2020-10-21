@@ -1,4 +1,4 @@
-class ZRSS
+class ZRSS < Zarchitect
 
   def initialize
     @items = Array.new
@@ -6,7 +6,7 @@ class ZRSS
 
   def try_item(page)
     return if page.draft
-    if @items.count < Config.rss_size # simply add page to rss items
+    if @items.count < Zarchitect.conf.rss_size # simply add page to rss items
       @items.push RSSItem.new(page)
     else # check if it's more recent than the oldest item in the feed
       if page.date > @items.last.date
@@ -19,11 +19,11 @@ class ZRSS
 
   def build
     rss = RSS::Maker.make("atom") do |maker|
-      maker.channel.title = Config.site_name
-      maker.channel.author = Config.admin
+      maker.channel.title = Zarchitect.conf.site_name
+      maker.channel.author = Zarchitect.conf.admin
       maker.channel.updated = Time.now.to_s
-      maker.channel.about = Config.site_description
-      maker.channel.link = Config.url
+      maker.channel.about = Zarchitect.conf.site_description
+      maker.channel.link = Zarchitect.conf.url
 
       @items.each do |item|
         maker.items.new_item do |rss_item|
