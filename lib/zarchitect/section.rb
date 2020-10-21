@@ -6,9 +6,6 @@ class Section < Zarchitect
     @conf = conf
     @key = conf.key
     @name = @conf.name.clone
-    @posts = Array.new
-    @categories = Array.new
-    @index = Array.new
     if @conf.index
       @url = "/index.html"
     else
@@ -25,6 +22,10 @@ class Section < Zarchitect
 
   private
 
+  def fetch_indexes
+    @indexes = Array.new
+  end
+
   def create_dir
     unless @conf.index
       Util.mkdir(File.join(HTMLDIR, @conf.key))
@@ -32,6 +33,7 @@ class Section < Zarchitect
   end
 
   def fetch_categories
+    @categories = Array.new
     if @conf.collection && @conf.categorize
       @conf.categories.each do |k,v|
         @categories.push Category.new(k, v, self)
@@ -40,6 +42,7 @@ class Section < Zarchitect
   end
 
   def fetch_posts
+    @posts = Array.new
     return unless @conf.has_option?("directory")
     Dir.filesr(@conf.directory).each do |f|
       @posts.push Post.new(f, self)

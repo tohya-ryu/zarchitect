@@ -1,7 +1,6 @@
 class Index < Zarchitect
 
-  def pconf
-    p @@config
+  def initialize
   end
 
 end
