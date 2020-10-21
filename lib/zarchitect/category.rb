@@ -1,5 +1,5 @@
 class Category < Zarchitect
-  attr_reader :key, :name
+  attr_reader :key, :name, :section
 
   def initialize(key, name, section)
     @key = key
@@ -8,6 +8,7 @@ class Category < Zarchitect
     @url  = "/#{@section.key}/#{@key}/index.html"
 
     create_dir
+    setup_index
   end
 
   def fetch_tags
@@ -32,6 +33,10 @@ class Category < Zarchitect
   end
 
   private
+
+  def setup_index
+    @index = Index.new(self)
+  end
 
   def create_dir
     Util.mkdir(File.join(HTMLDIR, @section.key, @key))
