@@ -16,7 +16,7 @@ class Index < Zarchitect
     if section.conf.has_option? "paginate"
       ppp = section.conf.paginate # post per page
     end
-    if ppp > 0
+    if ppp > 0 && section.conf.collection
       pbu = base_url # url used by pagination
       pnm = (posts.count.to_f / ppp.to_f).ceil # numbers of index pages
       @paginator = Paginator.new(pbu, pnm, ppp)
