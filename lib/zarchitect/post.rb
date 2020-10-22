@@ -21,6 +21,7 @@ class Post < Zarchitect
     set_html_path
     # construct path for html // maybe only necessray when writing html?
     # set date
+    setup_html
     rss.try_item(self)
   end
 
@@ -125,6 +126,14 @@ class Post < Zarchitect
         @description = ""
       end
     end
+  end
+
+  def setup_html
+    @html = HTML.new(@html_path)
+    @html.set_templates(@section.conf.layout, @section.conf.view)
+    @html.set_data("section", @section)
+    @html.set_data("category", @category)
+    @html.set_data("post", self)
   end
 
 end

@@ -30,6 +30,8 @@ class Index < Zarchitect
     if @paginator.posts_per_page == 0
       html = HTML.new(File.join(HTMLDIR, section.name, "index.html"))
       html.set_templates(layout, view)
+      html.set_data("section", section)
+      html.set_data("category", category)
       html.set_data("posts", posts)
       @html.push html
       return
@@ -57,6 +59,8 @@ class Index < Zarchitect
       end
       html = HTML.new(path)
       html.set_templates(layout, view)
+      html.set_data("section", section)
+      html.set_data("category", category)
       html.set_data("posts", rposts)
       html.set_data("paginator", @paginator.clone)
       @html.push html
@@ -84,6 +88,17 @@ class Index < Zarchitect
       @parent.section
     when "Tag"
       @parent.category.section
+    end
+  end
+
+  def category
+    case @ptype
+    when "Section"
+      nil
+    when "Category"
+      @parent
+    when "Tag"
+      @parent.category
     end
   end
 
