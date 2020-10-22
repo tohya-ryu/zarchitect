@@ -158,6 +158,7 @@ class Config
         end
       end
     end
+=begin
     unless @hash.has_key?("layout")
       GPI.print "The [layout] option is required."
       GPI.quit
@@ -176,6 +177,7 @@ class Config
         GPI.quit
       end
     end
+=end
     if @hash.has_key?("paginate")
       unless @hash["paginate"].class == Integer
         GPI.print "Value of [paginate] can only be an integer."
