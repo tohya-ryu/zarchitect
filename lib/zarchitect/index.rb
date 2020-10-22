@@ -16,7 +16,7 @@ class Index < Zarchitect
     if section.conf.has_option? "paginate"
       ppp = section.conf.paginate # post per page
     end
-    pbu = get_paginator_base_url # url used by pagination
+    pbu = base_url # url used by pagination
     pnm = (posts.count.to_f / ppi.to_f).ceil # numbers of index pages
     @paginator = Paginator.new(pbu, pnm, ppp)
   end
@@ -33,11 +33,39 @@ class Index < Zarchitect
     if section.conf.has_option?("maxpages")
       max = section.conf.maxpages
     end
-    html = HTML.new
-    @html.push html
+    n = 1 # number of index.html files we need to create
+    if @paginator.posts_per_page > 0
+      if max > 0
+        n = max
+      else
+        n = @paginator.page_number
+      end
+    end
+    i = 0
+    while i < n
+      if @paginator.posts_per_page > 0
+        rposts = posts.slice(i * @paginator.posts_per_page,
+                             @paginator.posts_per_page)
+        if i == 0
+          path = File.join(base_url, "index.html")
+        else
+          path = File.join(base_url, "index-#{i+1}.html")
+        end
+        html = HTML.new(path)
+        html.set_data("posts", rposts)
+        html.set_data("paginator", @paginator.clone)
+        @html.push html
+      else
+        html = HTML.new(File.join(HTMLDIR, section.name, "index.html"))
+        html.set_data("posts", posts)
+        @html.push html
+      end
+      i += 1
+      @paginator.next
+    end
   end
 
-  def get_paginator_base_url
+  def base_url
     case @ptype
     when "Section"
       "/#{section.key}"
