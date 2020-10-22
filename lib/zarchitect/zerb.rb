@@ -17,8 +17,6 @@ class ZERB < Zarchitect
   def initialize(template)
     @@template_stack.push(template)
     @template = template
-    @meta     = Hash.new
-    @data     = Hash.new
   end
 
   def prepare
@@ -36,57 +34,18 @@ class ZERB < Zarchitect
     @@template_stack.pop
     @out
   end
-
-  def set_meta(key, value)
-    if @meta.has_key?(key)
-      GPI.print "key #{key} already exists in ZERB.meta"
-      GPI.quit
+   
+  def handle_data(hash)
+    hash.each do |k,v|
+      if instance_variable_defined?("#{k}")
+        GPI.print "Error: Data key invalid #{k} - already defined"
+        GPI.quit
+      end
+      instance_variable_set("#{k}", v)
     end
-    @meta[key] = value
-  end
-
-  def set_data(key, value)
-    if @data.has_key?(key)
-      GPI.print "key #{key} already exists in ZERB.data"
-      GPI.quit
-    end
-    if @@gdata.has_key?(key)
-      GPI.print "key #{key} already exists in ZERB.gdata"
-      GPI.quit
-    end
-    @data[key] = value
-  end
-
-  def self.set_gdata(key,value)
-    if @@gdata.has_key?(key)
-      GPI.print "key #{key} already exists in ZERB.gdata"
-      GPI.quit
-    end
-    @@gdata[key] = value
   end
 
   private # functions to be used in templates
-
-  def meta(k)
-    unless @meta.has_key?(k)
-      GPI.print "Error: missing meta key #{k}"
-      GPI.quit
-    end
-    @meta[k] 
-  end
-
-  def data(k)
-    unless @data.has_key?(k) || @@gdata.has_key?(k)
-      GPI.print "Error: missing data key #{k}"
-      GPI.quit
-    end
-    return @@gdata[k] if @@gdata.has_key?(k)
-    @data[k] 
-  end
-
-  def data_exist?(k)
-    @data.has_key?(k)
-  end
 
   def include(path, options = {})
     path.prepend("_layouts/")
