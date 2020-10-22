@@ -131,10 +131,52 @@ class Post < Zarchitect
   def setup_html
     @html = HTML.new(@html_path)
     @html.set_templates(@section.conf.layout, @section.conf.view)
+
     @html.set_data("section", @section)
     @html.set_data("category", @category)
     @html.set_data("post", self)
     @html.set_data("content", @content.html)
+
+    @html.set_meta("title", meta_title)
+    @html.set_meta("keywords", meta_keywords)
+    @html.set_meta("author", meta_author)
+    @html.set_meta("description", @description)
+  end
+
+  ######################################
+  # meta data
+  #
+  
+  def meta_title
+    title = Zarchitect.conf.site_name.clone
+    title << Zarchitect.conf.title_sep
+    if @section.conf.collection
+      title << @section.name << Zarchitect.conf.title_sep
+    end
+    unless @category.nil?
+      title << @category.name << Zarchitect.conf.title_sep
+    end
+    title << @name
+  end
+
+  def meta_keywords
+    keywords = Zarchitect.conf.site_keywords.clone
+    if @section.conf.has_option?("keywords")
+      keywords << ', ' << @section.conf.keywords
+    end
+    if @conf.has_option?("keywords")
+      unless @conf.keywords.nil?
+        keywords << ', ' << @conf.keywords
+      end
+    end
+  end
+
+  def meta_author
+    if @conf.has_option?("author")
+      author = @conf.author
+    else
+      author = ""
+    end
   end
 
 end
