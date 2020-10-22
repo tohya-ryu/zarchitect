@@ -52,6 +52,7 @@ class Section < Zarchitect
   end
 
   def fetch_categories
+    return if @conf.index
     @categories = Array.new
     if @conf.collection && @conf.categorize
       @conf.categories.each do |k,v|
@@ -61,10 +62,20 @@ class Section < Zarchitect
   end
 
   def fetch_posts
-    @posts = Array.new
-    return unless @conf.has_option?("directory")
-    Dir.filesr(@conf.directory).each do |f|
-      @posts.push Post.new(f, self)
+    if @conf.index
+      ar = @conf.uses.split(',')
+      @posts = Array.new
+      Zarchitect.sconf.each do |k,v|
+        if ar.include? k
+          @posts << v.posts
+        end
+      end
+    else
+      @posts = Array.new
+      return unless @conf.has_option?("directory")
+      Dir.filesr(@conf.directory).each do |f|
+        @posts.push Post.new(f, self)
+      end
     end
   end
 
