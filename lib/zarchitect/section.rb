@@ -32,7 +32,11 @@ class Section < Zarchitect
   private
 
   def setup_index
-    @index = Index.new(self) if @conf.collection
+    if @conf.collection
+      @index = Index.new(self)
+    else
+      @index = nil
+    end
   end
 
   def create_dir
