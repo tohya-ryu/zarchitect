@@ -28,7 +28,7 @@ class Index < Zarchitect
   def setup_html
     @html = Array.new
     if @paginator.posts_per_page == 0
-      html = HTML.new(File.join(HTMLDIR, section.name, "index.html"))
+      html = HTML.new(File.join(Dir.getwd,HTMLDIR,section.name,"index.html"))
       html.set_templates(layout, view)
       html.set_data("section", section)
       html.set_data("category", category)
@@ -53,9 +53,9 @@ class Index < Zarchitect
       rposts = posts.slice(i * @paginator.posts_per_page,
                            @paginator.posts_per_page)
       if i == 0
-        path = File.join(base_url, "index.html")
+        path = File.join(Dir.getwd,HTMLDIR,base_url, "index.html")
       else
-        path = File.join(base_url, "index-#{i+1}.html")
+        path = File.join(Dir.getwd,HTMLDIR,base_url, "index-#{i+1}.html")
       end
       html = HTML.new(path)
       html.set_templates(layout, view)

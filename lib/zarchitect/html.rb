@@ -1,8 +1,8 @@
 class HTML < Zarchitect
   
-  def initialize(url)
+  def initialize(str)
     @data = Hash.new
-    @url = url
+    @path = str
   end
 
   def set_data(key, value)
