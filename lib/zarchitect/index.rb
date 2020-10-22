@@ -17,7 +17,7 @@ class Index < Zarchitect
       ppp = section.conf.paginate # post per page
     end
     pbu = base_url # url used by pagination
-    pnm = (posts.count.to_f / ppi.to_f).ceil # numbers of index pages
+    pnm = (posts.count.to_f / ppp.to_f).ceil # numbers of index pages
     @paginator = Paginator.new(pbu, pnm, ppp)
   end
 
@@ -25,6 +25,7 @@ class Index < Zarchitect
     @html = Array.new
     if @paginator.posts_per_page == 0
       html = HTML.new(File.join(HTMLDIR, section.name, "index.html"))
+      html.set_templates(layout, view)
       html.set_data("posts", posts)
       @html.push html
       return
@@ -52,11 +53,13 @@ class Index < Zarchitect
           path = File.join(base_url, "index-#{i+1}.html")
         end
         html = HTML.new(path)
+        html.set_templates(layout, view)
         html.set_data("posts", rposts)
         html.set_data("paginator", @paginator.clone)
         @html.push html
       else
         html = HTML.new(File.join(HTMLDIR, section.name, "index.html"))
+        html.set_templates(layout, view)
         html.set_data("posts", posts)
         @html.push html
       end
@@ -89,6 +92,52 @@ class Index < Zarchitect
 
   def posts
     @parent.posts.select { |p| !p.draft }
+  end
+
+  def layout
+    case @ptype
+    when "Section"
+      section.conf.index_layout
+    when "Category"
+      if section.conf.has_option("category_index_layout")
+        section.conf.category_index_layout
+      else
+        section.conf.index_layout
+      end
+    when "Tag"
+      if section.conf.has_option("tag_index_layout")
+        section.conf.tag_index_layout
+      else
+        if section.conf.has_option("category_index_layout")
+          section.conf.category_index_layout
+        else
+          section.conf.index_layout
+        end
+      end
+    end
+  end
+
+  def view
+    case @ptype
+    when "Section"
+      section.conf.index_view
+    when "Category"
+      if section.conf.has_option("category_index_view")
+        section.conf.category_index_view
+      else
+        section.conf.index_view
+      end
+    when "Tag"
+      if section.conf.has_option("tag_index_view")
+        section.conf.tag_index_view
+      else
+        if section.conf.has_option("category_index_view")
+          section.conf.category_index_view
+        else
+          section.conf.index_view
+        end
+      end
+    end
   end
 
 end

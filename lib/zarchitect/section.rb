@@ -16,7 +16,10 @@ class Section < Zarchitect
     fetch_posts
     sort_posts
     if @conf.collection && @conf.categorize
-      @categories.each { |c| c.fetch_tags } if @conf.tags
+      @categories.each do |c|
+        c.setup_index
+        c.fetch_tags if @conf.tags
+      end
     end
     setup_index
   end
@@ -25,6 +28,7 @@ class Section < Zarchitect
     if GPI::CLU.check_option('D')
       @posts
     else
+      p @posts.class
       @posts.select { |p| p.draft == false }
     end
   end

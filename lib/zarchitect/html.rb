@@ -9,4 +9,9 @@ class HTML < Zarchitect
     @data[key] = value
   end
 
+  def set_templates(layout, view)
+    @layout = layout
+    @view = view
+  end
+
 end

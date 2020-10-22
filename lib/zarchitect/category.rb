@@ -8,7 +8,6 @@ class Category < Zarchitect
     @url  = "/#{@section.key}/#{@key}/index.html"
 
     create_dir
-    setup_index
   end
 
   def fetch_tags
@@ -32,11 +31,11 @@ class Category < Zarchitect
     @section.posts.select { |p| p.category == self }
   end
 
-  private
-
   def setup_index
     @index = Index.new(self)
   end
+
+  private
 
   def create_dir
     Util.mkdir(File.join(HTMLDIR, @section.key, @key))
