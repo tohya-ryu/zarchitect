@@ -19,14 +19,18 @@ class HTML < Zarchitect
   end
   
   def compose
-    @data["meta"] = @meta
     set_view
     @data["view"] = @view.output
+    @data["meta"] = @meta
     set_layout
   end
 
   def write
-    out = @layout.output # write this
+    File.open(@path, "w") { |f| f.write(@layout.output) }
+  end
+
+  def output
+    @layout.output
   end
 
   private
