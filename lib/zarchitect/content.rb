@@ -150,16 +150,18 @@ class Content < Zarchitect
         @max_width = '100%'
       end
       if @imgset.count > 0
+        hash = Hash.new
         a = ZERB.new("_layouts/_image.html.erb")
         if @post.conf.has_option?('sthumb')
-          a.set_data(:fst, @post.conf.sthumb)
+          hash["fst"] = @post.conf.sthumb
         else
-          a.set_data(:fst, false)
+          hash["fst"] = false 
         end
-        a.set_data(:img_id, @img_id)
-        a.set_data(:imgset, @imgset)
-        a.set_data(:max_width, @max_width)
-        a.set_data(:caption, @caption)
+        hash["img_id"] = @img_id
+        hash["imgset"] = @imgset
+        hash["max_width"] = @max_width
+        hash["caption"] = @caption
+        a.handle_data(hash)
         a.prepare
         a.render
         html = a.output
@@ -175,9 +177,11 @@ class Content < Zarchitect
     GPI.print "Processing media: img_full", GPI::CLU.check_option('v')
     @image = Image.find("url", @m[:id])
     unless @image.nil?
+      hash = Hash.new
       a = ZERB.new("_layouts/_image_full.html.erb")
-      a.set_data(:image, @image)
-      a.set_data(:caption, @caption)
+      hash["image"] = @image
+      hash["caption"] = @caption
+      a.handle_data(hash)
       a.prepare
       a.render
       html = a.output
@@ -190,9 +194,11 @@ class Content < Zarchitect
     GPI.print "Processing media: video", GPI::CLU.check_option('v')
     @video = Video.find("url", @m[:id])
     unless @video.nil?
+      hash = Hash.new
       a = ZERB.new("_layouts/_video.html.erb")
-      a.set_data(:video, @video)
-      a.set_data(:caption, @caption)
+      hash["video"] = @video
+      hash["caption"] = @caption
+      a.handle_data(hash)
       a.prepare
       a.render
       html = a.output
@@ -203,10 +209,12 @@ class Content < Zarchitect
 
   def media_youtube
     @yt_id = @m[:id]
+    hash = Hash.new
     GPI.print "Processing media: youtube", GPI::CLU.check_option('v')
     a = ZERB.new("_layouts/_youtube.html.erb")
-    a.set_data(:yt_id, @yt_id)
-    a.set_data(:caption, @caption)
+    hash["yt_id"] = @yt_id
+    hash["caption"] = @caption
+    a.handle_data(hash)
     a.prepare
     a.render
     html = a.output
@@ -216,9 +224,11 @@ class Content < Zarchitect
     GPI.print "Processing media: audio", GPI::CLU.check_option('v')
     @audio = AudioFile.find(@m[:id])
     unless @audio.nil?
+      hash = Hash.new
+      hash["audio"] = @audio
+      hash["caption"] = @caption
       a = ZERB.new("_layouts/_audio.html.erb")
-      a.set_data(:audio, @audio)
-      a.set_data(:caption, @caption)
+      a.handle_data(hash)
       a.prepare
       a.render
       html = a.output
