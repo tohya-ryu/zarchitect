@@ -1,15 +1,15 @@
 class Paginator
-  attr_reader :page_number, :curr_page, :range, :max
+  attr_reader :page_number, :curr_page, :range, :max, :posts_per_page
 
   MAX = 15
 
-  def initialize(base_url, page_number, ppi)
+  def initialize(base_url, page_number, ppp)
     @base_url    = base_url    # used to construct urls to pages
     @page_number = page_number # number of pages in total
     @curr_page   = 1           # current page
     @range       = Array.new   # numbers of pages in pagination
     @max         = MAX         # how many pages to be shown in pagination
-    @pages_per_index = ppi
+    @posts_per_page = ppp
     update_range
   end
 
