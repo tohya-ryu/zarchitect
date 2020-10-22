@@ -33,6 +33,10 @@ class Index < Zarchitect
       html.set_data("section", section)
       html.set_data("category", category)
       html.set_data("posts", posts)
+      html.set_meta("title", meta_title)
+      html.set_meta("keywords", meta_keywords)
+      html.set_meta("author", meta_author)
+      html.set_meta("description", meta_description)
       @html.push html
       return
     end
@@ -63,6 +67,10 @@ class Index < Zarchitect
       html.set_data("category", category)
       html.set_data("posts", rposts)
       html.set_data("paginator", @paginator.clone)
+      html.set_meta("title", meta_title)
+      html.set_meta("keywords", meta_keywords)
+      html.set_meta("author", meta_author)
+      html.set_meta("description", meta_description)
       @html.push html
       i += 1
       @paginator.next
@@ -149,6 +157,35 @@ class Index < Zarchitect
           section.conf.index_view
         end
       end
+    end
+  end
+
+  ##############################################
+  # meta data
+  #
+  
+  def meta_title
+    if category
+      Zarchitect.conf.site_name + Zarchitect.conf.title_sep + section.name +
+        Zarchitect.conf.title_sep +
+    else
+      Zarchitect.conf.site_name + Zarchitect.conf.title_sep + section.name
+    end
+  end
+
+  def meta_keywords
+    Zarchitec.site_keywords.clone
+  end
+
+  def meta_author
+    Zarchitect.conf.admin
+  end
+
+  def meta_description
+    if category
+      section.name + " " + category.name
+    else
+      section.name
     end
   end
 
