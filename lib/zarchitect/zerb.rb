@@ -87,11 +87,11 @@ class ZERB < Zarchitect
   end
 
   def include_view
-    data(:view)
+    @view
   end
 
   def include_content
-    data(:content)
+    @content
   end
 
   def email(f)

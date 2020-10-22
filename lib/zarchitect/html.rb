@@ -17,19 +17,32 @@ class HTML < Zarchitect
     @layout_path = layout
     @view_path = view
   end
-
+  
   def compose
     @data["meta"] = @meta
-    set_layout
     set_view
+    @data["view"] = @view.output
+    set_layout
+  end
+
+  def write
+    out = @layout.output # write this
   end
 
   private
 
   def set_layout
+    @layout = ZERB.new(@layout_path)
+    @layout.handle_data(@data)
+    @layout.prepare
+    @layout.render
   end
 
   def set_view
+    @view = ZERB.new(@view_path)
+    @view.handle_data(@data)
+    @view.prepare
+    @view.render
   end
 
 end

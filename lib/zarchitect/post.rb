@@ -134,6 +134,7 @@ class Post < Zarchitect
     @html.set_data("section", @section)
     @html.set_data("category", @category)
     @html.set_data("post", self)
+    @html.set_data("content", @content.html)
   end
 
 end
