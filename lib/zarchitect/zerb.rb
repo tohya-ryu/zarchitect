@@ -12,7 +12,6 @@ class ZERB < Zarchitect
   # 
 
   @@template_stack = Array.new
-  @@gdata          = Hash.new
 
   def initialize(template)
     @@template_stack.push(template)
@@ -36,6 +35,7 @@ class ZERB < Zarchitect
   end
    
   def handle_data(hash)
+    @data = hash
     hash.each do |k,v|
       if instance_variable_defined?("#{k}")
         GPI.print "Error: Data key invalid #{k} - already defined"
@@ -57,13 +57,10 @@ class ZERB < Zarchitect
       GPI.quit
     end
     b = ZERB.new(path)
-    options.each do |k,v|
-      b.set_data(k,v)
-    end
+    b.handle_data(@data)
     b.prepare
     b.render
     b.output
-    #File.open(File.join(@path, file)) { |f| f.read }
   end
 
   def img(path, options = {})
