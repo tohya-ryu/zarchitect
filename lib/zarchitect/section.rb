@@ -28,7 +28,6 @@ class Section < Zarchitect
     if GPI::CLU.check_option('D')
       @posts
     else
-      p @posts.class
       @posts.select { |p| p.draft == false }
     end
   end

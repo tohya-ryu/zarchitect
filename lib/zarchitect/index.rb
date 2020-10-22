@@ -16,9 +16,13 @@ class Index < Zarchitect
     if section.conf.has_option? "paginate"
       ppp = section.conf.paginate # post per page
     end
-    pbu = base_url # url used by pagination
-    pnm = (posts.count.to_f / ppp.to_f).ceil # numbers of index pages
-    @paginator = Paginator.new(pbu, pnm, ppp)
+    if ppp > 0
+      pbu = base_url # url used by pagination
+      pnm = (posts.count.to_f / ppp.to_f).ceil # numbers of index pages
+      @paginator = Paginator.new(pbu, pnm, ppp)
+    else
+      @paginator = Paginator.new(0,0,0) # no pagination for this index file
+    end
   end
 
   def setup_html
@@ -44,25 +48,18 @@ class Index < Zarchitect
     end
     i = 0
     while i < n
-      if @paginator.posts_per_page > 0
-        rposts = posts.slice(i * @paginator.posts_per_page,
-                             @paginator.posts_per_page)
-        if i == 0
-          path = File.join(base_url, "index.html")
-        else
-          path = File.join(base_url, "index-#{i+1}.html")
-        end
-        html = HTML.new(path)
-        html.set_templates(layout, view)
-        html.set_data("posts", rposts)
-        html.set_data("paginator", @paginator.clone)
-        @html.push html
+      rposts = posts.slice(i * @paginator.posts_per_page,
+                           @paginator.posts_per_page)
+      if i == 0
+        path = File.join(base_url, "index.html")
       else
-        html = HTML.new(File.join(HTMLDIR, section.name, "index.html"))
-        html.set_templates(layout, view)
-        html.set_data("posts", posts)
-        @html.push html
+        path = File.join(base_url, "index-#{i+1}.html")
       end
+      html = HTML.new(path)
+      html.set_templates(layout, view)
+      html.set_data("posts", rposts)
+      html.set_data("paginator", @paginator.clone)
+      @html.push html
       i += 1
       @paginator.next
     end
@@ -99,16 +96,16 @@ class Index < Zarchitect
     when "Section"
       section.conf.index_layout
     when "Category"
-      if section.conf.has_option("category_index_layout")
+      if section.conf.has_option?("category_index_layout")
         section.conf.category_index_layout
       else
         section.conf.index_layout
       end
     when "Tag"
-      if section.conf.has_option("tag_index_layout")
+      if section.conf.has_option?("tag_index_layout")
         section.conf.tag_index_layout
       else
-        if section.conf.has_option("category_index_layout")
+        if section.conf.has_option?("category_index_layout")
           section.conf.category_index_layout
         else
           section.conf.index_layout
@@ -122,16 +119,16 @@ class Index < Zarchitect
     when "Section"
       section.conf.index_view
     when "Category"
-      if section.conf.has_option("category_index_view")
+      if section.conf.has_option?("category_index_view")
         section.conf.category_index_view
       else
         section.conf.index_view
       end
     when "Tag"
-      if section.conf.has_option("tag_index_view")
+      if section.conf.has_option?("tag_index_view")
         section.conf.tag_index_view
       else
-        if section.conf.has_option("category_index_view")
+        if section.conf.has_option?("category_index_view")
           section.conf.category_index_view
         else
           section.conf.index_view

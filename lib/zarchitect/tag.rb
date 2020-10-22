@@ -1,4 +1,5 @@
 class Tag < Zarchitect
+  attr_accessor :category, :name, :key, :url
 
   def initialize(str, cat)
     @category = cat
