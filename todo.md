@@ -1,3 +1,8 @@
+- add creation of index
+- add html composition
+- fix layout files
+- add writing html outputs
+
 - fix tags
 - add page with media ?
 - visitor counter!
