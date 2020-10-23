@@ -58,11 +58,14 @@ class Image < Zarchitect
   end
 
   def url
+=begin
     if (!(Page.current_page.nil?) && Page.current_page.draft && !@@search)
       File.join("..", DRAFTDIR, @url)
     else
       @url
     end
+=end
+    @url
   end
 
   def larger_than_thumb_small?
