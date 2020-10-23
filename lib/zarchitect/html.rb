@@ -27,6 +27,7 @@ class HTML < Zarchitect
   end
 
   def write
+    GPI.print "Writing HTML to #{@path}.", GPI::CLU.check_option('v')
     File.open(@path, "w") { |f| f.write(@layout.output) }
   end
 

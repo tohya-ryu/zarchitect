@@ -16,6 +16,14 @@ class Tag < Zarchitect
     end
   end
 
+  def build_html
+    @index.build_html
+  end
+
+  def write_html
+    @index.write_html
+  end
+
   private
 
   def setup_index

@@ -33,7 +33,15 @@ class Section < Zarchitect
   end
 
   def build_html
-    @posts.each { |p| p.build_html }
+    posts.each { |p| p.build_html }
+    @categories.each { |c| c.build_html }
+    @index.build_html
+  end
+
+  def write_html
+    posts.each { |p| p.write_html }
+    @categories.each { |c| c.write_html }
+    @index.write_html
   end
 
   private

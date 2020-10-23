@@ -23,6 +23,7 @@ module CMD
       #index = Section.new(Zarchitect.iconf)
       Zarchitect.sections.each_value do |s|
         s.build_html
+        s.write_html
         #@sections[s.key].build_html
         #@sections[s.key].write_html
       end

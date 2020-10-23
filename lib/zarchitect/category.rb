@@ -10,6 +10,24 @@ class Category < Zarchitect
     create_dir
   end
 
+  def build_html
+    if @tags
+      @tags.each do |t|
+        @t.build_html
+      end
+    end
+    @index.build_html
+  end
+
+  def write_html
+    if @tags
+      @tags.each do |t|
+        @t.write_html
+      end
+    end
+    @index.write_html
+  end
+
   def fetch_tags
     # after fetch_pages is implemented
     ar = Array.new

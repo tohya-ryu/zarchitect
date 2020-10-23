@@ -9,6 +9,19 @@ class Index < Zarchitect
     setup_html
   end
 
+  def build_html
+    @html.each do |h|
+      h.compose 
+    end
+  end
+
+  def write_html
+    @html.each do |h|
+      GPI.print "Writing index HTML.", GPI::CLU.check_option('v')
+      h.write
+    end
+  end
+
   private
 
   def setup_paginator

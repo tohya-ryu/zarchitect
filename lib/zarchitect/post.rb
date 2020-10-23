@@ -39,6 +39,11 @@ class Post < Zarchitect
     @html.compose
   end
 
+  def write_html
+    GPI.print "Writing HTML from #{@source_path}.", GPI::CLU.check_option('v')
+    @html.write
+  end
+
   private
 
   def fetch_content
