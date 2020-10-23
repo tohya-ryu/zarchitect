@@ -157,7 +157,7 @@ class Content < Zarchitect
         else
           hash["fst"] = false 
         end
-        hash["img_id"] = @img_id
+        hash["imgid"] = @img_id
         hash["imgset"] = @imgset
         hash["max_width"] = @max_width
         hash["caption"] = @caption
