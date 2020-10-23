@@ -57,7 +57,7 @@ class ZERB < Zarchitect
       GPI.quit
     end
     b = ZERB.new(path)
-    b.handle_data(@data)
+    b.handle_data(options)
     b.prepare
     b.render
     b.output
