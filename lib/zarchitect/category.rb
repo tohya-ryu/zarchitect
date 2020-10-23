@@ -13,7 +13,7 @@ class Category < Zarchitect
   def build_html
     if @tags
       @tags.each do |t|
-        @t.build_html
+        t.build_html
       end
     end
     @index.build_html
@@ -22,7 +22,7 @@ class Category < Zarchitect
   def write_html
     if @tags
       @tags.each do |t|
-        @t.write_html
+        t.write_html
       end
     end
     @index.write_html
