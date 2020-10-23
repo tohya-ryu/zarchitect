@@ -36,13 +36,6 @@ class Section < Zarchitect
 
   def setup_index
     @index = Index.new(self)
-=begin
-    if @conf.collection
-      @index = Index.new(self)
-    else
-      @index = nil
-    end
-=end
   end
 
   def create_dir
@@ -80,7 +73,7 @@ class Section < Zarchitect
   end
 
   def sort_posts
-    return unless @conf.collection
+    return if @posts.count <= 1
     case @conf.sort_type
     when "date"
       if @conf.sort_order == "reverse"
