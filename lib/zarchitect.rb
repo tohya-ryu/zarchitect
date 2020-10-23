@@ -19,7 +19,7 @@ class Zarchitect
   DEBUGSDIR = "debug"
 
   def initialize
-    @@sections = Hash.new
+    @@sections = Array.new
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
     GPI.extend(:file)
@@ -130,7 +130,8 @@ class Zarchitect
   end
 
   def Zarchitect.add_section(conf)
-    @@sections[conf.key] = Section.new(conf)
+    #@@sections[conf.key] = Section.new(conf)
+    @@sections.push Section.new(conf)
   end
 
   def Zarchitect.sections
