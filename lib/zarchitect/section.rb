@@ -74,9 +74,11 @@ class Section < Zarchitect
     if @conf.index
       ar = @conf.uses.split(',')
       @posts = Array.new
-      Zarchitect.sconf.each do |k,v|
+      Zarchitect.sections.each do |k,v|
         if ar.include? k
-          @posts << v.posts
+          v.posts.each do |p|
+            @posts.push p
+          end
         end
       end
     else

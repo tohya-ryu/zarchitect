@@ -41,7 +41,7 @@ class Index < Zarchitect
   def setup_html
     @html = Array.new
     if @paginator.posts_per_page == 0
-      html = HTML.new(File.join(Dir.getwd,HTMLDIR,section.name,"index.html"))
+      html = HTML.new(File.join(Dir.getwd,HTMLDIR,base_url,"index.html"))
       html.set_templates(layout, view)
       html.set_data("section", section)
       html.set_data("category", category)
@@ -93,7 +93,11 @@ class Index < Zarchitect
   def base_url
     case @ptype
     when "Section"
-      "/#{section.key}"
+      if section.conf.index
+        ""
+      else
+        "/#{section.key}"
+      end
     when "Category"
       "/#{section.key}/#{@parent.key}"
     when "Tag"
@@ -124,7 +128,7 @@ class Index < Zarchitect
   end
 
   def posts
-    @parent.posts.select { |p| !p.draft }
+    @parent.posts
   end
 
   def layout
