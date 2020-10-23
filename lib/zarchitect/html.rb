@@ -2,6 +2,7 @@ class HTML < Zarchitect
   
   def initialize(str)
     @data = Hash.new
+    @meta = Hash.new
     @path = str
   end
 

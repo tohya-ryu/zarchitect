@@ -174,7 +174,7 @@ class Index < Zarchitect
   end
 
   def meta_keywords
-    Zarchitec.site_keywords.clone
+    Zarchitect.conf.site_keywords.clone
   end
 
   def meta_author
