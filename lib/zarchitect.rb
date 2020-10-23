@@ -19,6 +19,7 @@ class Zarchitect
   DEBUGSDIR = "debug"
 
   def initialize
+    @@sections = Hash.new
     GPI.app_name = "zarchitect"
     GPI.extend(:dir)
     GPI.extend(:file)
@@ -124,6 +125,15 @@ class Zarchitect
   def Zarchitect.sconf
     @@sec_config
   end
+
+  def Zarchitect.add_section(conf)
+    @@sections[conf.key] = Section.new(conf)
+  end
+
+  def Zarchitect.sections
+    @@sections
+  end
+
 end
 
 require 'zarchitect/assets.rb'
