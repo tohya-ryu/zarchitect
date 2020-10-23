@@ -34,13 +34,17 @@ class Section < Zarchitect
 
   def build_html
     posts.each { |p| p.build_html }
-    @categories.each { |c| c.build_html }
+    if @categories
+      @categories.each { |c| c.build_html }
+    end
     @index.build_html
   end
 
   def write_html
     posts.each { |p| p.write_html }
-    @categories.each { |c| c.write_html }
+    if @categories
+      @categories.each { |c| c.write_html }
+    end
     @index.write_html
   end
 
