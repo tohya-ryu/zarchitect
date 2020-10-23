@@ -8,6 +8,7 @@ module CMD
         Zarchitect.setup_html_tree
         @assets = Assets.new
         @assets.cpdirs
+        @assets.update
         SCSS.run
         @files = FileManager.new
         @files.run
