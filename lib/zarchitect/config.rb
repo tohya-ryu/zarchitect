@@ -25,6 +25,13 @@ class Config
         @hash["index"] = true
       end
     end
+  end
+
+  def has_option?(str)
+    @hash.has_key?(str)
+  end
+
+  def setup
     instance_eval {
       @hash.each_key do |k|
         define_singleton_method k do
@@ -32,10 +39,6 @@ class Config
         end
       end
     }
-  end
-
-  def has_option?(str)
-    @hash.has_key?(str)
   end
 
   def read(key)
@@ -71,6 +74,7 @@ class Config
     end
     unless @hash.has_key?("collection") 
       @hash["collection"] = false
+      @hash["categorize"] = false
     end
     if @hash["collection"] == true
       unless @hash.has_key?("index_layout")

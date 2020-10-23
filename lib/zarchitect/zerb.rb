@@ -92,29 +92,29 @@ class ZERB < Zarchitect
   end
 
   def email(f)
-    Config.email if f
+    Zarchitect.conf.email if f
     #TODO secure email
-    Config.email
+    Zarchitect.conf.email
   end
 
   def root_url
-    Config.url
+    Zarchitect.conf.url
   end
 
   def site_name
-    Config.site_name
+    Zarchitect.conf.site_name
   end
 
   def origin_year
-    Config.origin_year
+    Zarchitect.conf.origin_year
   end
 
   def admin
-    Config.admin
+    Zarchitect.conf.admin
   end
 
   def site_slogan
-    Config.site_slogan
+    Zarchitect.conf.site_slogan
   end
 
 end

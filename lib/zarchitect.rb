@@ -101,8 +101,10 @@ class Zarchitect
   def load_conf
     @@zr_config = Config.new("_config/_zarchitect.yaml", "configuration")
     @@zr_config.validate_zrconf
+    @@zr_config.setup
     @@index_config = Config.new("_config/_index.yaml", "index")
     @@index_config.validate
+    @@index_config.setup
     @@sec_config = Array.new
     Dir.files("_config").each do |f|
       next if f[0] == "." # don't read swap files
@@ -111,6 +113,7 @@ class Zarchitect
       n = f.sub(".yaml", "")
       @@sec_config.push Config.new("_config/#{f}", n)
       @@sec_config.last.validate
+      @@sec_config.last.setup
     end
   end
 

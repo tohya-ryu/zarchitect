@@ -8,6 +8,7 @@ class Post < Zarchitect
     @source_path = path
     @conf = Config.new(path)
     @conf.validate_post
+    @conf.setup
     @id = @conf.id.clone
     @category = nil
     set_draft
@@ -34,6 +35,7 @@ class Post < Zarchitect
   end
 
   def build_html
+    GPI.print "Composing HTML for #{@source_path}.", GPI::CLU.check_option('v')
     @html.compose
   end
 
