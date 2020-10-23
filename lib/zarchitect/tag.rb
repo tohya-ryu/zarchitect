@@ -6,7 +6,7 @@ class Tag < Zarchitect
     @name = str
     @key = hash(str)
     @url = "/#{@category.section.key}/#{@category.key}/#{@key}/index.html"
-
+    create_dir
     setup_index
   end
 
@@ -25,6 +25,10 @@ class Tag < Zarchitect
   end
 
   private
+
+  def create_dir
+    Util.mkdir(File.join(HTMLDIR, @category.section.key, @category.key, @key))
+  end
 
   def setup_index
     @index = Index.new(self)
