@@ -8,19 +8,23 @@ class Assets < Zarchitect
   end
 
   def update
-    Dir[ File.join(from, '**', '*') ].reject do |fullpath|
-      path = fullpath[(from.length)..-1]
-      realpath = File.join(@to, path)
+    Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
+      path = fullpath[(@from.length)..-1]
+      if path.include?(HTMLDIR)
+        realpath = path[1..-1]
+      else
+        realpath = File.join(@to, path)
+        Util.mkdir(realpath) if File.directory?(fullpath)
+      end
 
-      Util.mkdir(realpath) if File.directory?(fullpath)
       next if File.directory?(fullpath)
 
       if File.exist?(realpath)
         if File.stat(fullpath).mtime > File.stat(realpath).mtime
-          File.copy(fullpath, realpath)
+          copy_file(fullpath, realpath)
         end
       else
-        File.copy(fullpath, realpath)
+        copy_file(fullpath, realpath)
       end
     end
   end
@@ -28,10 +32,19 @@ class Assets < Zarchitect
   def cpdirs
     Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
       path = fullpath[(@from.length)..-1]
-      realpath = File.join(@to, path)
+      if path.include?(HTMLDIR)
+        realpath = path[1..-1]
+      else
+        realpath = File.join(@to, path)
+        Util.mkdir(realpath) if File.directory?(fullpath)
+      end
 
-      Util.mkdir(realpath) if File.directory?(fullpath)
     end
+  end
+
+  def copy_file(a, b)
+    GPI.print "Copying from #{a} to #{b}.", GPI::CLU.check_option('v')
+    File.copy(a, b)
   end
 
 end

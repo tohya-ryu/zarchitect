@@ -31,14 +31,14 @@ class Zarchitect
     GPI::CLU.use_command("u", [0], "rvqdD")
     GPI::CLU.use_command("update", [0], "rvqdD")
 
-    GPI::CLU.use_command("ua", [0], "")
-    GPI::CLU.use_command("update-assets", [0], "")
+    GPI::CLU.use_command("ua", [0], "v")
+    GPI::CLU.use_command("update-assets", [0], "v")
 
-    GPI::CLU.use_command("uf", [0], "")
-    GPI::CLU.use_command("update-files", [0], "")
-    GPI::CLU.use_command("setup", [0], "")
+    GPI::CLU.use_command("uf", [0], "v")
+    GPI::CLU.use_command("update-files", [0], "v")
+    GPI::CLU.use_command("setup", [0], "v")
 
-    GPI::CLU.use_command("new", 2..3, "")
+    GPI::CLU.use_command("new", 2..3, "v")
     #app_command(0..2, "r") # appname = command.name
     GPI::CLU.process_args
     @@rss = ZRSS.new
@@ -150,7 +150,8 @@ require 'zarchitect/image.rb'
 require 'zarchitect/image_set.rb'
 require 'zarchitect/index.rb'
 require 'zarchitect/cmd_update.rb'
-#require 'zarchitect/cmd_new.rb'
+require 'zarchitect/cmd_misc.rb'
+require 'zarchitect/cmd_new.rb'
 require 'zarchitect/misc_file.rb'
 require 'zarchitect/post.rb'
 require 'zarchitect/paginator.rb'

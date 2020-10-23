@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/assets.rb",
              "lib/zarchitect/audio.rb",
              "lib/zarchitect/category.rb",
+             "lib/zarchitect/cmd_misc.rb",
              "lib/zarchitect/cmd_new.rb",
              "lib/zarchitect/cmd_update.rb",
              "lib/zarchitect/config.rb",

@@ -1,4 +1,4 @@
-module Command
+module CMD
 
   class New < Zarchitect
   end
