@@ -33,6 +33,10 @@ class Post < Zarchitect
     end
   end
 
+  def build_html
+    @html.compose
+  end
+
   private
 
   def fetch_content

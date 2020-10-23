@@ -19,6 +19,13 @@ module CMD
       Zarchitect.sconf.each do |s|
         @sections[s.key] = Section.new(s)
       end
+      index = Section.new(Zarchitect.iconf)
+      Zarchitect.sconf.each do |s|
+        @sections[s.key].build_html
+        #@sections[s.key].write_html
+      end
+      index.build_html
+      #index.write_html
     end
 
     private

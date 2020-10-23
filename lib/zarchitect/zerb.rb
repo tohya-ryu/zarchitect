@@ -37,11 +37,11 @@ class ZERB < Zarchitect
   def handle_data(hash)
     @data = hash
     hash.each do |k,v|
-      if instance_variable_defined?("#{k}")
+      if instance_variable_defined?("@#{k}")
         GPI.print "Error: Data key invalid #{k} - already defined"
         GPI.quit
       end
-      instance_variable_set("#{k}", v)
+      instance_variable_set("@#{k}", v)
     end
   end
 
