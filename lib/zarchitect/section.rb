@@ -37,7 +37,7 @@ class Section < Zarchitect
     if @categories
       @categories.each { |c| c.build_html }
     end
-    @index.build_html
+    @index.build_html unless @conf.has_option?("file")
   end
 
   def write_html
@@ -45,13 +45,13 @@ class Section < Zarchitect
     if @categories
       @categories.each { |c| c.write_html }
     end
-    @index.write_html
+    @index.write_html unless @conf.has_option?("file")
   end
 
   private
 
   def setup_index
-    @index = Index.new(self)
+    @index = Index.new(self) unless @conf.has_option?("file")
   end
 
   def create_dir

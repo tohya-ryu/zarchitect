@@ -9,7 +9,7 @@ class Post < Zarchitect
     @conf = Config.new(path)
     @conf.validate_post
     @conf.setup
-    @id = @conf.id.clone
+    @id = @conf.id.clone if @conf.has_option?("id")
     @category = nil
     set_draft
     set_date
