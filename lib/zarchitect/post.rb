@@ -147,6 +147,7 @@ class Post < Zarchitect
     @html.set_data("category", @category)
     @html.set_data("post", self)
     @html.set_data("content", @content.html)
+    @html.set_data("index", false)
 
     @html.set_meta("title", meta_title)
     @html.set_meta("keywords", meta_keywords)
