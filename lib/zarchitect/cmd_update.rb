@@ -10,9 +10,9 @@ module CMD
         @assets.cpdirs
         @assets.update
         SCSS.run
-        @files = FileManager.new
-        @files.run
       end
+      @files = FileManager.new
+      @files.run
     end
 
     def run
