@@ -18,20 +18,15 @@ module CMD
     def run
       Zarchitect.sconf.each do |s|
         Zarchitect.add_section(s)
-        #@sections[s.key] = Section.new(s)
       end
       Zarchitect.add_section(Zarchitect.iconf)
-      #index = Section.new(Zarchitect.iconf)
       Zarchitect.sections.sort_by! { |v| v.conf.id }
       Zarchitect.sections.push Zarchitect.sections.shift
       Zarchitect.sections.each do |s|
         s.build_html
         s.write_html
-        #@sections[s.key].build_html
-        #@sections[s.key].write_html
       end
-      #index.build_html
-      #index.write_html
+      rss.build
     end
 
     private
