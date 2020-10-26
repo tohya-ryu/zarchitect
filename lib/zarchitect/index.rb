@@ -45,6 +45,7 @@ class Index < Zarchitect
       html.set_templates(layout, view)
       html.set_data("section", section)
       html.set_data("category", category)
+      html.set_data("tag", tag)
       html.set_data("posts", posts)
       html.set_data("index", true)
       html.set_meta("title", meta_title)
@@ -79,6 +80,7 @@ class Index < Zarchitect
       html.set_templates(layout, view)
       html.set_data("section", section)
       html.set_data("category", category)
+      html.set_data("tag", tag)
       html.set_data("posts", rposts)
       html.set_data("paginator", @paginator.clone)
       html.set_data("index", true)
@@ -126,6 +128,17 @@ class Index < Zarchitect
       @parent
     when "Tag"
       @parent.category
+    end
+  end
+
+  def tag
+    case @ptype
+    when "Section",
+      nil
+    when "Category"
+      nil
+    when "Tag"
+      @parent
     end
   end
 
