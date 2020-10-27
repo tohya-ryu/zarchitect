@@ -16,9 +16,7 @@ module CMD
     end
 
     def run
-      Zarchitect.sconf.each do |s|
-        Zarchitect.add_section(s)
-      end
+      Zarchitect.sconf.each { |s| Zarchitect.add_section(s) }
       Zarchitect.add_section(Zarchitect.iconf)
       Zarchitect.sections.sort_by! { |v| v.conf.id }
       Zarchitect.sections.push Zarchitect.sections.shift

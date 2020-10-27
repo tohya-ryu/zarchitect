@@ -32,6 +32,10 @@ class Section < Zarchitect
     end
   end
 
+  def all_posts
+    @posts
+  end
+
   def build_html
     posts.each { |p| p.build_html }
     if @categories
