@@ -139,7 +139,7 @@ class Zarchitect
   end
 
   def Zarchitect.section(key)
-    @@sections.seach do |s|
+    @@sections.each do |s|
       return s if s.key == key
     end
     nil
