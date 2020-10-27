@@ -138,6 +138,13 @@ class Zarchitect
     @@sections
   end
 
+  def Zarchitect.section(key)
+    @@section.seach do |s|
+      return s if s.key == key
+    end
+    nil
+  end
+
 end
 
 require 'zarchitect/assets.rb'
