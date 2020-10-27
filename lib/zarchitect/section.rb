@@ -52,6 +52,13 @@ class Section < Zarchitect
     @index.write_html unless @conf.has_option?("file")
   end
 
+  def find_category(key)
+    @categories.each do |c|
+      return c if c.key == key
+    end
+    nil
+  end
+
   private
 
   def setup_index

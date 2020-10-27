@@ -12,8 +12,7 @@ module CMD
       end
       if GPI::CLU.parameters.size > 2
         @category = nil
-        @category = @section.categories.select { |c|
-          c.key == GPI::CLU.parameters[1] }
+        @category = @section.find_category(GPI::CLU.parameters[1])
         if @category.nil?
           GPI.print "Error: category with key #{GPI::CLU.parameters[1]} " +
             "not found in #{@section}."
@@ -31,11 +30,13 @@ module CMD
       @id = get_id
       # write file
       a = ZERB.new(File.join(Util.path_to_data, "post.md.erb"))
-      a.set_data("title", @title)
-      a.set_data("date", Time.now)
-      a.set_data("author", Zarchitect.conf.admin)
-      a.set_data("id", @id)
-      a.set_data("category", @category)
+      data = Hash.new
+      data["title"] = @title
+      data["date"] = Time.now
+      data["author"] = Zarchitect.conf.admin
+      data["id"] = @id
+      data["category"] = @category
+      a.handle_data(data)
       a.prepare
       a.render
       str = a.output
