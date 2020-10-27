@@ -1,12 +1,12 @@
 # header
 ---
-id: <%= data(:id) %>
-title: <%= data(:title) %>
-date: <%= data(:date) %> 
-<% if data_exist?(:category) %>
-category: <%= data(:category) %>
+id: <%= @id %>
+title: <%= @title %>
+date: <%= @date %> 
+<% unless @category.nil? %>
+category: <%= @category.key %>
 <% end %>
-author: <%= data(:author) %>
+author: <%= @author %>
 keywords:
 draft: yes
 
