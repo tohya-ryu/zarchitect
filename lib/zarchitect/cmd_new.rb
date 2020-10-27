@@ -1,6 +1,9 @@
 module CMD
 
   class New < Zarchitect
+  end
+
+  def run
     Zarchitect.sconf.each { |s| Zarchitect.add_section(s) }
     @section = Zarchitect.section(GPI::CLU.parameters[0])
     if @section.nil?
@@ -23,9 +26,6 @@ module CMD
       @title = GPI::CLU.parameters[1]
       @dir = File.join(@section.key)
     end
-  end
-
-  def run
     @id = get_id
     # write file
     a = ZERB.new(File.join(Util.path_to_data, "post.md.erb"))

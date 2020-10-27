@@ -54,7 +54,7 @@ class Zarchitect
     load_conf
     case GPI::CLU.command
     when "new" # create md file for new web page   
-      cmd = Command::New.new
+      cmd = CMD::New.new
       cmd.run
     when "update","u"
       cmd = CMD::Update.new
@@ -157,9 +157,9 @@ require 'zarchitect/html.rb'
 require 'zarchitect/image.rb'
 require 'zarchitect/image_set.rb'
 require 'zarchitect/index.rb'
-require 'zarchitect/cmd_update.rb'
 require 'zarchitect/cmd_misc.rb'
 require 'zarchitect/cmd_new.rb'
+require 'zarchitect/cmd_update.rb'
 require 'zarchitect/misc_file.rb'
 require 'zarchitect/post.rb'
 require 'zarchitect/paginator.rb'
