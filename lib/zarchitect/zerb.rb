@@ -91,7 +91,7 @@ class ZERB < Zarchitect
     @content
   end
 
-  def email(f)
+  def email(f = false)
     Zarchitect.conf.email if f
     #TODO secure email
     Zarchitect.conf.email
