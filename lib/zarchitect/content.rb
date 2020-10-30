@@ -75,9 +75,38 @@ class Content < Zarchitect
       new_string << str
     end
 
+    # process tables
+    tfound = false
+    tables = Array.new
+    ar = new_string.split("\n")
+    ar.each_with_index do |l,i| 
+      if l[0] == "|" && l[-1] == "|"
+        if tfound # part of current table
+          tables.last.add_line l
+        else # first line of a table
+          tables.push HTMLTable.new
+          tables.last.add_line l
+          tables.last.starts_at i
+          tfound = true
+        end 
+      else
+        if tfound # first line after a table!
+          tables.last.ends_at i-1
+          tfound = false
+          tables.last.process
+        end
+      end
+    end
+
+    tables.each do |t|
+      ar = t.replace(ar)
+    end
+
+    ar.delete_if { |x| x.nil? }
+
     markdown = Redcarpet::Markdown.new(RougeHTML,
-                                       autolink: true, tables: true)
-    chtml = markdown.render(new_string)
+                                       autolink: true)
+    chtml = markdown.render(ar.join("\n"))
 
     parse(chtml)
 
