@@ -18,7 +18,7 @@ class HTMLTable
       ar.pop
       ar2 = get_colspans(ar)
       ar.map! { |a| a.strip }
-      if ar[0].count("-") == ar[0].length
+      if ar[0].count("-") == ar[0].length && ar[0].count("-") > 0
         # header previous row is header
         @rows.last.set_header
       else
