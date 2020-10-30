@@ -76,7 +76,7 @@ class Content < Zarchitect
     end
 
     markdown = Redcarpet::Markdown.new(RougeHTML,
-                                       autolink: true)
+                                       autolink: true, tables: true)
     chtml = markdown.render(new_string)
 
     parse(chtml)
