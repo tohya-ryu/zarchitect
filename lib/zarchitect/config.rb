@@ -56,7 +56,7 @@ class Config
 
   def validate
     GPI.print "Validating #{@file}."
-    unless @hash.hash_key?("hidden")
+    unless @hash.has_key?("hidden")
       @hash["hidden"] = false
     end
     if @hash.has_key?("sort_type")
