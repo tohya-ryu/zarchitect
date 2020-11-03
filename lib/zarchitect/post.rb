@@ -109,7 +109,11 @@ class Post < Zarchitect
           GPI.print "Error: Date missing in #{@source_path}"
           GPI.quit
         else
-          @date = @conf.date #class Time
+          if @conf.date == "now"
+            @date = Time.now
+          else
+            @date = @conf.date #class Time
+          end
         end
       else
         if @conf.has_option?('date')
@@ -118,7 +122,11 @@ class Post < Zarchitect
       end
     else
       if @conf.has_option?('date')
-        @date = @conf.date
+        if @conf.date == "now"
+          @date = Time.now
+        else
+          @date = @conf.date
+        end
       end
     end
     if @date.nil?
