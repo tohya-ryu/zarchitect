@@ -6,6 +6,8 @@ class Content < Zarchitect
     @source = @post.source_path.clone
     @source.gsub!('/', '_')
     @source.sub!('.md', '')
+    @nodes = Array.new
+    return if @post.conf.has_option?("script")
     @raw = File.open(@post.source_path) { |f| f.read }
     @raw = @raw.lines
     i = 0
@@ -19,10 +21,11 @@ class Content < Zarchitect
     end
     @raw = @raw.drop(i+1)
     @raw = @raw.join
-    @nodes = Array.new
   end
 
   def markup
+    from_script if @post.conf.has_option?("script")
+    return if @post.conf.has_option?("script")
     GPI.print "Processing markdown", GPI::CLU.check_option('v')
     chtml = @raw
     @img_id = 0
@@ -138,6 +141,11 @@ class Content < Zarchitect
   end
 
   private
+
+  def from_script
+    html = %x{ ./#{@post.conf.script} }
+    parse(html)
+  end
 
   def parse(html)
     debug_dir = File.join(File.join(BUILDIR, DEBUGSDIR), @source)
