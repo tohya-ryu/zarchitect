@@ -39,7 +39,7 @@ class Image < Zarchitect
     @dimensions.y = dim[1].to_i
     #@size         = arr[6].to_i
     @size         = File.size(path)
-    @type         = arr[1]
+    @type         = arr[1].clone
     # validate file size
     if @size > Zarchitect.conf.image_limit.to_f.mib_to_bytes
       GPI.print "Error: File #{path} too large "\
@@ -47,6 +47,7 @@ class Image < Zarchitect
         " Allowed size: #{Zarchitect.conf.image_limit.to_f.mb_to_mib.round(2)}"
       GPI.quit
     end
+    strip_exif unless @thumbf
   end
 
   def thumb_small?
@@ -136,6 +137,16 @@ class Image < Zarchitect
     end
     @@search = false
     nil
+  end
+
+  private
+
+  def strip_exif
+    return unless @type == "JPEG"
+    GPI.print "#{command}", GPI::CLU.check_option('v')
+    command = "exiv2 rm #{@path}"
+    o = %x{#{command}}
+    GPI.print o, GPI::CLU.check_option('v')
   end
   
 end
