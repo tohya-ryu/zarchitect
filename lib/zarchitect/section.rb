@@ -96,6 +96,7 @@ class Section < Zarchitect
       @posts = Array.new
       if @conf.has_option?("directory")
         Dir.filesr(@conf.directory).each do |f|
+          next unless File.extname(f)
           @posts.push Post.new(f, self)
         end
       elsif @conf.has_option?("file")
