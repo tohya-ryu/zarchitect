@@ -143,8 +143,8 @@ class Image < Zarchitect
 
   def strip_exif
     return unless @type == "JPEG"
-    GPI.print "#{command}", GPI::CLU.check_option('v')
     command = "exiv2 rm #{@path}"
+    GPI.print "#{command}", GPI::CLU.check_option('v')
     o = %x{#{command}}
     GPI.print o, GPI::CLU.check_option('v')
   end
