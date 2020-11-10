@@ -1,0 +1,22 @@
+--- # zarchitect website config file
+url: http://www.example.com
+email: user@example.com
+site_name: example.com
+site_slogan: the best exampled
+site_description: "a short description of this website"
+admin: webmaster_name
+origin_year: 2020 # can be used for dynamic copyright notices
+title_sep: " | " # separator used in the html title meta tag
+site_keywords: keyA, keyB # keywords for meta tag, string
+thumbl: [640,480] # size for large thumbnails
+thumbs: [320, 240] # size for small thumbnails
+image_limit: 20.0 # MB
+audio_limit: 20.0
+video_limit: 40.0
+rss_size: 10 # number of items in rss feed
+scss_enabled: # root is _assets/ | list of scss files to be turned into css
+    - "example.scss"
+exclude_assets: # files with these extensions don't get copied into html tree
+ - .scss
+ - .scss.swp
+ - .css.map

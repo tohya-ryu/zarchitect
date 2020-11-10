@@ -1,5 +1,0 @@
-- fix tags
-- add page with media ?
-- visitor counter!
-- write about
-- write links

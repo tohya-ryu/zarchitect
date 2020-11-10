@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/util.rb",
              "lib/zarchitect/video.rb",
              "lib/zarchitect/zerb.rb",
+             "data/_zarchitect.yaml",
              "data/post.md.erb"]
   s.homepage = 'https://github.com/tohya-ryu/zarchitect'
   s.license = 'GPL-3.0'

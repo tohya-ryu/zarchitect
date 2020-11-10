@@ -12,6 +12,8 @@ class Zarchitect
   FILEDIR = "_files"
   ASSETDIR = "_assets"
   DRAFTDIR = "_drafts"
+  LAYOUTDIR = "_layouts"
+  CONFIGDIR = "_config"
 
   FILESDIR = "files"
   SHARESDIR = "share" # directory under _files that doesn't have thumbnails
@@ -51,19 +53,22 @@ class Zarchitect
       GPI.print "Non-verbose Mode"
     end
     # Load config
-    load_conf
     case GPI::CLU.command
     when "new" # create md file for new web page   
+      load_conf
       cmd = CMD::New.new
       cmd.run
     when "update","u"
+      load_conf
       cmd = CMD::Update.new
       cmd.run
     when "sync"
       # draw data from mastodon / twitter api
     when "update-assets","ua"
+      load_conf
       CMD::Misc.update_assets
     when "update-files","uf"
+      load_conf
       CMD::Misc.update_files
     when "setup"
       CMD::Misc.setup
