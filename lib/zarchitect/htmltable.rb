@@ -55,6 +55,10 @@ class HTMLTable
 
   def replace(ar)
     ar[@starts_at] = @html
+    if @ends_at.nil?
+      @ends_at = ar.length
+      process
+    end
     ar.each_with_index do |x,i|
       ar[i] = nil if i > @starts_at && i <= @ends_at
     end
