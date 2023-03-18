@@ -1,3 +1,3 @@
 #!/bin/bash
 gem build zarchitect.gemspec
-gem install zarchitect-0.0.0.gem
+gem install zarchitect-1.1.2.gem

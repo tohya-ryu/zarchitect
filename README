@@ -1,0 +1,189 @@
+zArchitect is a [static website](https://en.wikipedia.org/wiki/Static_web_page) generator written in ruby. It uses extensions of [markdown](https://en.wikipedia.org/wiki/Markdown) and [erb](https://en.wikipedia.org/wiki/ERuby#erb) to render pages. 
+
+Gem Dependencies
+------------
+<ul>
+<li><a href="https://github.com/tohya-ryu/GPI">GPI</a></li>
+<li><a href="https://nokogiri.org/">nokogiri</a></li>
+<li><a href="https://github.com/rgrove/sanitize/">sanitize</a></li>
+<li><a href="https://github.com/vmg/redcarpet">redcarpet</a></li>
+<li><a href="http://rouge.jneen.net/">rouge</a></li>
+</ul>
+
+System dependencies
+-------------------
+<ul>
+<li><a href="https://imagemagick.org/index.php">Rmagemagick</a> (for convert and identify cli tools)</li>
+<li><a href="https://www.exiv2.org/">exiv2</a></li>
+<li><a href="https://www.ruby-lang.org/en">Ruby</a></li>
+</ul>
+
+Installation
+------------
+zArchitect is available as a ruby gem: `sudo gem install zarchitect` or [download the source](/files/projects/zarchitect/) and run `sudo ./build.sh`
+
+Setup
+-----
+1. Create a project directory `mkdir example` and `cd example` into it
+2. Run `zarchitect setup` - This sets up various directories and a config file
+3. Open and edit `_config/_zarchitect.yaml` 
+4. Create config files for your website's sections (see below)
+
+zArchitect's sections are the building blocks used to structure websites. A section can be a blog with various categories and posts, or just a single web page. Each section requires a config file in `_config/`
+
+    lang:yaml
+    # EXAMPLE 1 - Blog with various categories
+    name: My Blog # the name of the section
+    id: 2 # used for sorting sections
+    directory: blog # for collections of posts, the directory in which posts reside
+    layout: _layouts/default.html.erb # html file used for layout
+    view: _layouts/view/default.html.erb # html file that houses the content
+    collection : yes # blog has more than one posts, so it's a collection
+    categorize: yes # we use categories to put posts of similar content together
+    categories: # the section's categories require a key and real name, key is used to identify them in templates
+        category_a: Category A # key: name
+        category_b: Category B
+    tags: yes # each post can be assigned to multiple tags to divide posts even further (optional)
+    paginate: 10 # posts per index page
+    index_layout: _layouts/default.html.erb # layout used for index, that lists inidividual posts
+    index_view: _layouts/view/blog_index.html.erb
+    category_index_view: _layouts/view/blog_category_index.html.erb
+    tag_index_view: _layouts/view/blog_tag_index.html.erb
+    sort_type: date # date | alphanum (the way posts are sorted)
+    sort_order: reverse # default | reverse
+    css: # optional, used to dynamically load the respective css/jss in a single layout file
+    - /assets/styles/default/default.css
+    js: # see above
+    - /assets/default.js
+
+    # EXAMPLE 2 - Single Web Page
+    name: About Me
+    id: 1
+    file: about/content.md # location of the markdown file to be rendered for this section
+    layout: _layouts/default.html.erb
+    view: _layouts/view/default.html.erb
+    collection: no
+    categorize: no
+    css:
+    - /assets/styles/default/default.css
+    js:
+    - /assets/default.js
+
+    # EXAMPLE 3 - Index Page (required!)
+    # this file has to be located at "./_config/_index.yaml"
+    name: Home
+    id: 0
+    collection : yes
+    categorize: no
+    tags: no
+    paginate: 10
+    layout: _layouts/default.html.erb
+    view: _layouts/view/index.html.erb
+    index_layout: _layouts/default.html.erb
+    index_view: _layouts/view/index.html.erb
+    uses: blog,some_other_section,... # show posts from sections specified here in index (comma separated)
+    sort_type: date
+    sort_order: reverse
+    hidden: yes # allows us to skip this section when iterating the sections array in layouts
+    css:
+    - /assets/styles/default/default.css
+    js:
+    - /assets/default.js
+
+Assets
+------
+The command `zarchitect ua` copies from from `./_assets/` to `./_html/assets/`, converting specified `.scss` files into `.css ` files. Files in `./_assets/_html/` are copied into the website root directory `./_html/`.
+
+Files
+-----
+Put files into `./_files/`. zArchitect automatically creates 2 thumbnails for each image (if its dimensions exceed the sizes of the thumbnails). Example:
+
+    lang:ruby
+    #./_files/picture.jpg # assuming dimensions exceed those for both thumbnails
+    #> creates: ./_html/files/picture.jpg # symlink!
+    #> creates: ./_html/files/picture-thumbs.jpg # small thumbnail
+    #> creates: ./_html/files/picture-thumbl.jpg # large thumbnail
+    
+Furthermore, `JPEG` files have their [Exif](https://en.wikipedia.org/wiki/Exif) data stripped from them and no thumbnails are generated for image files residing in `./_files/share/`. 
+
+Layouts & Views
+---------------
+By default zArchitect runs the layout and view files specified in the section configs through erb. Examples:
+
+    lang:erb
+    <% Zarchitect.sections.each do |s| %> # iterates all sections and prints their names
+        <%= s.name %> 
+    <% end %>
+    # common variables that can be used to access information relating to the current page
+    # Zarchitect.section(key) // returns section specified by key. key is the filename of the section's config without the .yaml extension
+    # Zarchitect.conf # access options from ./_config/_zarchitect.yaml
+    # e.g. Zarchitect.conf.url
+    # @section
+    # @category // nil if page doesn't belong to a category
+    # @tag // nil if page doesn't belong to a tag
+
+    # @meta // available in layouts, holds information for html meta tags (title, description, author, keywords)
+
+    # @section.url // url of section's index, for single page sections url of the page itself
+    # @section.name
+    # @section.posts // array of posts belonging to the sectiongt
+
+    # @section.conf.hidden // any option in the section's config file is a method of the config object returned by .conf
+    # @category.url
+    # @category.name
+    # @category.section
+
+    # @tag.url
+    # @tag.name
+    # @tag.category
+    
+    # @tag.category.section.url // example
+
+    # helper functions
+    <%= link "Home", root_url %> # returns <a href="http://www.example.com">Home</a>
+    <%= link "Home", root_url, class: "link" %> # <a href="http://www.example.com" class="link">Home</a>
+    <%= img "url, options {} %> # works much like the link tag
+    # the optional hash can add any attribute with the specified key in the optional hash!
+    <%= include  "some_file.html.erb" %> # include the output from another parsed template file
+    # files included have no knowledge of the parent's state, so variables that the included template
+    # should access have to be passed
+    <%= include "file.html.erb", section: @section %> # file.html.erb has now access to @section
+    <%= include "file.html.erb", data: {} %> # hash is now accissible via @data
+
+    <%= include_view %> # includes output of view template specified in section config
+    <%= include_content %> # includes html output of post (see below)
+
+Posts
+-----
+Posts are written into markdown files ending with `.md` - other file extensions are ignored when zArchitect gathers posts for a collection. Here's a basic example:
+
+    lang:yaml
+    # config
+    ---
+    title: About Me
+    draft: false # posts marked draft are ignored when building the site
+    id: some-unique-string # required for posts of collections
+    category: x # required for posts of categorized collections - should be the key of the category in the section config
+    date: 2020-11-11 12:56:32 +0100
+    author: me
+    keywords: a, b # these are appended to the site and section keywords
+    tags: # optional array for tagged categories
+    - a
+    - b
+    script: path_to_script # optional. if set, uses the output of the specified script as content instead of the markdown section
+
+    # content
+    ---
+    markdown goes here
+
+Building
+--------
+`zarchitect u` builds the website. By default it doesn't copy assets and convert `.scss` to `.css`. It supports the following options:
+
+| flag | option |
+| ---- | ------ |
+| r | Rebuild. Deletes contents of ./_html/ before updating. Also copies assets and converts .scss to .css |
+| v | Verbose. Prints status messages. |
+| D | Drafts. Includes drafts in the update. |
+
+e.g. `zarchitect u -rvD`, `zarchitect u -v`. They can be combined in any order and any combination.

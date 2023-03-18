@@ -1,6 +1,7 @@
 class Post < Zarchitect
-  attr_reader :source_path, :conf, :content, :name, :draft, :date,
+  attr_reader :source_path, :html_path, :conf, :content, :name, :draft, :date,
     :description, :url, :category
+  attr_accessor :write_block
 
   def initialize(path, section)
     GPI.print "Initializing post #{path}.", GPI::CLU.check_option('v')
@@ -10,18 +11,23 @@ class Post < Zarchitect
     @conf.validate_post
     @conf.setup
     @id = @conf.id.clone if @conf.has_option?("id")
+    if @conf.has_option?("always_write")
+      @always_write = @conf.always_write.clone 
+    else
+      @always_write = false
+    end
     @category = nil
+    @write_block = false
     set_draft
+    set_rss
     set_date
     fetch_category if @conf.has_option?("category")
     create_dir
+    set_url
+    set_html_path
     fetch_content 
     set_description
     set_name
-    set_url
-    set_html_path
-    # construct path for html // maybe only necessray when writing html?
-    # set date
     setup_html
     rss.try_item(self)
   end
@@ -40,8 +46,18 @@ class Post < Zarchitect
   end
 
   def write_html
-    GPI.print "Writing HTML from #{@source_path}.", GPI::CLU.check_option('v')
-    @html.write
+    if @write_block && !@always_write
+      GPI.print "Skipping HTML write from #{@source_path}.",
+        GPI::CLU.check_option('v')
+    else
+      GPI.print "Writing HTML from #{@source_path}.",
+        GPI::CLU.check_option('v')
+      @html.write
+    end
+  end
+
+  def rss?
+    return @rss
   end
 
   private
@@ -85,7 +101,8 @@ class Post < Zarchitect
 
   def set_html_path
     @html_path = @url.clone
-    @html_path = File.join(Dir.getwd, HTMLDIR, @url)
+    #@html_path = File.join(Dir.getwd, HTMLDIR, @url)
+    @html_path = File.join(HTMLDIR, @url)
   end
 
   def create_dir
@@ -99,6 +116,11 @@ class Post < Zarchitect
   def set_draft
     @draft = false
     @draft = @conf.draft if @conf.has_option?("draft")
+  end
+
+  def set_rss
+    @rss = true
+    @rss = @conf.rss if @conf.has_option?("rss")
   end
 
   def set_date
@@ -137,10 +159,15 @@ class Post < Zarchitect
   def set_description
     if @conf.has_option?('description')
       @description = @conf.description
+    elsif @conf.has_option?('preview')
+      @description = Sanitize.fragment(@conf.preview)
     else
       nodes = @content.nodes.select { |n| n.type == "p" }
       if nodes.count > 0
-        @description = Sanitize.fragment(nodes[0])
+        @description = Sanitize.fragment(nodes[0].html)
+        if @description.length > 120
+          @description = @description[0..120] << "…"
+        end
       else
         @description = ""
       end

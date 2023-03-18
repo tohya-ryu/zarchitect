@@ -4,11 +4,13 @@ require 'erb'
 require 'sanitize'
 require 'rss'
 require 'nokogiri'
+require 'katex'
 
 class Zarchitect
 
   HTMLDIR = "_html"
   BUILDIR = "_build"
+  NODEDIR = "_build/nodes"
   FILEDIR = "_files"
   ASSETDIR = "_assets"
   DRAFTDIR = "_drafts"
@@ -82,6 +84,18 @@ class Zarchitect
   private
 
   def self.rebuild
+    # delte all nodes
+    Dir[ File.join(NODEDIR, "**", "*") ].reverse.reject do |fullpath|
+      if File.directory?(fullpath)
+        GPI.print "deleting dir #{fullpath}"
+        Dir.delete(fullpath)
+        GPI.print "deleted dir #{fullpath}"
+      else
+        GPI.print "deleting file #{fullpath}"
+        File.delete(fullpath)
+        GPI.print "deleted file #{fullpath}"
+      end
+    end
     # delete all contents of _html
     Dir[ File.join(HTMLDIR, "**", "*") ].reverse.reject do |fullpath|
       if File.directory?(fullpath)

@@ -6,6 +6,7 @@ class ZRSS < Zarchitect
 
   def try_item(page)
     return if page.draft
+    return unless page.rss?
     if @items.count < Zarchitect.conf.rss_size # simply add page to rss items
       @items.push RSSItem.new(page)
     else # check if it's more recent than the oldest item in the feed
