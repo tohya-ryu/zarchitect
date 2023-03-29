@@ -81,7 +81,7 @@ class Post < Zarchitect
     if @conf.has_option?("title")
       @name = @conf.title
     elsif @section.conf.has_option?("default_title")
-      @name = @sectin.conf.default_title
+      @name = @section.conf.default_title
     else
       @name = ""
     end
@@ -195,15 +195,14 @@ class Post < Zarchitect
   #
   
   def meta_title
-    title = Zarchitect.conf.site_name.clone
-    title << Zarchitect.conf.title_sep
+    title = "#{@name} - #{Zarchitect.conf.site_name}"
     if @section.conf.collection
-      title << @section.name << Zarchitect.conf.title_sep
+      title << " - #{@section.name}"
     end
     unless @category.nil?
-      title << @category.name << Zarchitect.conf.title_sep
+      title << ":#{@category.name}"
     end
-    title << @name
+    title
   end
 
   def meta_keywords

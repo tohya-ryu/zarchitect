@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'zarchitect'
-  s.version = '1.1.2'
+  s.version = '1.2.0'
   s.executables << 'zarchitect'
-  s.date = '2022-05-02'
+  s.date = '2023-03-29'
   s.summary = 'Static website generator'
   s.description = 'Yet another static website generator'
   s.authors = ["ryu"]

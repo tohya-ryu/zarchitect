@@ -198,10 +198,9 @@ class Index < Zarchitect
   
   def meta_title
     if category
-      Zarchitect.conf.site_name + Zarchitect.conf.title_sep + section.name +
-        Zarchitect.conf.title_sep + category.name
+      "#{section.name}:#{category.name} - #{Zarchitect.conf.site_name}"
     else
-      Zarchitect.conf.site_name + Zarchitect.conf.title_sep + section.name
+      "#{section.name} - #{Zarchitect.conf.site_name}"
     end
   end
 
