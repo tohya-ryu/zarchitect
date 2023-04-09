@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'zarchitect'
-  s.version = '1.2.0'
+  s.version = '1.3.0'
   s.executables << 'zarchitect'
-  s.date = '2023-03-29'
+  s.date = '2023-04-09'
   s.summary = 'Static website generator'
   s.description = 'Yet another static website generator'
   s.authors = ["ryu"]
@@ -35,6 +35,6 @@ Gem::Specification.new do |s|
              "lib/zarchitect/zerb.rb",
              "data/_zarchitect.yaml",
              "data/post.md.erb"]
-  s.homepage = 'https://www.tohya.net/projects/other/5faa82d2/index.html'
+  s.homepage = 'https://www.tohya.net/projects/other/zarchitect.html'
   s.license = 'GPL-3.0'
 end

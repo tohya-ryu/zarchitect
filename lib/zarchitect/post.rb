@@ -1,6 +1,6 @@
 class Post < Zarchitect
   attr_reader :source_path, :html_path, :conf, :content, :name, :draft, :date,
-    :description, :url, :category
+    :description, :url, :category, :key
   attr_accessor :write_block
 
   def initialize(path, section)
@@ -11,6 +11,11 @@ class Post < Zarchitect
     @conf.validate_post
     @conf.setup
     @id = @conf.id.clone if @conf.has_option?("id")
+    if @conf.has_option?("key")
+      @key = @conf.key.clone
+    else
+      @key = @id.clone
+    end
     if @conf.has_option?("always_write")
       @always_write = @conf.always_write.clone 
     else
@@ -90,9 +95,11 @@ class Post < Zarchitect
   def set_url
     if @section.conf.collection
       if @section.conf.categorize
-        @url = "/#{@section.key}/#{@category.key}/#{@id}/index.html"
+        #@url = "/#{@section.key}/#{@category.key}/#{@id}/index.html"
+        @url = "/#{@section.key}/#{@category.key}/#{@key}.html"
       else
-        @url = "/#{@section.key}/#{@id}/index.html"
+        #@url = "/#{@section.key}/#{@id}/index.html"
+        @url = "/#{@section.key}/#{@key}.html"
       end
     else
       @url   = "/#{@section.key}/index.html"

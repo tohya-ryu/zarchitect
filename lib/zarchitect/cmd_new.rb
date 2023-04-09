@@ -10,8 +10,8 @@ module CMD
           "not exist."
         GPI.quit
       end
+      @category = nil
       if GPI::CLU.parameters.size > 2
-        @category = nil
         @category = @section.find_category(GPI::CLU.parameters[1])
         if @category.nil?
           GPI.print "Error: category with key #{GPI::CLU.parameters[1]} " +
@@ -27,11 +27,13 @@ module CMD
     end
 
     def run
+      check_key
       @id = get_id
       # write file
       a = ZERB.new(File.join(Util.path_to_data, "post.md.erb"))
       data = Hash.new
       data["title"] = @title
+      data["key"] = @title
       data["date"] = Time.now
       data["author"] = Zarchitect.conf.admin
       data["id"] = @id
@@ -51,6 +53,26 @@ module CMD
     end
 
     private
+
+    def check_key
+      duplicate_key = false
+      context = ""
+      unless @category.nil?
+        @category.posts.each do |post|
+          duplicate_key = true if @title == post.key
+          context = "#{@section.key}/#{@category.key}"
+        end
+      else
+        @section.posts.each do |post|
+          duplicate_key = true if @title == post.key
+          context = "#{@section.key}"
+        end
+      end
+      if duplicate_key
+        GPI.print "Error: key {#{@title}} already present in #{context}."
+        GPI.quit
+      end
+    end
 
     def get_id
       t = Time.now.to_i

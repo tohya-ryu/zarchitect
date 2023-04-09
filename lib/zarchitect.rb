@@ -8,6 +8,7 @@ require 'katex'
 
 class Zarchitect
 
+  VERSION = "1.3.0"
   HTMLDIR = "_html"
   BUILDIR = "_build"
   NODEDIR = "_build/nodes"
