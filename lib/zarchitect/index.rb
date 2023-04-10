@@ -41,8 +41,10 @@ class Index < Zarchitect
   def setup_html
     @html = Array.new
     if @paginator.posts_per_page == 0
-      html = HTML.new(File.join(Dir.getwd,HTMLDIR,base_url,"index.html"))
+      path = File.join(Dir.getwd,HTMLDIR,base_url,"index.html")
+      html = HTML.new(path)
       html.set_templates(layout, view)
+      html.set_data("url", File.join(base_url,"index.html"))
       html.set_data("section", section)
       html.set_data("category", category)
       html.set_data("tag", tag)
@@ -55,6 +57,21 @@ class Index < Zarchitect
       html.set_meta("description", meta_description)
 
       html.set_meta("og_type", "website")
+      html.set_meta("og_image", meta_og_image)
+      html.set_meta("og_image_alt", meta_og_image_alt)
+      html.set_meta("og_image_width", meta_og_image_width)
+      html.set_meta("og_image_height", meta_og_image_height)
+
+      unless html.meta["og_image"].nil?
+        if html.meta["og_image_width"] == html.meta["og_image_height"]
+          html.set_meta("twitter_card", "summary")
+        else
+          html.set_meta("twitter_card", "summary_large_image")
+        end
+      else
+        html.set_meta("twitter_card", nil)
+      end
+
       @html.push html
       return
     end
@@ -76,11 +93,14 @@ class Index < Zarchitect
                            @paginator.posts_per_page)
       if i == 0
         path = File.join(Dir.getwd,HTMLDIR,base_url, "index.html")
+        url = File.join(base_url, "index.html")
       else
         path = File.join(Dir.getwd,HTMLDIR,base_url, "index-#{i+1}.html")
+        url = File.join(base_url, "index-#{i+1}.html")
       end
       html = HTML.new(path)
       html.set_templates(layout, view)
+      html.set_data("url", url)
       html.set_data("section", section)
       html.set_data("category", category)
       html.set_data("tag", tag)

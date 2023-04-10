@@ -185,6 +185,7 @@ class Post < Zarchitect
     @html = HTML.new(@html_path)
     @html.set_templates(@section.conf.layout, @section.conf.view)
 
+    @html.set_data("url", @url)
     @html.set_data("section", @section)
     @html.set_data("category", @category)
     @html.set_data("post", self)
