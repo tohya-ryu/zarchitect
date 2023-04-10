@@ -48,10 +48,13 @@ class Index < Zarchitect
       html.set_data("tag", tag)
       html.set_data("posts", posts)
       html.set_data("index", true)
+
       html.set_meta("title", meta_title)
       html.set_meta("keywords", meta_keywords)
       html.set_meta("author", meta_author)
       html.set_meta("description", meta_description)
+
+      html.set_meta("og_type", "website")
       @html.push html
       return
     end

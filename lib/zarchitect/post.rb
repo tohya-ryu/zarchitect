@@ -195,11 +195,60 @@ class Post < Zarchitect
     @html.set_meta("keywords", meta_keywords)
     @html.set_meta("author", meta_author)
     @html.set_meta("description", @description)
+
+    @html.set_meta("og_type", meta_og_type)
+    @html.set_meta("og_image", meta_og_image)
+    @html.set_meta("og_image_alt", meta_og_image_alt)
+    @html.set_meta("og_image_width", meta_og_image_width)
+    @html.set_meta("og_image_height", meta_og_image_height)
+    @html.set_meta("twitter_card", meta_twitter_card)
   end
 
   ######################################
   # meta data
   #
+  
+  def meta_twitter_card
+    if @conf.has_option?("twitter_card")
+      return @conf.twitter_card
+    else
+      unless @html.meta["og_image"].nil?
+        if @html.meta["og_image_width"] == @html.meta["og_image_height"]
+          return "summary"
+        else
+          return "summary_large_image"
+        end
+      else
+        return nil
+      end
+    end
+  end
+
+  def meta_og_image
+    return get_shared_option("og_image")
+  end
+
+  def meta_og_image_alt
+    return get_shared_option("og_image_alt")
+  end
+
+  def meta_og_image_width
+    return get_shared_option("og_image_width")
+  end
+
+  def meta_og_image_height
+    return get_shared_option("og_image_height")
+  end
+
+  def meta_og_type
+    if @conf.has_option?("og_type")
+      return @conf.og_type
+    elsif @section.conf.collection 
+      return "article"
+    else
+      return "website"
+    end
+  end
   
   def meta_title
     title = "#{@name} - #{Zarchitect.conf.site_name}"
@@ -229,6 +278,18 @@ class Post < Zarchitect
       author = @conf.author
     else
       author = ""
+    end
+  end
+
+  def get_shared_option(opt)
+    if @conf.has_option?(opt)
+      return @conf.method(opt).call
+    elsif @section.conf.has_option?(opt)
+      return @section.conf.method(opt).call
+    elsif Zarchitect.conf.has_option?(opt)
+      return Zarchitect.conf.method(opt).call
+    else
+      return nil
     end
   end
 

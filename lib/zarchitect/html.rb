@@ -1,4 +1,5 @@
 class HTML < Zarchitect
+  attr_reader :meta, :data, :path
   
   def initialize(str)
     @data = Hash.new
