@@ -114,9 +114,9 @@ class Post < Zarchitect
 
   def create_dir
     if @section.conf.collection && @section.conf.categorize
-      Util.mkdir(File.join(HTMLDIR, @section.key, @category.key, @id.to_s))
+      Util.mkdir(File.join(HTMLDIR, @section.key, @category.key))
     elsif @section.conf.collection
-      Util.mkdir(File.join(HTMLDIR, @section.key, @id.to_s))
+      Util.mkdir(File.join(HTMLDIR, @section.key))
     end
   end
 
