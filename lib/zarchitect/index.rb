@@ -87,10 +87,28 @@ class Index < Zarchitect
       html.set_data("posts", rposts)
       html.set_data("paginator", @paginator.clone)
       html.set_data("index", true)
+
       html.set_meta("title", meta_title)
       html.set_meta("keywords", meta_keywords)
       html.set_meta("author", meta_author)
       html.set_meta("description", meta_description)
+
+      html.set_meta("og_type", "website")
+      html.set_meta("og_image", meta_og_image)
+      html.set_meta("og_image_alt", meta_og_image_alt)
+      html.set_meta("og_image_width", meta_og_image_width)
+      html.set_meta("og_image_height", meta_og_image_height)
+
+      unless html.meta["og_image"].nil?
+        if html.meta["og_image_width"] == html.meta["og_image_height"]
+          html.set_meta("twitter_card", "summary")
+        else
+          html.set_meta("twitter_card", "summary_large_image")
+        end
+      else
+        html.set_meta("twitter_card", nil)
+      end
+
       @html.push html
       i += 1
       @paginator.next
@@ -195,6 +213,16 @@ class Index < Zarchitect
     end
   end
 
+  def get_shared_option(opt)
+    if section.conf.has_option?(opt)
+      return section.conf.method(opt).call
+    elsif Zarchitect.conf.has_option?(opt)
+      return Zarchitect.conf.method(opt).call
+    else
+      return nil
+    end
+  end
+
   ##############################################
   # meta data
   #
@@ -221,6 +249,22 @@ class Index < Zarchitect
     else
       section.name
     end
+  end
+
+  def meta_og_image
+    return get_shared_option("og_image")
+  end
+
+  def meta_og_image_alt
+    return get_shared_option("og_image_alt")
+  end
+
+  def meta_og_image_width
+    return get_shared_option("og_image_width")
+  end
+
+  def meta_og_image_height
+    return get_shared_option("og_image_height")
   end
 
 end
