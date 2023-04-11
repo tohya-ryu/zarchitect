@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'zarchitect'
-  s.version = '1.4.0'
+  s.version = '1.5.0'
   s.executables << 'zarchitect'
-  s.date = '2023-04-09'
+  s.date = '2023-04-11'
   s.summary = 'Static website generator'
   s.description = 'Yet another static website generator'
   s.authors = ["ryu"]
@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
              "lib/zarchitect/category.rb",
              "lib/zarchitect/cmd_misc.rb",
              "lib/zarchitect/cmd_new.rb",
+             "lib/zarchitect/cmd_sitemap.rb",
              "lib/zarchitect/cmd_update.rb",
              "lib/zarchitect/config.rb",
              "lib/zarchitect/content.rb",

@@ -5,10 +5,11 @@ require 'sanitize'
 require 'rss'
 require 'nokogiri'
 require 'katex'
+require 'sitemap_generator'
 
 class Zarchitect
 
-  VERSION = "1.4.0"
+  VERSION = "1.5.0"
   HTMLDIR = "_html"
   BUILDIR = "_build"
   NODEDIR = "_build/nodes"
@@ -36,6 +37,9 @@ class Zarchitect
     GPI::CLU.use_command("u", [0], "rvqdD")
     GPI::CLU.use_command("update", [0], "rvqdD")
 
+    GPI::CLU.use_command("s", [0], "v")
+    GPI::CLU.use_command("sitemap", [0], "v")
+
     GPI::CLU.use_command("ua", [0], "v")
     GPI::CLU.use_command("update-assets", [0], "v")
 
@@ -60,6 +64,10 @@ class Zarchitect
     when "new" # create md file for new web page   
       load_conf
       cmd = CMD::New.new
+      cmd.run
+    when "sitemap", "s"
+      load_conf
+      cmd = CMD::Sitemap.new
       cmd.run
     when "update","u"
       load_conf
@@ -180,6 +188,7 @@ require 'zarchitect/image_set.rb'
 require 'zarchitect/index.rb'
 require 'zarchitect/cmd_misc.rb'
 require 'zarchitect/cmd_new.rb'
+require 'zarchitect/cmd_sitemap.rb'
 require 'zarchitect/cmd_update.rb'
 require 'zarchitect/misc_file.rb'
 require 'zarchitect/post.rb'

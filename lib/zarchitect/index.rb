@@ -1,6 +1,8 @@
 class Index < Zarchitect
+  attr_reader :pages
 
   def initialize(parent)
+    @pages = Array.new
     @parent = parent
     @ptype = @parent.class.to_s
     # index owns paginator
@@ -41,10 +43,12 @@ class Index < Zarchitect
   def setup_html
     @html = Array.new
     if @paginator.posts_per_page == 0
+      url = File.join(base_url, "index.html")
       path = File.join(Dir.getwd,HTMLDIR,base_url,"index.html")
+      @pages.push(IndexPage.new(path, url))
       html = HTML.new(path)
       html.set_templates(layout, view)
-      html.set_data("url", File.join(base_url,"index.html"))
+      html.set_data("url", url)
       html.set_data("section", section)
       html.set_data("category", category)
       html.set_data("tag", tag)
@@ -98,6 +102,7 @@ class Index < Zarchitect
         path = File.join(Dir.getwd,HTMLDIR,base_url, "index-#{i+1}.html")
         url = File.join(base_url, "index-#{i+1}.html")
       end
+      @pages.push(IndexPage.new(path, url))
       html = HTML.new(path)
       html.set_templates(layout, view)
       html.set_data("url", url)
@@ -285,6 +290,16 @@ class Index < Zarchitect
 
   def meta_og_image_height
     return get_shared_option("og_image_height")
+  end
+
+end
+
+class IndexPage
+  attr_reader :url, :path
+
+  def initialize(path, url)
+    @url = url
+    @path = path
   end
 
 end

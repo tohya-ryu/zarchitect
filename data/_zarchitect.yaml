@@ -2,7 +2,7 @@
 url: http://www.example.com
 email: user@example.com
 site_name: example.com
-site_slogan: the best exampled
+site_slogan: the best example
 site_description: "a short description of this website"
 admin: webmaster_name
 origin_year: 2020 # can be used for dynamic copyright notices
@@ -20,3 +20,13 @@ exclude_assets: # files with these extensions don't get copied into html tree
  - .scss
  - .scss.swp
  - .css.map
+
+# optional settings
+#og_image: 
+#og_image_alt:
+#og_image_width:
+#og_image_height:
+sm_post_changefreq: monthly
+sm_post_prio: 1.0
+sm_index_changefreq: weekly
+sm_index_prio: 0.5
