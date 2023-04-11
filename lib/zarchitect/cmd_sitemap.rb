@@ -87,6 +87,10 @@ module CMD
           end
           # add posts and section contents
           section.posts.each do |post|
+            # skip posts not meant to be included
+            if post.conf.has_option?("sitemap")
+              next if post.conf.sitemap == 'exclude'
+            end
             prio = nil
             changefreq = nil
             if post.conf.has_option?("sm_prio")
