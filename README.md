@@ -2,4 +2,4 @@
 Static website generator
 
 ## Project Homepage
-https://www.tohya.net/projects/other/5faa82d2/index.html
+https://www.tohya.net/projects/web/zarchitect.html
