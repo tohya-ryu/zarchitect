@@ -269,10 +269,12 @@ class Index < Zarchitect
   end
 
   def meta_description
-    if category
-      section.name + " " + category.name
+    if section.conf.has_option?("description")
+      section.conf.description
+    elsif category
+      "#{section.name}:#{category.name}"
     else
-      section.name
+      "#{section.name}"
     end
   end
 
