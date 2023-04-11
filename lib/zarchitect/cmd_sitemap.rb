@@ -47,15 +47,23 @@ module CMD
           index_changefreq = 'weekly'
           if section.conf.has_option?("sm_post_prio")
             post_prio = section.conf.sm_post_prio
+          elsif Zarchitect.conf.has_option?("sm_post_prio")
+            post_prio = Zarchitect.conf.sm_post_prio
           end
           if section.conf.has_option?("sm_post_changefreq")
             post_changefreq = section.conf.sm_post_changefreq
+          elsif Zarchitect.conf.has_option?("sm_post_changefreq")
+            post_changefreq = Zarchitect.conf.sm_post_changefreq
           end
           if section.conf.has_option?("sm_index_prio")
             index_prio = section.conf.sm_index_prio
+          elsif Zarchitect.conf.has_option?("sm_index_prio")
+            index_prio = Zarchitect.conf.sm_index_prio
           end
           if section.conf.has_option?("sm_index_changefreq")
             index_changefreq = section.conf.sm_index_changefreq
+          elsif Zarchitect.conf.has_option?("sm_index_changefreq")
+            index_changefreq = Zarchitect.conf.sm_index_changefreq
           end
 
           # add section indices

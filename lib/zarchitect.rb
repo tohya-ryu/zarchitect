@@ -9,7 +9,7 @@ require 'sitemap_generator'
 
 class Zarchitect
 
-  VERSION = "1.5.1"
+  VERSION = "1.5.2"
   HTMLDIR = "_html"
   BUILDIR = "_build"
   NODEDIR = "_build/nodes"
