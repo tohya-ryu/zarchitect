@@ -77,7 +77,7 @@ class Post < Zarchitect
       @category = c if @conf.category == c.key
     end
     if @category.nil?
-      GPI.print "Unable to find category #{@conf.category}."
+      GPI.print "Error: Unable to find category #{@conf.category}."
       GPI.quit
     end
   end

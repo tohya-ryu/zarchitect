@@ -4,7 +4,7 @@ class Tag < Zarchitect
   def initialize(str, cat)
     @category = cat
     @name = str
-    @key = hash(str)
+    set_key
     @url = "/#{@category.section.key}/#{@category.key}/#{@key}/index.html"
     create_dir
     setup_index
@@ -41,6 +41,23 @@ class Tag < Zarchitect
     end
     str2 = str2.to_i
     str2.to_s(16).downcase
+  end
+
+  private 
+
+  def set_key
+    if Zarchitect.conf.has_option?("tags")
+      @key = Zarchitect.conf.tags.key(@name)
+      if (@key == nil)
+        @key = Zarchitect.conf.tags.key(@name.downcase)
+        if (@key == nil)
+          GPI.print "Error: No tag key found for '#{@name}'."
+          GPI.quit
+        end
+      end
+    else
+      @key = hash(str)
+    end
   end
 
 end
