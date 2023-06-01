@@ -10,6 +10,7 @@ class Assets < Zarchitect
   def update
     Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
       path = fullpath[(@from.length)..-1]
+      p path
       if path.include?(HTMLDIR)
         realpath = path[1..-1]
       else

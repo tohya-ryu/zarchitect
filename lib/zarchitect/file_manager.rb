@@ -42,14 +42,14 @@ class FileManager < Zarchitect
       # create symlink in _html/files to physical files _files (if process did
       # not abort)
       unless File.exist?(realpath)
-        if Zarchitect.conf.symlink_assets
+        if Zarchitect.conf.symlink_files
           symlink(rrealpath, realpath)
         else
           copy(rrealpath, realpath)
         end
       else
         if File.stat(rrealpath).mtime > File.stat(realpath).mtime
-          if Zarchitect.conf.symlink_assets
+          if Zarchitect.conf.symlink_files
             symlink(rrealpath, realpath)
           else
             copy(rrealpath, realpath)
