@@ -8,9 +8,11 @@ class Assets < Zarchitect
   end
 
   def update
-    Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
+    Dir.glob(File.join(@from, '**', '*'), File::FNM_DOTMATCH).reject do |fullpath|
       path = fullpath[(@from.length)..-1]
-      p path
+      next if path[-1] == '.'
+      next if path.include?('.sass-cache')
+
       if path.include?(HTMLDIR)
         realpath = path[1..-1]
       else
