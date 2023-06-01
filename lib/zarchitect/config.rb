@@ -205,6 +205,9 @@ class Config
 
   def validate_zrconf
     GPI.print "Validating #{@file}."
+    unless @hash.has_key?("symlink_assets")
+      @hash["symlink_assets"] = false
+    end
     unless @hash.has_key?("url")
       GPI.print "config key [url] missing in _config/_zarchitect.yaml."
       GPI.quit

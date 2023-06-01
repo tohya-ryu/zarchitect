@@ -20,6 +20,7 @@ class FileManager < Zarchitect
       Util.mkdir(realpath) if File.directory?(fullpath)
       next if File.directory?(fullpath)
       # file handling
+      rrealpath = File.join(Dir.getwd, fullpath)
       # handle file types embedded in posts
       if Image.is_valid?(fullpath)
         GPI.print "processing #{fullpath} as image file",
@@ -40,9 +41,20 @@ class FileManager < Zarchitect
       end
       # create symlink in _html/files to physical files _files (if process did
       # not abort)
-      unless File.symlink?(realpath)
-        rrealpath = File.join(Dir.getwd, fullpath)
-        symlink(rrealpath, realpath)
+      unless File.exist?(realpath)
+        if Zarchitect.conf.symlink_assets
+          symlink(rrealpath, realpath)
+        else
+          copy(rrealpath, realpath)
+        end
+      else
+        if File.stat(rrealpath).mtime > File.stat(realpath).mtime
+          if Zarchitect.conf.symlink_assets
+            symlink(rrealpath, realpath)
+          else
+            copy(rrealpath, realpath)
+          end
+        end
       end
 
     end
@@ -54,6 +66,15 @@ class FileManager < Zarchitect
     File.symlink(from, to)
     GPI.print "created symlink #{to} ~> #{from}",
       GPI::CLU.check_option('v')
+  end
+
+  def copy(from, to)
+    cmd = "cp #{from} #{to}"
+    GPI.print cmd, GPI::CLU.check_option('v')
+    unless system(cmd)
+      GPI.print "failed to copy '#{from}' to '#{to}'"
+      GPI.quit
+    end
   end
 
   def clean
