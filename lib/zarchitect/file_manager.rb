@@ -12,8 +12,9 @@ class FileManager < Zarchitect
 
   def run
     # iterate FROM 
-    Dir[ File.join(@from, '**', '*') ].reject do |fullpath|
+    Dir.glob(File.join(@from, '**', '*'), File::FNM_DOTMATCH).reject do |fullpath|
       path = fullpath[(@from.length)..-1]
+      next if path[-1] == '.'
       realpath = File.join(@to, path) # path of new dir/symlink
       
       # dir handling / create copies in TO

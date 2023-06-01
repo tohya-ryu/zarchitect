@@ -208,9 +208,6 @@ class Config
     unless @hash.has_key?("symlink_files")
       @hash["symlink_files"] = true
     end
-    unless @hash.has_key?("dotfile_assets")
-      @hash["dotfile_assets"] = false
-    end
     unless @hash.has_key?("url")
       GPI.print "config key [url] missing in _config/_zarchitect.yaml."
       GPI.quit
