@@ -201,7 +201,7 @@ class Content < Zarchitect
       end
     else
       GPI.print html if GPI::CLU.check_option('v')
-      node = Nokogiri::HTML.fragment(html) do |config|
+      node = Nokogiri::HTML5.fragment(html) do |config|
         config.strict.noblanks
       end
 
