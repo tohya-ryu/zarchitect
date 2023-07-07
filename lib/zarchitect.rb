@@ -6,10 +6,11 @@ require 'rss'
 require 'nokogiri'
 require 'katex'
 require 'sitemap_generator'
+require 'pathname'
 
 class Zarchitect
 
-  VERSION = "1.7.4"
+  VERSION = "1.7.5"
   HTMLDIR = "_html"
   BUILDIR = "_build"
   NODEDIR = "_build/nodes"
@@ -97,7 +98,9 @@ class Zarchitect
     Dir[ File.join(NODEDIR, "**", "*") ].reverse.reject do |fullpath|
       if File.directory?(fullpath)
         GPI.print "deleting dir #{fullpath}"
-        Dir.delete(fullpath)
+        pathname = Pathname.new(fullpath).expand_path
+        pathname.rmtree
+        #Dir.delete(fullpath)
         GPI.print "deleted dir #{fullpath}"
       else
         GPI.print "deleting file #{fullpath}"
@@ -109,7 +112,9 @@ class Zarchitect
     Dir[ File.join(HTMLDIR, "**", "*") ].reverse.reject do |fullpath|
       if File.directory?(fullpath)
         GPI.print "deleting dir #{fullpath}"
-        Dir.delete(fullpath)
+        pathname = Pathname.new(fullpath).expand_path
+        pathname.rmtree
+        #Dir.delete(fullpath)
         GPI.print "deleted dir #{fullpath}"
       else
         GPI.print "deleting file #{fullpath}"
