@@ -22,15 +22,28 @@ class ZRSS < Zarchitect
     rss = RSS::Maker.make("atom") do |maker|
       maker.channel.title = Zarchitect.conf.site_name
       maker.channel.author = Zarchitect.conf.admin
-      maker.channel.updated = Time.now.to_s
-      maker.channel.about = Zarchitect.conf.site_description
-      maker.channel.link = Zarchitect.conf.url
+      #maker.channel.updated = Time.now.to_s
+      maker.channel.updated = @items[0].dates
+      #maker.channel.about = Zarchitect.conf.site_description
+      maker.channel.about = Zarchitect.conf.url
+      link = maker.channel.links.new_link
+      link.href = Zarchitect.conf.url
+      link.rel = 'alternate'
+      link = maker.channel.links.new_link
+      link.href = Zarchitect.conf.feed_url
+      link.rel = 'self'
+      #maker.channel.link = Zarchitect.conf.url
+      #maker.channel.link = Zarchitect.conf.feed_url
 
       @items.each do |item|
         maker.items.new_item do |rss_item|
           rss_item.title = item.title
           rss_item.pubDate = item.dates
           rss_item.description = item.description
+          link = rss_item.links.new_link
+          link.href = item.link
+          link.rel = 'alternate'
+          link.type = 'text/html'
           rss_item.link = item.link
           #rss_item.guid = item.guid
         end

@@ -10,7 +10,7 @@ require 'pathname'
 
 class Zarchitect
 
-  VERSION = "1.7.5"
+  VERSION = "1.7.6"
   HTMLDIR = "_html"
   BUILDIR = "_build"
   NODEDIR = "_build/nodes"
