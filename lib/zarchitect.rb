@@ -163,8 +163,14 @@ class Zarchitect
   end
 
   def Zarchitect.add_section(conf)
-    #@@sections[conf.key] = Section.new(conf)
-    @@sections.push Section.new(conf)
+    section = Section.new(conf)
+    if section.conf.respond_to?(:disabled)
+      unless section.conf.disabled
+        @@sections.push Section.new(conf)
+      end
+    else
+      @@sections.push Section.new(conf)
+    end
   end
 
   def Zarchitect.sections
